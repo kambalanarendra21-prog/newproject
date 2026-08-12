@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template-1 | Unclaimed Money Pages</title>
+<style>
+  :root {
+    --ink: #1c2430;
+    --muted: #5b6675;
+    --line: #d9e0e8;
+    --panel: #ffffff;
+    --bg: #eef3f7;
+    --accent: #0d9b9b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(13,155,155,0.12), transparent 40%),
+      linear-gradient(180deg, #f7fafc 0%, var(--bg) 100%);
+    min-height: 100vh;
+  }
+  .wrap {
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 48px 0 64px;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+  }
+  .lead {
+    margin: 0 0 36px;
+    color: var(--muted);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    max-width: 40rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  a.card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  a.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(28, 36, 48, 0.12);
+  }
+  a.card img {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: center top;
+    background: #ddd;
+  }
+  a.card .meta {
+    padding: 16px 18px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  a.card h2 {
+    margin: 0 0 6px;
+    font-size: 1.15rem;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  a.card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .path {
+    margin-top: 36px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--accent);
+    background: rgba(255,255,255,0.7);
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Template-1</h1>
+    <p class="lead">Unclaimed Money email webpages. Each page uses a Cloudinary image for the header background and main creative.</p>
+
+    <div class="grid">
+      <a class="card" href="unclaimedmoney1.html">
+        <img src="https://res.cloudinary.com/oteqet8k/image/upload/v1786557087/unclaimedmoney1.png" alt="unclaimedmoney1 preview">
+        <div class="meta">
+          <h2>unclaimedmoney1.html</h2>
+          <p>Uses unclaimedmoney1.png</p>
+        </div>
+      </a>
+
+      <a class="card" href="unclaimedmoney4.html">
+        <img src="https://res.cloudinary.com/oteqet8k/image/upload/v1786557101/unclaimedmoney4.png" alt="unclaimedmoney4 preview">
+        <div class="meta">
+          <h2>unclaimedmoney4.html</h2>
+          <p>Uses unclaimedmoney4.png</p>
+        </div>
+      </a>
+
+      <a class="card" href="unclaimedmoney6.html">
+        <img src="https://res.cloudinary.com/oteqet8k/image/upload/v1786557115/unclaimedmoney6.png" alt="unclaimedmoney6 preview">
+        <div class="meta">
+          <h2>unclaimedmoney6.html</h2>
+          <p>Uses unclaimedmoney6.png</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="path">Target folder: C:\Users\admin\Downloads\template-1</div>
+  </div>
+</body>
+</html>
