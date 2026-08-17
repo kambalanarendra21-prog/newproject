@@ -1,0 +1,33 @@
+Subject: A public record in your state
+
+Hello {first_name},
+
+Each state keeps a public register of property held on
+behalf of people it could not contact.
+
+It builds up quietly. A final wage payment from an old
+employer. A utility balance left behind after a move. A
+policy sent to a prior address. An account untouched for
+years.
+
+When a business loses contact, state law requires it to
+transfer the property to the treasury.
+
+The state posts the owner listing and waits. Records can
+sit for decades.
+
+A search takes about a minute.
+
+Search public records:
+https://www.picklypuff.com/{tracking_token}
+
+
+You subscribed to updates from {brand}. Results come from
+public state records. Each state treasury operates its own
+public search.
+
+Manage your email preferences:
+https://www.picklypuff.com/{unsub_token}
+
+501 Riverside Ave Suite 700 #93006
+Jacksonville, FL 32202
