@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unclaimed Money Search</title>
+<style>
+  :root {
+    --teal: #0d9b9b;
+    --orange: #fc8d14;
+    --text: #333333;
+    --muted: #555555;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 12px;
+    background: #ececec;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .email {
+    width: 600px;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    overflow: hidden;
+  }
+
+  /* Header bar with image-style background */
+  .header {
+    position: relative;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: "Arial Narrow", Helvetica, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    overflow: hidden;
+  }
+  .header-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(252,141,20,0.55), rgba(13,155,155,0.45)),
+      radial-gradient(circle at 70% 40%, #f7d7b5 0%, #c48a6a 45%, #6b4a3a 100%);
+  }
+  .header-bg::after {
+    content: "";
+    position: absolute;
+    right: 8%;
+    top: -20%;
+    width: 120px;
+    height: 140px;
+    border-radius: 50% 50% 40% 40%;
+    background: #3b2a22;
+    box-shadow: 28px 38px 0 -28px #f5f0ea;
+    opacity: 0.85;
+  }
+  .header span { position: relative; z-index: 1; text-shadow: 0 1px 3px rgba(0,0,0,0.45); }
+  .header u { text-decoration: underline; }
+
+  /* Promo graphic (HTML version of the image) */
+  .promo { background: #fff; }
+  .hero {
+    position: relative;
+    height: 280px;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.15)),
+      radial-gradient(ellipse at 65% 35%, #f3d2b5 0%, #d4a07c 40%, #8a5a45 100%);
+    overflow: hidden;
+  }
+  .person {
+    position: absolute;
+    right: 40px;
+    bottom: 0;
+    width: 180px;
+    height: 240px;
+  }
+  .person .hair {
+    position: absolute;
+    top: 0; left: 20px;
+    width: 140px; height: 120px;
+    background: #5a3a28;
+    border-radius: 70px 70px 20px 20px;
+  }
+  .person .face {
+    position: absolute;
+    top: 40px; left: 50px;
+    width: 80px; height: 95px;
+    background: #e8b896;
+    border-radius: 40px;
+  }
+  .person .eye {
+    position: absolute;
+    top: 70px;
+    width: 10px; height: 14px;
+    background: #222;
+    border-radius: 50%;
+  }
+  .person .eye.l { left: 65px; }
+  .person .eye.r { left: 95px; }
+  .person .mouth {
+    position: absolute;
+    top: 100px; left: 78px;
+    width: 24px; height: 18px;
+    border: 3px solid #222;
+    border-top: 0;
+    border-radius: 0 0 16px 16px;
+    background: #fff;
+  }
+  .person .shirt {
+    position: absolute;
+    top: 130px; left: 30px;
+    width: 120px; height: 120px;
+    background: #f7f7f7;
+    border-radius: 20px 20px 0 0;
+  }
+  .phone {
+    position: absolute;
+    right: 70px;
+    bottom: 70px;
+    width: 46px; height: 78px;
+    background: #111;
+    border-radius: 8px;
+    border: 2px solid #333;
+    z-index: 2;
+  }
+  .phone::before {
+    content: "";
+    position: absolute;
+    inset: 6px 4px 10px;
+    background: #4fc3f7;
+    border-radius: 2px;
+  }
+  .signals {
+    position: absolute;
+    right: 125px;
+    bottom: 130px;
+    z-index: 3;
+  }
+  .signals i {
+    display: block;
+    width: 18px; height: 18px;
+    border: 3px solid #fff;
+    border-left: 0; border-bottom: 0;
+    border-radius: 0 12px 0 0;
+    margin: -6px 0;
+    transform: rotate(-20deg);
+    opacity: 0.95;
+  }
+  .envelope {
+    position: absolute;
+    left: 36px;
+    top: 48px;
+    width: 210px;
+    z-index: 2;
+  }
+  .envelope .flap {
+    height: 36px;
+    background: #e6b422;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  }
+  .envelope .body {
+    background: #f0c53a;
+    padding: 10px 12px 14px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+  }
+  .envelope .card {
+    background: #fff;
+    color: #333;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 1.25;
+    padding: 10px 8px;
+    text-align: center;
+    border-radius: 2px;
+  }
+  .bills {
+    position: absolute;
+    left: 18px;
+    top: 78px;
+    width: 70px; height: 90px;
+    background: repeating-linear-gradient(180deg, #1f7a3a 0 8px, #2f9b4c 8px 16px);
+    border: 2px solid #0f5a28;
+    transform: rotate(-18deg);
+    z-index: 1;
+    box-shadow: 10px 6px 0 #1f7a3a, 20px 12px 0 #166334;
+  }
+
+  .copy {
+    padding: 28px 28px 18px;
+    text-align: center;
+  }
+  .copy h1 {
+    margin: 0 0 14px;
+    color: var(--teal);
+    font-size: 26px;
+    line-height: 1.25;
+  }
+  .copy p {
+    margin: 0 auto 22px;
+    max-width: 520px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .cta {
+    display: inline-block;
+    background: var(--orange);
+    color: #fff !important;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px 22px;
+    border-radius: 4px;
+  }
+
+  .brand {
+    padding: 18px 20px 8px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #333;
+  }
+  .brand .money { color: var(--teal); }
+  .brand .icon {
+    display: inline-block;
+    width: 28px; height: 28px;
+    margin-right: 6px;
+    vertical-align: -4px;
+    border: 3px solid var(--teal);
+    border-radius: 50%;
+    position: relative;
+  }
+  .brand .icon::before {
+    content: "$";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal);
+    font-size: 14px;
+    font-weight: 800;
+  }
+  .brand .icon::after {
+    content: "";
+    position: absolute;
+    width: 10px; height: 3px;
+    background: var(--teal);
+    right: -8px; bottom: -2px;
+    transform: rotate(40deg);
+  }
+
+  .cash-stack {
+    height: 90px;
+    background:
+      repeating-linear-gradient(90deg, #1f7a3a 0 28px, #2f9b4c 28px 56px),
+      linear-gradient(#0f5a28, #1f7a3a);
+    background-blend-mode: multiply;
+    box-shadow: inset 0 12px 18px rgba(0,0,0,0.25);
+    position: relative;
+  }
+  .cash-stack::before,
+  .cash-stack::after {
+    content: "";
+    position: absolute;
+    left: 8%; right: 8%;
+    height: 34px;
+    background: repeating-linear-gradient(90deg, #227a3d, #227a3d 40px, #2fa04f 40px 80px);
+    border-top: 2px solid #0d4d24;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+  }
+  .cash-stack::before { top: 12px; transform: rotate(-2deg); }
+  .cash-stack::after { top: 42px; transform: rotate(1.5deg); }
+
+  .footer {
+    padding: 22px 16px;
+    text-align: center;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.5;
+    background: #fff;
+  }
+  .footer a { color: #06c; }
+</style>
+</head>
+<body>
+  <div class="email">
+
+    <div class="header">
+      <div class="header-bg"></div>
+      <span><u>Action Needed:</u> Unclaimed Funds for [Fname]</span>
+    </div>
+
+    <a href="https://www.picklypuff.com/CQODJcu_OAVr3ELXm6WhT_U8H-6Z77BO7_d9teX-rrPdIx0G0bTDhxc1Cr6dFdSU95ATN47jF9vSYnOp1MVSFUyj4XjONUvCz5NaU88XvnE~" style="text-decoration:none; color:inherit;">
+      <div class="promo">
+        <div class="hero">
+          <div class="bills"></div>
+          <div class="envelope">
+            <div class="flap"></div>
+            <div class="body">
+              <div class="card">You have<br>Unclaimed Money!</div>
+            </div>
+          </div>
+          <div class="signals"><i></i><i></i><i></i></div>
+          <div class="person">
+            <div class="hair"></div>
+            <div class="face"></div>
+            <div class="eye l"></div>
+            <div class="eye r"></div>
+            <div class="mouth"></div>
+            <div class="shirt"></div>
+          </div>
+          <div class="phone"></div>
+        </div>
+
+        <div class="copy">
+          <h1>We’re contacting you because you could be missing extra cash!</h1>
+          <p>Most people aren't even aware they are owed money. You could be owed for any number of other reasons and not even realize, such as insurance policies, uncashed checks, utility bills, refunds, unclaimed wages and more!</p>
+          <span class="cta">Access Unclaimed Money Resources</span>
+        </div>
+
+        <div class="brand">
+          <span class="icon"></span>Unclaimed<span class="money">Money</span>Search
+        </div>
+        <div class="cash-stack"></div>
+      </div>
+    </a>
+
+    <div class="footer">
+      <a href="https://www.picklypuff.com/ru24gsxkbsmOM_rGkJXVT38gAUDyA0xW6SUCkqz13BsPIhvo_JElgU379ewy6jeoSGztWNozsT4PZft9pOiJYQ~~">Unsubscribe</a><br>
+      501 Riverside Ave Suite 700 #93006, Jacksonville, FL 32202
+    </div>
+  </div>
+</body>
+</html>
