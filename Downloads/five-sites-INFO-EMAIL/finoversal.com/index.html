@@ -105,10 +105,14 @@ a{color:var(--pri);text-decoration:none}
 .reassure::before{content:"\2713 ";color:var(--acc-ink)}
 .req-note{font-size:.8rem;color:var(--mut);margin-top:8px;line-height:1.6}
 
-.chip-row{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:10px;margin-top:4px}
-@media(max-width:900px){.chip-row{justify-content:center}}
+.chip-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;max-width:420px;
+}
+@media(max-width:900px){
+  .chip-row{margin-left:auto;margin-right:auto}
+}
 .chip{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:700;color:var(--ink);background:#fff;
-  padding:9px 14px;border-radius:999px;clip-path:none;border:0;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+  padding:10px 14px;border-radius:999px;clip-path:none;border:0;box-shadow:0 6px 18px rgba(0,0,0,.12);justify-content:flex-start}
 .chip svg{color:var(--pri);flex:none}
 
 .sec{padding:56px 0}
@@ -202,12 +206,13 @@ footer .foot-row{border-top-color:rgba(255,255,255,.12)}
   </div>
 </header>
 
+<!-- hero: navy-split-v3 -->
 <section class="hero" id="hero">
   <div class="wrap hero-stack">
     <div class="hero-copy">
       <div class="hero-head">
         <span class="eyebrow"><span class="dot"></span>Universal lender access · $200–$5000</span>
-        <h1>One network. <span class="hl">Many</span> lenders. Your <span class="hl">move.</span></h1>
+        <h1>One network. <span class="hl">Many lenders. Your</span> move.</h1>
       </div>
 
       <div class="hero-sub">
