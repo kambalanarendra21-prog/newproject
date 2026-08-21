@@ -56,56 +56,58 @@ a{color:var(--pri);text-decoration:none}
 .seam.seam-flip{transform:scaleY(-1)}
 
 .hero{
-  padding:48px 0 0;
-  background:
-    linear-gradient(180deg, rgba(11,61,92,.04) 0%, transparent 40%),
-    linear-gradient(115deg, #F4FAFC 0%, #EEF5F8 45%, #FFF8EB 100%);
+  padding:56px 0 0;
+  background:#0B3D5C;
   position:relative;overflow:hidden;
 }
 .hero::before{
-  content:"";position:absolute;inset:auto -8% -35% 35%;height:70%;
-  background:radial-gradient(ellipse at center, rgba(245,158,11,.22), transparent 65%);
-  pointer-events:none;
+  content:"";position:absolute;width:520px;height:520px;right:-120px;top:50%;transform:translateY(-55%);
+  border-radius:50%;border:48px solid rgba(255,255,255,.06);pointer-events:none;
+  box-shadow:0 0 0 90px rgba(255,255,255,.035);
 }
 .hero::after{
-  content:"";position:absolute;left:0;right:0;top:0;height:4px;
-  background:linear-gradient(90deg, var(--pri), var(--acc), var(--hero-hl));
-  pointer-events:none;
+  content:"";position:absolute;width:280px;height:280px;right:8%;bottom:-90px;
+  border-radius:50%;border:28px solid rgba(245,158,11,.12);pointer-events:none;
 }
 .hero-stack{
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  gap:22px;padding-bottom:52px;position:relative;z-index:1;
+  display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;
+  padding-bottom:56px;position:relative;z-index:1;text-align:left;
 }
-.hero-head{max-width:720px;margin:0 auto;animation:heroRise .7s ease both}
-.hero-sub{max-width:560px;margin:0 auto!important;animation:heroRise .8s ease .08s both}
-.block-wrap{width:100%;max-width:680px;margin:0 auto;position:relative;animation:heroRise .85s ease .12s both}
-@keyframes heroRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hero-copy{display:flex;flex-direction:column;gap:18px;animation:heroRise .7s ease both}
+.hero-head{max-width:none;margin:0}
+.hero-sub{max-width:38ch;margin:0!important}
+.block-wrap{width:100%;max-width:none;margin:0;position:relative;animation:heroRise .85s ease .1s both}
+@keyframes heroRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(max-width:900px){
-  .hero{padding-top:36px}
-  .hero-stack{gap:18px;padding-bottom:40px}
+  .hero{padding-top:40px}
+  .hero-stack{grid-template-columns:1fr;gap:28px;text-align:center;padding-bottom:44px}
+  .hero-copy{align-items:center}
+  .hero-sub{max-width:42ch}
+  .hero::before,.hero::after{opacity:.45}
 }
 
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pri-d-txt)}
 .eyebrow .dot{width:9px;height:9px;background:var(--acc);flex:none;border-radius:50%;clip-path:none}
-.hero .eyebrow{color:var(--pri);background:rgba(11,61,92,.06);padding:8px 14px;border-radius:999px}
-.hero h1{font-size:clamp(2.2rem,5vw,3.35rem);line-height:1.1;margin-top:16px;color:var(--ink)}
-.hero h1 .hl{color:var(--pri);background:linear-gradient(90deg,var(--pri),#156088);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .sub{font-size:1.05rem;color:var(--mut);opacity:1}
+.hero .eyebrow{color:rgba(255,255,255,.88);background:transparent;padding:0;border-radius:0}
+.hero h1{font-size:clamp(2.15rem,4.6vw,3.2rem);line-height:1.12;margin-top:14px;color:#fff}
+.hero h1 .hl{color:#FCD34D;background:none;-webkit-background-clip:unset;background-clip:unset}
+.hero .sub{font-size:1.02rem;color:rgba(255,255,255,.88);opacity:1;line-height:1.55}
 
-.block-wrap::before{content:"";position:absolute;inset:14px -12px -12px 12px;background:linear-gradient(135deg,rgba(11,61,92,.18),rgba(245,158,11,.28));border-radius:28px;z-index:0;transform:none}
-.req-panel{position:relative;z-index:1;background:var(--card);text-align:left;border-radius:24px;clip-path:none;box-shadow:0 28px 70px rgba(7,42,64,.16);border:1px solid rgba(11,61,92,.08)}
-.req-head{padding:22px 28px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#FBFDFF, #fff)}
+.block-wrap::before{content:"";position:absolute;inset:12px -10px -10px 10px;background:rgba(245,158,11,.45);border-radius:18px;z-index:0;transform:none}
+.req-panel{position:relative;z-index:1;background:#fff;text-align:left;border-radius:16px;clip-path:none;box-shadow:0 28px 70px rgba(0,0,0,.28);border:0}
+.req-head{padding:20px 26px 14px;border-bottom:1px solid var(--line);background:#fff}
 .req-head .step-tag{font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--pri)}
-.req-body{padding:20px 28px 28px}
+.req-body{padding:18px 26px 26px}
 .vendor-slot{border:1px dashed var(--line);padding:28px 16px;text-align:center;color:var(--mut);font-size:.9rem}
 .vendor-embed{min-height:220px}
 .reassure{font-size:.88rem;color:var(--ink);font-weight:700;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
 .reassure::before{content:"\2713 ";color:var(--acc-ink)}
 .req-note{font-size:.8rem;color:var(--mut);margin-top:8px;line-height:1.6}
 
-.chip-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:14px}
+.chip-row{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:10px;margin-top:4px}
+@media(max-width:900px){.chip-row{justify-content:center}}
 .chip{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:700;color:var(--ink);background:#fff;
-  padding:9px 14px;border-radius:999px;clip-path:none;border:1px solid var(--line);box-shadow:0 4px 14px rgba(7,42,64,.05)}
+  padding:9px 14px;border-radius:999px;clip-path:none;border:0;box-shadow:0 6px 18px rgba(0,0,0,.12)}
 .chip svg{color:var(--pri);flex:none}
 
 .sec{padding:56px 0}
@@ -201,18 +203,20 @@ footer .foot-row{border-top-color:rgba(255,255,255,.12)}
 
 <section class="hero" id="hero">
   <div class="wrap hero-stack">
-    <div class="hero-head">
-      <span class="eyebrow"><span class="dot"></span>Universal lender access · $200–$5000</span>
-      <h1>One network. <span class="hl">Many lenders. Your move</span>.</h1>
-    </div>
+    <div class="hero-copy">
+      <div class="hero-head">
+        <span class="eyebrow"><span class="dot"></span>Universal lender access · $200–$5000</span>
+        <h1>One network. <span class="hl">Many</span> lenders. Your <span class="hl">move.</span></h1>
+      </div>
 
-    <div class="hero-sub">
-      <p class="sub">Finoversal isn&#39;t a lender, we point your request at a network of them and step back. Whatever comes back is yours to weigh, accept, or ignore.</p>
-      <div class="chip-row">
-        <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="8" y="13" width="8" height="8"/></svg> $200–$5000 to request</span>
-        <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M7.5 10V7a4.5 4.5 0 0 1 9 0v3"/></svg> Encrypted</span>
-        <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4.6v10.8L12 22l-8-4.6V6.6z"/><path d="M8.5 12.5l2.5 2.5 5-5"/></svg> No credit impact to ask</span>
-        <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6.5-6 6.5-11.5A6.5 6.5 0 0 0 5.5 9.5C5.5 15 12 21 12 21z"/><rect x="9.5" y="7" width="5" height="5" rx="1"/></svg> Finoversal is not a lender</span>
+      <div class="hero-sub">
+        <p class="sub">Finoversal isn&#39;t a lender, we point your request at a network of them and step back. Whatever comes back is yours to weigh, accept, or ignore.</p>
+        <div class="chip-row">
+          <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="8" y="13" width="8" height="8"/></svg> $200–$5000 to request</span>
+          <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M7.5 10V7a4.5 4.5 0 0 1 9 0v3"/></svg> Encrypted</span>
+          <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4.6v10.8L12 22l-8-4.6V6.6z"/><path d="M8.5 12.5l2.5 2.5 5-5"/></svg> No credit impact to ask</span>
+          <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6.5-6 6.5-11.5A6.5 6.5 0 0 0 5.5 9.5C5.5 15 12 21 12 21z"/><rect x="9.5" y="7" width="5" height="5" rx="1"/></svg> Finoversal is not a lender</span>
+        </div>
       </div>
     </div>
 
