@@ -55,65 +55,60 @@ a{color:var(--pri);text-decoration:none}
 .seam.seam-pri{background:linear-gradient(90deg,var(--pri-d),var(--pri))}
 .seam.seam-flip{transform:scaleY(-1)}
 
-/* hero: navy-split-v2 */
+/* hero: centered-charcoal-v4 */
 .hero{
-  padding:56px 0 0;
-  background:linear-gradient(145deg,#072A40 0%,#0B3D5C 45%,#0E4A6E 100%);
+  padding:52px 0 0;
+  background:#1C2530;
   position:relative;overflow:hidden;
 }
-.hero::before{
-  content:"";position:absolute;width:560px;height:560px;right:-140px;top:42%;transform:translateY(-50%);
-  border-radius:50%;border:42px solid rgba(255,255,255,.09);pointer-events:none;
-  box-shadow:0 0 0 84px rgba(255,255,255,.045), 0 0 0 150px rgba(245,158,11,.05);
-}
-.hero::after{
-  content:"";position:absolute;width:300px;height:300px;right:6%;bottom:-100px;
-  border-radius:50%;border:30px solid rgba(252,211,77,.18);pointer-events:none;
-}
+.hero::before,.hero::after{display:none}
 .hero-stack{
-  display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;
-  padding-bottom:56px;position:relative;z-index:1;text-align:left;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:28px;padding-bottom:56px;position:relative;z-index:1;
 }
-.hero-copy{display:flex;flex-direction:column;gap:18px;animation:heroRise .7s ease both}
-.hero-head{max-width:none;margin:0}
-.hero-sub{max-width:38ch;margin:0!important}
-.block-wrap{width:100%;max-width:none;margin:0;position:relative;animation:heroRise .85s ease .1s both}
+.hero-copy{display:flex;flex-direction:column;align-items:center;gap:14px;animation:heroRise .7s ease both;max-width:760px}
+.hero-head{max-width:720px;margin:0}
+.hero-sub{display:none!important}
+.block-wrap{width:100%;max-width:720px;margin:0 auto;position:relative;animation:heroRise .85s ease .1s both}
 @keyframes heroRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(max-width:900px){
   .hero{padding-top:40px}
-  .hero-stack{grid-template-columns:1fr;gap:28px;text-align:center;padding-bottom:44px}
-  .hero-copy{align-items:center}
-  .hero-sub{max-width:42ch}
-  .hero::before,.hero::after{opacity:.45}
+  .hero-stack{gap:22px;padding-bottom:44px}
 }
 
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pri-d-txt)}
-.eyebrow .dot{width:9px;height:9px;background:var(--acc);flex:none;border-radius:50%;clip-path:none}
-.hero .eyebrow{color:rgba(255,255,255,.88);background:transparent;padding:0;border-radius:0}
-.hero h1{font-size:clamp(2.15rem,4.6vw,3.2rem);line-height:1.12;margin-top:14px;color:#fff}
-.hero h1 .hl{color:#FCD34D;background:none;-webkit-background-clip:unset;background-clip:unset}
+.eyebrow .dot{
+  width:12px;height:12px;background:transparent;flex:none;border-radius:0;
+  clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+  background:var(--acc);
+}
+.hero .eyebrow{color:rgba(255,255,255,.92);background:transparent;padding:0;border-radius:0}
+.hero h1{font-size:clamp(2.2rem,5vw,3.35rem);line-height:1.12;margin-top:12px;color:#fff}
+.hero h1 .hl{color:#E5C185;background:none;-webkit-background-clip:unset;background-clip:unset}
 .hero .sub{font-size:1.02rem;color:rgba(255,255,255,.88);opacity:1;line-height:1.55}
 
-.block-wrap::before{content:"";position:absolute;inset:12px -10px -10px 10px;background:rgba(245,158,11,.45);border-radius:18px;z-index:0;transform:none}
-.req-panel{position:relative;z-index:1;background:#fff;text-align:left;border-radius:16px;clip-path:none;box-shadow:0 28px 70px rgba(0,0,0,.28);border:0}
+.block-wrap::before{
+  content:"";position:absolute;inset:10px -12px -12px 10px;
+  background:#FFAE19;z-index:0;transform:none;
+  clip-path:polygon(28px 0,100% 0,100% 100%,0 100%,0 28px);
+}
+.req-panel{
+  position:relative;z-index:1;background:#fff;text-align:left;
+  border-radius:0;border:0;
+  clip-path:polygon(28px 0,100% 0,100% 100%,0 100%,0 28px);
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+}
 .req-head{padding:20px 26px 14px;border-bottom:1px solid var(--line);background:#fff}
-.req-head .step-tag{font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--pri)}
+.req-head .step-tag{font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#1E3A5F}
 .req-body{padding:18px 26px 26px}
 .vendor-slot{border:1px dashed var(--line);padding:28px 16px;text-align:center;color:var(--mut);font-size:.9rem}
 .vendor-embed{min-height:220px}
 .reassure{font-size:.88rem;color:var(--ink);font-weight:700;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
-.reassure::before{content:"\2713 ";color:var(--acc-ink)}
+.reassure::before{content:"\2713 ";color:#FFAE19}
 .req-note{font-size:.8rem;color:var(--mut);margin-top:8px;line-height:1.6}
 
-.chip-row{
-  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;max-width:420px;
-}
-@media(max-width:900px){
-  .chip-row{margin-left:auto;margin-right:auto}
-}
-.chip{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:700;color:var(--ink);background:#fff;
-  padding:10px 14px;border-radius:999px;clip-path:none;border:0;box-shadow:0 6px 18px rgba(0,0,0,.12);justify-content:flex-start}
-.chip svg{color:var(--pri);flex:none}
+.chip-row{display:none}
+.chip{display:none}
 
 .sec{padding:56px 0}
 .sec-head{max-width:640px;margin:0 auto 36px;text-align:center}
@@ -206,23 +201,13 @@ footer .foot-row{border-top-color:rgba(255,255,255,.12)}
   </div>
 </header>
 
-<!-- hero: navy-split-v3 -->
+<!-- hero: centered-charcoal-v4 -->
 <section class="hero" id="hero">
   <div class="wrap hero-stack">
     <div class="hero-copy">
       <div class="hero-head">
         <span class="eyebrow"><span class="dot"></span>Universal lender access · $200–$5000</span>
-        <h1>One network. <span class="hl">Many lenders. Your</span> move.</h1>
-      </div>
-
-      <div class="hero-sub">
-        <p class="sub">Finoversal isn&#39;t a lender, we point your request at a network of them and step back. Whatever comes back is yours to weigh, accept, or ignore.</p>
-        <div class="chip-row">
-          <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="8" y="13" width="8" height="8"/></svg> $200–$5000 to request</span>
-          <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M7.5 10V7a4.5 4.5 0 0 1 9 0v3"/></svg> Encrypted</span>
-          <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4.6v10.8L12 22l-8-4.6V6.6z"/><path d="M8.5 12.5l2.5 2.5 5-5"/></svg> No credit impact to ask</span>
-          <span class="chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6.5-6 6.5-11.5A6.5 6.5 0 0 0 5.5 9.5C5.5 15 12 21 12 21z"/><rect x="9.5" y="7" width="5" height="5" rx="1"/></svg> Finoversal is not a lender</span>
-        </div>
+        <h1>One network. <span class="hl">Many lenders. Your move.</span></h1>
       </div>
     </div>
 
