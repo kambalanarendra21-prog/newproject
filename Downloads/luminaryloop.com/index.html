@@ -175,21 +175,33 @@ footer{background:var(--pri-d);color:var(--foot-on);padding:44px 0 26px;border-r
         </div>
         <div class="panel-body">
           <div class="vendor-embed">
-            <div id="storefrontloans_apply_form" style="min-height:auto"></div>
-<script type="text/javascript">(function(d, w, u, o){
-  var c = {"affiliate_id":"1937","storekey":"sgavR","steps":"one_one_prepop_confirm_rla_ssn","font_family":"","wrapper_id":"storefrontloans_apply_form","domain":"https://forms.storefrontloans.com","sub_id":"luminaryloop.com","sub_id2":"","sub_id3":"","sub_id4":"","sub_id5":"","RLA_min":"100","RLA_max":"5000","RLA_step":"1000","RLA_default":"500","e_consent_link":"https://luminaryloop.com/e-consent.html","privacy_policy_link":"https://luminaryloop.com/privacy-policy.html","terms_conditions_link":"https://luminaryloop.com/terms-of-use.html","resp_lending_and_marketing_link":"https://luminaryloop.com/lending-policy.html","fine_print_link":"https://luminaryloop.com/rates-and-fees.html"};
-  try {
-    var qp = new URLSearchParams(w.location.search);
-    ["sub_id","sub_id2","sub_id3","sub_id4","sub_id5"].forEach(function(k){ var v = qp.get(k); if (v) { c[k] = v; } });
-  } catch (e) {}
-  w[o] = c;
-  var f = d.getElementsByTagName("script")[0], s = d.createElement("script");
-  s.type = "text/javascript";
-  s.async = true;
-  s.src = u;
-  f.parentNode.insertBefore(s, f);
-})(document, window, "https://forms.storefrontloans.com/js/prepop-form-loader.js?_ver=10", "storefrontloans");</script>
-            
+
+            <form class="static-ask" action="mailto:info@luminaryloop.com" method="get" enctype="text/plain">
+              <label>Requested amount
+                <select name="amount" required>
+                  <option value="">Select</option>
+                  <option>$100</option><option>$500</option><option>$1000</option>
+                  <option>$2000</option><option>$3000</option><option>$5000</option>
+                </select>
+              </label>
+              <label>Full name
+                <input name="name" required placeholder="Your name" autocomplete="name"/>
+              </label>
+              <label>Email
+                <input type="email" name="email" required placeholder="you@email.com" autocomplete="email"/>
+              </label>
+              <label>Phone
+                <input name="phone" required placeholder="(555) 000-0000" autocomplete="tel"/>
+              </label>
+              <button class="btn" type="submit">Submit request</button>
+            </form>
+            <style>
+              .static-ask{display:grid;gap:10px;max-width:520px;margin:0 auto}
+              .static-ask label{display:grid;gap:4px;font-size:.88rem;font-weight:700;color:var(--ink);text-align:left}
+              .static-ask input,.static-ask select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#fff;color:var(--ink)}
+              .static-ask .btn{width:100%;margin-top:4px}
+            </style>
+
           </div>
           <p class="reassure"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <path d="M4 10.5C5.5 12 7 14 8 15.5C10.5 11 13.5 6.5 16.5 4.5" stroke="var(--acc-ink)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
