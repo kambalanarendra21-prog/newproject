@@ -8,12 +8,15 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 SECRETS_DIR = DATA_DIR / "secrets"
 DB_PATH = DATA_DIR / "postmaster.db"
+# Backwards-compatible alias
+DB_PATH = DB_PATH
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     dashboard_password: str = "change-me"
+    super_username: str = "admin"
     secret_key: str = "dev-secret-change-me"
     host: str = "0.0.0.0"
     port: int = 8080

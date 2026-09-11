@@ -10,7 +10,17 @@ from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import db, jobs
-from .auth import add_session_middleware, is_authenticated, login_user, logout_user, require_login
+from .auth import (
+    add_session_middleware,
+    current_user,
+    is_authenticated,
+    is_super,
+    login_user,
+    logout_user,
+    owner_scope,
+    require_login,
+    require_super,
+)
 from .config import DATA_DIR, get_settings
 from .services import google_auth
 
@@ -23,17 +33,28 @@ app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="stat
 
 
 def _load_runtime_env() -> None:
-    """Load optional secrets written by the Settings UI."""
     import os
 
     runtime = DATA_DIR / "secrets" / "runtime.env"
     if not runtime.exists():
         return
+    # Auth / session secrets always come from process env or .env — never from
+    # leftover runtime.env lines (old password UI used to write them here).
+    protected = {
+        "DASHBOARD_PASSWORD",
+        "SUPER_USERNAME",
+        "SECRET_KEY",
+        "HOST",
+        "PORT",
+    }
     for line in runtime.read_text(encoding="utf-8").splitlines():
         if not line or line.startswith("#") or "=" not in line:
             continue
         key, value = line.split("=", 1)
-        os.environ[key.strip()] = value.strip()
+        key = key.strip()
+        if key in protected:
+            continue
+        os.environ[key] = value.strip()
     get_settings.cache_clear()
 
 
@@ -43,8 +64,13 @@ async def startup() -> None:
     (DATA_DIR / "secrets").mkdir(parents=True, exist_ok=True)
     _load_runtime_env()
     await db.init_db()
-    # Fresh installs should start empty; wipe any previously seeded demo domains once.
     await db.clear_demo_seed_once()
+    settings = get_settings()
+    await db.ensure_super_user(
+        settings.super_username,
+        settings.dashboard_password,
+        display_name=settings.admin_name or "Super Admin",
+    )
 
 
 @app.exception_handler(StarletteHTTPException)
@@ -53,24 +79,26 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         return RedirectResponse(exc.headers["Location"], status_code=303)
     if exc.status_code == 401:
         return JSONResponse({"error": "Unauthorized"}, status_code=401)
+    if exc.status_code == 403:
+        return templates.TemplateResponse(
+            "error.html",
+            _ctx(request, status_code=403, detail="You do not have access to this page"),
+            status_code=403,
+        )
     return templates.TemplateResponse(
         "error.html",
-        {
-            "request": request,
-            "authed": is_authenticated(request),
-            "status_code": exc.status_code,
-            "detail": exc.detail,
-        },
+        _ctx(request, status_code=exc.status_code, detail=exc.detail),
         status_code=exc.status_code,
     )
 
 
 def _ctx(request: Request, **extra):
-    settings = get_settings()
+    user = current_user(request)
     return {
         "request": request,
         "authed": is_authenticated(request),
-        "admin_name": settings.admin_name,
+        "user": user,
+        "is_super": bool(user and user.get("role") == "super"),
         "brand_name": "FinCoverTech",
         **extra,
     }
@@ -84,12 +112,16 @@ async def login_page(request: Request):
 
 
 @app.post("/login")
-async def login_submit(request: Request, password: str = Form(...)):
-    if login_user(request, password):
+async def login_submit(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...),
+):
+    if await login_user(request, username, password):
         return RedirectResponse("/", status_code=303)
     return templates.TemplateResponse(
         "login.html",
-        _ctx(request, error="Incorrect password"),
+        _ctx(request, error="Incorrect username or password"),
         status_code=401,
     )
 
@@ -102,9 +134,19 @@ async def logout(request: Request):
 
 @app.get("/", response_class=HTMLResponse, dependencies=[Depends(require_login)])
 async def dashboard(request: Request):
-    stats = await db.domain_stats()
-    recent_jobs = await db.list_jobs(8)
-    creds = await jobs.credential_status()
+    scope = owner_scope(request)
+    stats = await db.domain_stats(owner_id=scope)
+    recent_jobs = await db.list_jobs(8, user_id=None if is_super(request) else current_user(request)["id"])
+    creds = await jobs.credential_status() if is_super(request) else {
+        "cloudflare": False,
+        "google_credentials": False,
+        "google_site_token": False,
+        "google_postmaster_token": False,
+        "public_base_url": get_settings().public_base_url,
+    }
+    # Sub users can still run jobs using shared server credentials configured by super
+    if not is_super(request):
+        creds = await jobs.credential_status()
     running = await db.get_running_job()
     return templates.TemplateResponse(
         "dashboard.html",
@@ -114,8 +156,9 @@ async def dashboard(request: Request):
 
 @app.get("/domains", response_class=HTMLResponse, dependencies=[Depends(require_login)])
 async def domains_page(request: Request, q: str | None = None, status: str | None = None):
-    domains = await db.list_domains(q=q, status=status)
-    stats = await db.domain_stats()
+    scope = owner_scope(request)
+    domains = await db.list_domains(q=q, status=status, owner_id=scope)
+    stats = await db.domain_stats(owner_id=scope)
     return templates.TemplateResponse(
         "domains.html",
         _ctx(request, domains=domains, stats=stats, q=q or "", status=status or ""),
@@ -124,20 +167,24 @@ async def domains_page(request: Request, q: str | None = None, status: str | Non
 
 @app.post("/domains/add", dependencies=[Depends(require_login)])
 async def domains_add(request: Request, domains_text: str = Form(...)):
+    user = current_user(request)
     lines = [ln.strip() for ln in domains_text.replace(",", "\n").splitlines() if ln.strip()]
-    added = await db.upsert_domains(lines)
+    # Each domain is owned by the account that adds it (super or sub).
+    added = await db.upsert_domains(lines, owner_id=user["id"])
     return RedirectResponse(f"/domains?flash=added:{added}", status_code=303)
 
 
 @app.post("/domains/{domain_id}/delete", dependencies=[Depends(require_login)])
-async def domains_delete(domain_id: int):
-    await db.delete_domain(domain_id)
+async def domains_delete(request: Request, domain_id: int):
+    scope = owner_scope(request)
+    await db.delete_domain(domain_id, owner_id=scope)
     return RedirectResponse("/domains", status_code=303)
 
 
 @app.get("/jobs", response_class=HTMLResponse, dependencies=[Depends(require_login)])
 async def jobs_page(request: Request):
-    all_jobs = await db.list_jobs(50)
+    user = current_user(request)
+    all_jobs = await db.list_jobs(50, user_id=None if is_super(request) else user["id"])
     running = await db.get_running_job()
     return templates.TemplateResponse(
         "jobs.html",
@@ -154,31 +201,41 @@ async def job_detail(request: Request, job_id: int):
             _ctx(request, status_code=404, detail="Job not found"),
             status_code=404,
         )
+    if not is_super(request) and job.get("user_id") != current_user(request)["id"]:
+        return templates.TemplateResponse(
+            "error.html",
+            _ctx(request, status_code=403, detail="You do not have access to this job"),
+            status_code=403,
+        )
     return templates.TemplateResponse("job_detail.html", _ctx(request, job=job))
 
 
 @app.get("/api/jobs/{job_id}", dependencies=[Depends(require_login)])
-async def api_job(job_id: int):
+async def api_job(request: Request, job_id: int):
     job = await db.get_job(job_id)
     if not job:
         return JSONResponse({"error": "not found"}, status_code=404)
+    if not is_super(request) and job.get("user_id") != current_user(request)["id"]:
+        return JSONResponse({"error": "forbidden"}, status_code=403)
     return job
 
 
 @app.post("/jobs/run/{job_type}", dependencies=[Depends(require_login)])
-async def run_job(job_type: str):
+async def run_job(request: Request, job_type: str):
     mapping = {
-        "fetch_tokens": (jobs.run_fetch_tokens, "Fetch TXT tokens"),
-        "cloudflare_txt": (jobs.run_cloudflare_txt, "Add Cloudflare TXT"),
-        "verify_sites": (jobs.run_verify_sites, "Verify with Google"),
-        "sync_postmaster": (jobs.run_sync_postmaster, "Sync Postmaster status"),
-        "register_postmaster": (jobs.run_register_postmaster, "Register in Postmaster"),
+        "fetch_tokens": jobs.run_fetch_tokens,
+        "cloudflare_txt": jobs.run_cloudflare_txt,
+        "verify_sites": jobs.run_verify_sites,
+        "sync_postmaster": jobs.run_sync_postmaster,
+        "register_postmaster": jobs.run_register_postmaster,
     }
     if job_type not in mapping:
         return RedirectResponse("/jobs?error=unknown", status_code=303)
-    runner, _label = mapping[job_type]
+    runner = mapping[job_type]
+    user = current_user(request)
+    scope = owner_scope(request)
     try:
-        domains = await db.list_domains()
+        domains = await db.list_domains(owner_id=scope)
         total = len(domains)
         if job_type == "cloudflare_txt":
             total = sum(
@@ -188,22 +245,20 @@ async def run_job(job_type: str):
             )
         if job_type == "register_postmaster":
             total = sum(1 for d in domains if not d["postmaster_registered"])
-        job_id = await jobs.start_job(job_type, runner, total=total)
+        job_id = await jobs.start_job(job_type, runner, total=total, user_id=user["id"])
         return RedirectResponse(f"/jobs/{job_id}", status_code=303)
     except Exception as exc:  # noqa: BLE001
         return RedirectResponse(f"/jobs?error={str(exc)[:120]}", status_code=303)
 
 
-@app.get("/settings", response_class=HTMLResponse, dependencies=[Depends(require_login)])
+@app.get("/settings", response_class=HTMLResponse, dependencies=[Depends(require_super)])
 async def settings_page(request: Request):
     creds = await jobs.credential_status()
-    settings = get_settings()
     return templates.TemplateResponse(
         "settings.html",
         _ctx(
             request,
             creds=creds,
-            has_password=bool(settings.dashboard_password),
             message=request.query_params.get("msg"),
             error=request.query_params.get("error"),
         ),
@@ -228,42 +283,13 @@ def _upsert_runtime_env(key: str, value: str) -> None:
     get_settings.cache_clear()
 
 
-@app.post("/settings/password", dependencies=[Depends(require_login)])
-async def change_password(
-    current_password: str = Form(...),
-    new_password: str = Form(...),
-    confirm_password: str = Form(...),
-):
-    settings = get_settings()
-    if current_password != settings.dashboard_password:
-        return RedirectResponse("/settings?error=Current+password+is+incorrect", status_code=303)
-    if len(new_password) < 8:
-        return RedirectResponse("/settings?error=New+password+must+be+at+least+8+characters", status_code=303)
-    if new_password != confirm_password:
-        return RedirectResponse("/settings?error=New+passwords+do+not+match", status_code=303)
-    _upsert_runtime_env("DASHBOARD_PASSWORD", new_password)
-    return RedirectResponse(
-        "/settings?msg=Password+updated.+Also+set+DASHBOARD_PASSWORD+in+Render+Environment.",
-        status_code=303,
-    )
-
-
-@app.post("/settings/admin-name", dependencies=[Depends(require_login)])
-async def change_admin_name(admin_name: str = Form(...)):
-    name = " ".join(admin_name.strip().split())
-    if not name or len(name) > 60:
-        return RedirectResponse("/settings?error=Admin+name+must+be+1-60+characters", status_code=303)
-    _upsert_runtime_env("ADMIN_NAME", name)
-    return RedirectResponse("/settings?msg=Admin+name+updated", status_code=303)
-
-
-@app.post("/settings/cloudflare", dependencies=[Depends(require_login)])
+@app.post("/settings/cloudflare", dependencies=[Depends(require_super)])
 async def save_cloudflare(token: str = Form(...)):
     _upsert_runtime_env("CLOUDFLARE_API_TOKEN", token.strip())
     return RedirectResponse("/settings?msg=Cloudflare+token+saved", status_code=303)
 
 
-@app.post("/settings/credentials", dependencies=[Depends(require_login)])
+@app.post("/settings/credentials", dependencies=[Depends(require_super)])
 async def upload_credentials(file: UploadFile = File(...)):
     try:
         content = await file.read()
@@ -273,7 +299,7 @@ async def upload_credentials(file: UploadFile = File(...)):
         return RedirectResponse(f"/settings?error={str(exc)[:120]}", status_code=303)
 
 
-@app.get("/oauth/start/{kind}", dependencies=[Depends(require_login)])
+@app.get("/oauth/start/{kind}", dependencies=[Depends(require_super)])
 async def oauth_start(request: Request, kind: str):
     if kind not in ("site", "postmaster"):
         return RedirectResponse("/settings?error=Invalid+OAuth+kind", status_code=303)
@@ -288,8 +314,13 @@ async def oauth_start(request: Request, kind: str):
 
 
 @app.get("/oauth/callback")
-async def oauth_callback(request: Request, code: str | None = None, state: str | None = None, error: str | None = None):
-    if not is_authenticated(request):
+async def oauth_callback(
+    request: Request,
+    code: str | None = None,
+    state: str | None = None,
+    error: str | None = None,
+):
+    if not is_authenticated(request) or not is_super(request):
         return RedirectResponse("/login", status_code=303)
     if error:
         return RedirectResponse(f"/settings?error={error}", status_code=303)
@@ -303,6 +334,55 @@ async def oauth_callback(request: Request, code: str | None = None, state: str |
         return RedirectResponse(f"/settings?msg=Google+{kind}+authorized", status_code=303)
     except Exception as exc:  # noqa: BLE001
         return RedirectResponse(f"/settings?error={str(exc)[:160]}", status_code=303)
+
+
+@app.get("/users", response_class=HTMLResponse, dependencies=[Depends(require_super)])
+async def users_page(request: Request):
+    users = await db.list_users()
+    return templates.TemplateResponse(
+        "users.html",
+        _ctx(
+            request,
+            users=users,
+            message=request.query_params.get("msg"),
+            error=request.query_params.get("error"),
+        ),
+    )
+
+
+@app.post("/users/create", dependencies=[Depends(require_super)])
+async def users_create(
+    username: str = Form(...),
+    display_name: str = Form(...),
+    password: str = Form(...),
+    role: str = Form("sub"),
+):
+    username = username.strip().lower()
+    if not username or " " in username:
+        return RedirectResponse("/users?error=Username+must+be+one+word", status_code=303)
+    if len(password) < 8:
+        return RedirectResponse("/users?error=Password+must+be+at+least+8+characters", status_code=303)
+    if role not in ("super", "sub"):
+        role = "sub"
+    try:
+        await db.create_user(username, password, display_name.strip() or username, role=role)
+    except Exception as exc:  # noqa: BLE001
+        return RedirectResponse(f"/users?error={str(exc)[:120]}", status_code=303)
+    return RedirectResponse("/users?msg=User+created", status_code=303)
+
+
+@app.post("/users/{user_id}/toggle", dependencies=[Depends(require_super)])
+async def users_toggle(user_id: int, is_active: int = Form(...)):
+    await db.set_user_active(user_id, bool(is_active))
+    return RedirectResponse("/users?msg=User+updated", status_code=303)
+
+
+@app.post("/users/{user_id}/password", dependencies=[Depends(require_super)])
+async def users_reset_password(user_id: int, password: str = Form(...)):
+    if len(password) < 8:
+        return RedirectResponse("/users?error=Password+must+be+at+least+8+characters", status_code=303)
+    await db.reset_user_password(user_id, password)
+    return RedirectResponse("/users?msg=Password+reset", status_code=303)
 
 
 @app.get("/healthz")

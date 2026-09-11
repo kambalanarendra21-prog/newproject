@@ -104,6 +104,19 @@ a:hover { color: var(--accent); text-decoration: underline; }
 }
 
 .logout { margin-top: auto; }
+.sidebar-user {
+  margin-top: auto;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: rgba(11, 95, 255, 0.06);
+  border: 1px solid var(--line);
+}
+.sidebar-user strong { display: block; font-size: 0.95rem; }
+.sidebar-user small { color: var(--muted); font-size: 0.78rem; }
+.logout { margin-top: 0.75rem; }
+.inline-form { display: flex; gap: 0.4rem; align-items: center; }
+.inline-form input { min-width: 140px; }
+button.ghost.danger, .ghost.danger { color: var(--danger); }
 .logout button, button, .button {
   font: inherit;
   border: 2px solid var(--line);

@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Callable, Awaitable
+from typing import Awaitable, Callable
 
 from . import db
 from .config import get_settings
 from .services import cloudflare, google_auth, postmaster, site_verification
 
 JobRunner = Callable[[int], Awaitable[None]]
-
 _lock = asyncio.Lock()
 
 
@@ -18,10 +17,15 @@ async def _ensure_idle() -> None:
         raise RuntimeError(f"Job #{running['id']} ({running['job_type']}) is already running")
 
 
-async def start_job(job_type: str, runner: JobRunner, total: int = 0) -> int:
+async def start_job(
+    job_type: str,
+    runner: JobRunner,
+    total: int = 0,
+    user_id: int | None = None,
+) -> int:
     async with _lock:
         await _ensure_idle()
-        job_id = await db.create_job(job_type, total=total)
+        job_id = await db.create_job(job_type, total=total, user_id=user_id)
 
     async def _wrap():
         try:
@@ -34,8 +38,19 @@ async def start_job(job_type: str, runner: JobRunner, total: int = 0) -> int:
     return job_id
 
 
+async def _scope_for_job(job_id: int) -> int | None:
+    job = await db.get_job(job_id)
+    if not job or not job.get("user_id"):
+        return None
+    user = await db.get_user(int(job["user_id"]))
+    if not user or user.get("role") == "super":
+        return None
+    return int(user["id"])
+
+
 async def run_fetch_tokens(job_id: int) -> None:
-    domains = await db.list_domains()
+    scope = await _scope_for_job(job_id)
+    domains = await db.list_domains(owner_id=scope)
     await db.append_job_log(job_id, f"Fetching TXT tokens for {len(domains)} domains")
     success = fail = 0
     service = site_verification.build_service()
@@ -58,7 +73,12 @@ async def run_cloudflare_txt(job_id: int) -> None:
     settings = get_settings()
     if not settings.cloudflare_api_token:
         raise RuntimeError("CLOUDFLARE_API_TOKEN is not configured")
-    domains = [d for d in await db.list_domains() if d.get("txt_record") and not str(d["txt_record"]).startswith("ERROR")]
+    scope = await _scope_for_job(job_id)
+    domains = [
+        d
+        for d in await db.list_domains(owner_id=scope)
+        if d.get("txt_record") and not str(d["txt_record"]).startswith("ERROR")
+    ]
     await db.append_job_log(job_id, f"Adding Cloudflare TXT for {len(domains)} domains")
     success = fail = 0
     for i, row in enumerate(domains, 1):
@@ -82,7 +102,8 @@ async def run_cloudflare_txt(job_id: int) -> None:
 
 
 async def run_verify_sites(job_id: int) -> None:
-    domains = await db.list_domains()
+    scope = await _scope_for_job(job_id)
+    domains = await db.list_domains(owner_id=scope)
     await db.append_job_log(job_id, f"Verifying {len(domains)} domains with Google Site Verification")
     success = fail = 0
     service = site_verification.build_service()
@@ -111,7 +132,8 @@ async def run_sync_postmaster(job_id: int) -> None:
     await db.append_job_log(job_id, "Fetching domains from Google Postmaster Tools")
     registered = await asyncio.to_thread(postmaster.list_domains)
     registered_set = {d.lower() for d in registered}
-    domains = await db.list_domains()
+    scope = await _scope_for_job(job_id)
+    domains = await db.list_domains(owner_id=scope)
     success = 0
     for row in domains:
         in_pm = 1 if row["domain"] in registered_set else 0
@@ -126,7 +148,8 @@ async def run_sync_postmaster(job_id: int) -> None:
 
 
 async def run_register_postmaster(job_id: int) -> None:
-    domains = [d for d in await db.list_domains() if not d["postmaster_registered"]]
+    scope = await _scope_for_job(job_id)
+    domains = [d for d in await db.list_domains(owner_id=scope) if not d["postmaster_registered"]]
     await db.append_job_log(job_id, f"Registering {len(domains)} missing domains in Postmaster")
     success = fail = skipped = 0
     for i, row in enumerate(domains, 1):
