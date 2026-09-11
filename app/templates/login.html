@@ -20,9 +20,8 @@
       <h2>Postmaster Desk</h2>
       <p>Verify domains, sync DNS, and keep mailbox reputation healthy.</p>
       <ul class="login-points">
-        <li>Domain verification</li>
-        <li>Cloudflare TXT sync</li>
-        <li>Google Postmaster jobs</li>
+        <li>Add domains, verify the records, sync DNS automation process</li>
+        <li>Bulk domain adding into Postmaster tool</li>
       </ul>
     </aside>
 
@@ -30,14 +29,14 @@
       <div class="login-brand">
         <span class="brand-mark lg">FC</span>
         <p class="login-kicker">FinCoverTech · Private console</p>
-        <h1>Welcome, {{ admin_name }}</h1>
+        <h1>Welcome camp team</h1>
         <p class="login-sub">Sign in to your Postmaster admin desk</p>
       </div>
       <form method="post" action="/login" class="login-form">
         <label for="password">Dashboard password</label>
         <input id="password" name="password" type="password" required autofocus placeholder="Enter password" />
         {% if error %}<p class="error">{{ error }}</p>{% endif %}
-        <button type="submit">Sign in as {{ admin_name }}</button>
+        <button type="submit">Sign in</button>
       </form>
       <p class="login-foot">Protected access · fincovertech.com</p>
     </div>
