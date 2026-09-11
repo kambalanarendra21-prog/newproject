@@ -43,12 +43,8 @@ async def startup() -> None:
     (DATA_DIR / "secrets").mkdir(parents=True, exist_ok=True)
     _load_runtime_env()
     await db.init_db()
-    seed = Path(__file__).resolve().parent.parent / "seed" / "domains.txt"
-    if seed.exists():
-        domains = [line.strip() for line in seed.read_text(encoding="utf-8").splitlines() if line.strip()]
-        count = await db.domain_stats()
-        if count["total"] == 0 and domains:
-            await db.upsert_domains(domains)
+    # Fresh installs should start empty; wipe any previously seeded demo domains once.
+    await db.clear_demo_seed_once()
 
 
 @app.exception_handler(StarletteHTTPException)

@@ -36,6 +36,11 @@ CREATE TABLE IF NOT EXISTS job_logs (
     created_at TEXT NOT NULL,
     FOREIGN KEY(job_id) REFERENCES jobs(id)
 );
+
+CREATE TABLE IF NOT EXISTS app_meta (
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL
+);
 """
 
 
@@ -47,6 +52,27 @@ async def init_db() -> None:
     async with aiosqlite.connect(DB_PATH) as conn:
         await conn.executescript(SCHEMA)
         await conn.commit()
+
+
+async def clear_demo_seed_once() -> bool:
+    """One-time wipe of demo/seeded domains so a fresh site starts at zero."""
+    async with aiosqlite.connect(DB_PATH) as conn:
+        cur = await conn.execute(
+            "SELECT value FROM app_meta WHERE key = ?",
+            ("demo_seed_cleared_v1",),
+        )
+        row = await cur.fetchone()
+        if row:
+            return False
+        await conn.execute("DELETE FROM job_logs")
+        await conn.execute("DELETE FROM jobs")
+        await conn.execute("DELETE FROM domains")
+        await conn.execute(
+            "INSERT INTO app_meta (key, value) VALUES (?, ?)",
+            ("demo_seed_cleared_v1", _now()),
+        )
+        await conn.commit()
+    return True
 
 
 async def upsert_domains(domains: list[str]) -> int:
