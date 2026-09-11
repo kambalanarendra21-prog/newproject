@@ -33,7 +33,7 @@ def _load_runtime_env() -> None:
         if not line or line.startswith("#") or "=" not in line:
             continue
         key, value = line.split("=", 1)
-        os.environ.setdefault(key.strip(), value.strip())
+        os.environ[key.strip()] = value.strip()
     get_settings.cache_clear()
 
 
@@ -207,26 +207,47 @@ async def settings_page(request: Request):
     )
 
 
-@app.post("/settings/cloudflare", dependencies=[Depends(require_login)])
-async def save_cloudflare(token: str = Form(...)):
-    # Persist into .env-like runtime file under data/secrets
-    secrets_env = DATA_DIR / "secrets" / "runtime.env"
-    secrets_env.parent.mkdir(parents=True, exist_ok=True)
-    # Update process env + settings cache
+def _upsert_runtime_env(key: str, value: str) -> None:
     import os
 
-    os.environ["CLOUDFLARE_API_TOKEN"] = token.strip()
-    get_settings.cache_clear()
-    # Append/update runtime.env for container restarts if mounted
-    lines = []
+    secrets_env = DATA_DIR / "secrets" / "runtime.env"
+    secrets_env.parent.mkdir(parents=True, exist_ok=True)
+    lines: list[str] = []
     if secrets_env.exists():
         lines = [
             ln
             for ln in secrets_env.read_text(encoding="utf-8").splitlines()
-            if not ln.startswith("CLOUDFLARE_API_TOKEN=")
+            if not ln.startswith(f"{key}=")
         ]
-    lines.append(f"CLOUDFLARE_API_TOKEN={token.strip()}")
+    lines.append(f"{key}={value}")
     secrets_env.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    os.environ[key] = value
+    get_settings.cache_clear()
+
+
+@app.post("/settings/password", dependencies=[Depends(require_login)])
+async def change_password(
+    current_password: str = Form(...),
+    new_password: str = Form(...),
+    confirm_password: str = Form(...),
+):
+    settings = get_settings()
+    if current_password != settings.dashboard_password:
+        return RedirectResponse("/settings?error=Current+password+is+incorrect", status_code=303)
+    if len(new_password) < 8:
+        return RedirectResponse("/settings?error=New+password+must+be+at+least+8+characters", status_code=303)
+    if new_password != confirm_password:
+        return RedirectResponse("/settings?error=New+passwords+do+not+match", status_code=303)
+    _upsert_runtime_env("DASHBOARD_PASSWORD", new_password)
+    return RedirectResponse(
+        "/settings?msg=Password+updated.+Also+set+DASHBOARD_PASSWORD+in+Render+Environment.",
+        status_code=303,
+    )
+
+
+@app.post("/settings/cloudflare", dependencies=[Depends(require_login)])
+async def save_cloudflare(token: str = Form(...)):
+    _upsert_runtime_env("CLOUDFLARE_API_TOKEN", token.strip())
     return RedirectResponse("/settings?msg=Cloudflare+token+saved", status_code=303)
 
 
