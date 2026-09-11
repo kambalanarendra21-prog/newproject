@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Job #{{ job.id }}{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div>
+    <h1>Job #{{ job.id }}</h1>
+    <p>{{ job.job_type }} · <span class="status {{ job.status }}">{{ job.status }}</span></p>
+  </div>
+  <a href="/jobs" class="text-link">← All jobs</a>
+</header>
+
+<section class="stat-grid tight">
+  <div class="stat"><span>Total</span><strong>{{ job.total }}</strong></div>
+  <div class="stat"><span>Success</span><strong>{{ job.success_count }}</strong></div>
+  <div class="stat"><span>Failed</span><strong>{{ job.fail_count }}</strong></div>
+</section>
+
+{% if job.message %}<p class="muted">{{ job.message }}</p>{% endif %}
+
+<section class="panel">
+  <div class="panel-head"><h2>Live log</h2></div>
+  <pre id="job-log" class="log" data-job-id="{{ job.id }}" data-status="{{ job.status }}">{% for line in job.logs %}[{{ line.level }}] {{ line.message }}
+{% endfor %}</pre>
+</section>
+{% endblock %}

@@ -1,0 +1,2 @@
+# Optional sample list (NOT auto-loaded).
+# Add domains from the Domains page in the dashboard.

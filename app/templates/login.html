@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block body %}
+<div class="login-page">
+  <div class="login-glow login-glow-a"></div>
+  <div class="login-glow login-glow-b"></div>
+  <div class="login-glow login-glow-c"></div>
+
+  <div class="login-shell">
+    <aside class="login-hero">
+      <div class="mail-stamp">POST</div>
+
+      <div class="login-hero-art" aria-hidden="true">
+        <svg class="route-art" viewBox="0 0 320 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M28 118 C70 40, 120 40, 160 78 C200 116, 240 116, 292 48" stroke="rgba(255,255,255,0.55)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M40 40 C90 90, 140 20, 190 70 C230 108, 260 90, 300 110" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-dasharray="6 8" stroke-linecap="round"/>
+          <circle cx="28" cy="118" r="8" fill="#fbbf24"/>
+          <circle cx="160" cy="78" r="10" fill="#fff"/>
+          <circle cx="292" cy="48" r="8" fill="#fb7185"/>
+          <circle cx="40" cy="40" r="6" fill="rgba(255,255,255,0.75)"/>
+          <circle cx="300" cy="110" r="6" fill="rgba(255,255,255,0.75)"/>
+          <rect x="148" y="30" width="54" height="28" rx="8" fill="rgba(255,255,255,0.16)" stroke="rgba(255,255,255,0.45)"/>
+          <text x="175" y="49" text-anchor="middle" fill="#fff" font-size="11" font-family="Source Sans 3, sans-serif" font-weight="700">DNS</text>
+          <rect x="240" y="70" width="70" height="28" rx="8" fill="rgba(255,255,255,0.16)" stroke="rgba(255,255,255,0.45)"/>
+          <text x="275" y="89" text-anchor="middle" fill="#fff" font-size="11" font-family="Source Sans 3, sans-serif" font-weight="700">MAIL</text>
+        </svg>
+      </div>
+
+      <h2>Postmaster Desk</h2>
+      <p>Verify domains, sync DNS, and keep mailbox reputation healthy.</p>
+      <ul class="login-points">
+        <li>Add domains, verify the records, sync DNS automation process</li>
+        <li>Bulk domain adding into Postmaster tool</li>
+      </ul>
+    </aside>
+
+    <div class="login-panel">
+      <div class="login-brand">
+        <img class="info-science-logo login-panel-logo" src="/static/img/info-science-logo-clear.png" alt="INFO SCIENCE" />
+        <p class="login-kicker">FinCoverTech · Private console</p>
+        <h1>Welcome campaign team</h1>
+        <p class="login-sub">Sign in to your Postmaster admin desk</p>
+      </div>
+      <form method="post" action="/login" class="login-form">
+        <label for="password">Dashboard password</label>
+        <input id="password" name="password" type="password" required autofocus placeholder="Enter password" />
+        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        <button type="submit">Sign in</button>
+      </form>
+      <p class="login-foot">Protected access · fincovertech.com</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

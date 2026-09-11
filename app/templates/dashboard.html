@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div>
+    <h1>Overview</h1>
+    <p>Track mailbox verification and Postmaster registration across your domains.</p>
+  </div>
+  {% if running %}
+  <a class="pill warn" href="/jobs/{{ running.id }}">Job #{{ running.id }} running · {{ running.job_type }}</a>
+  {% endif %}
+</header>
+
+<section class="stat-grid">
+  <div class="stat">
+    <span>Total domains</span>
+    <strong>{{ stats.total }}</strong>
+  </div>
+  <div class="stat">
+    <span>Site verified</span>
+    <strong>{{ stats.verified }}</strong>
+  </div>
+  <div class="stat">
+    <span>In Postmaster</span>
+    <strong>{{ stats.in_postmaster }}</strong>
+  </div>
+  <div class="stat">
+    <span>Missing from Postmaster</span>
+    <strong>{{ stats.missing_postmaster }}</strong>
+  </div>
+</section>
+
+{% if stats.total == 0 %}
+<section class="panel">
+  <div class="panel-head">
+    <h2>No domains yet</h2>
+    <p>This is a fresh workspace. Add domains on the Domains page when you are ready to connect them.</p>
+  </div>
+  <a class="button primary" href="/domains">Go to Domains</a>
+</section>
+{% endif %}
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>Run automation</h2>
+    <p>Jobs run one at a time. Configure credentials in Settings first.</p>
+  </div>
+  <div class="action-grid">
+    <form method="post" action="/jobs/run/fetch_tokens"><button type="submit" {% if not creds.google_site_token %}disabled title="Authorize Google Site Verification first"{% endif %}>1. Fetch TXT tokens</button></form>
+    <form method="post" action="/jobs/run/cloudflare_txt"><button type="submit" {% if not creds.cloudflare %}disabled title="Add Cloudflare token first"{% endif %}>2. Add Cloudflare TXT</button></form>
+    <form method="post" action="/jobs/run/verify_sites"><button type="submit" {% if not creds.google_site_token %}disabled{% endif %}>3. Verify with Google</button></form>
+    <form method="post" action="/jobs/run/sync_postmaster"><button type="submit" {% if not creds.google_postmaster_token %}disabled{% endif %}>4. Sync Postmaster status</button></form>
+    <form method="post" action="/jobs/run/register_postmaster"><button type="submit" class="primary" {% if not creds.google_postmaster_token %}disabled{% endif %}>5. Register missing in Postmaster</button></form>
+  </div>
+</section>
+
+<section class="two-col">
+  <div class="panel">
+    <div class="panel-head"><h2>Credential status</h2></div>
+    <ul class="checklist">
+      <li class="{% if creds.cloudflare %}ok{% else %}bad{% endif %}">Cloudflare API token</li>
+      <li class="{% if creds.google_credentials %}ok{% else %}bad{% endif %}">Google credentials.json</li>
+      <li class="{% if creds.google_site_token %}ok{% else %}bad{% endif %}">Site Verification OAuth</li>
+      <li class="{% if creds.google_postmaster_token %}ok{% else %}bad{% endif %}">Postmaster OAuth</li>
+    </ul>
+    <a class="text-link" href="/settings">Open settings →</a>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>Recent jobs</h2></div>
+    {% if jobs %}
+    <table class="table compact">
+      <thead><tr><th>ID</th><th>Type</th><th>Status</th><th>Result</th></tr></thead>
+      <tbody>
+      {% for job in jobs %}
+        <tr>
+          <td><a href="/jobs/{{ job.id }}">#{{ job.id }}</a></td>
+          <td>{{ job.job_type }}</td>
+          <td><span class="status {{ job.status }}">{{ job.status }}</span></td>
+          <td>{{ job.success_count }}/{{ job.fail_count }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No jobs yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

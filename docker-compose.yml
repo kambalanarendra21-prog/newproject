@@ -1,0 +1,14 @@
+services:
+  postmaster:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      - GOOGLE_CREDENTIALS_FILE=/app/data/secrets/credentials.json
+      - GOOGLE_TOKEN_FILE=/app/data/secrets/token.json
+      - GOOGLE_POSTMASTER_TOKEN_FILE=/app/data/secrets/token_postmaster.json
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

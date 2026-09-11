@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div>
+    <h1>Settings</h1>
+    <p>Store API credentials on the server. Never commit secrets to git.</p>
+  </div>
+</header>
+
+{% if message %}<p class="success banner">{{ message }}</p>{% endif %}
+{% if error %}<p class="error banner">{{ error }}</p>{% endif %}
+
+<section class="two-col">
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Cloudflare</h2>
+      <p>API token with Zone DNS Edit permission.</p>
+    </div>
+    <ul class="checklist">
+      <li class="{% if creds.cloudflare %}ok{% else %}bad{% endif %}">Token {% if creds.cloudflare %}configured{% else %}missing{% endif %}</li>
+    </ul>
+    <form method="post" action="/settings/cloudflare" class="stack">
+      <label for="token">API token</label>
+      <input id="token" name="token" type="password" required placeholder="Paste Cloudflare API token" />
+      <button type="submit" class="primary">Save token</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Google OAuth</h2>
+      <p>Upload OAuth client JSON, then authorize each API.</p>
+    </div>
+    <ul class="checklist">
+      <li class="{% if creds.google_credentials %}ok{% else %}bad{% endif %}">credentials.json</li>
+      <li class="{% if creds.google_site_token %}ok{% else %}bad{% endif %}">Site Verification authorized</li>
+      <li class="{% if creds.google_postmaster_token %}ok{% else %}bad{% endif %}">Postmaster authorized</li>
+    </ul>
+    <form method="post" action="/settings/credentials" enctype="multipart/form-data" class="stack">
+      <label for="file">credentials.json</label>
+      <input id="file" name="file" type="file" accept="application/json,.json" required />
+      <button type="submit">Upload credentials</button>
+    </form>
+    <div class="action-grid" style="margin-top:1rem">
+      <a class="button" href="/oauth/start/site">Authorize Site Verification</a>
+      <a class="button primary" href="/oauth/start/postmaster">Authorize Postmaster</a>
+    </div>
+    <p class="muted small" style="margin-top:1rem">
+      OAuth redirect URI must include:<br />
+      <code class="mono">{{ creds.public_base_url }}/oauth/callback</code>
+    </p>
+  </div>
+</section>
+{% endblock %}
