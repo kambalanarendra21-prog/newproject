@@ -410,6 +410,34 @@ textarea { resize: vertical; min-height: 100px; }
   width: 160px;
   height: 110px;
   position: relative;
+  flex: 0 0 auto;
+}
+.login-hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+.hero-logo-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 110px;
+}
+.info-science-logo {
+  width: min(220px, 100%);
+  height: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+.login-panel-logo {
+  width: min(210px, 90%);
+  margin-bottom: 0.85rem;
+  filter: none;
+  opacity: 1;
 }
 .mail-flap {
   position: absolute;
