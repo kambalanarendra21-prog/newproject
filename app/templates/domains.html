@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Domains{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div>
+    <h1>Domains</h1>
+    <p>{{ stats.total }} tracked · {{ stats.verified }} verified · {{ stats.in_postmaster }} in Postmaster</p>
+  </div>
+</header>
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>Add domains</h2>
+    <p>Paste one domain per line (or comma-separated).</p>
+  </div>
+  <form method="post" action="/domains/add" class="stack">
+    <textarea name="domains_text" rows="4" placeholder="example.com&#10;another-domain.com" required></textarea>
+    <button type="submit" class="primary">Add domains</button>
+  </form>
+</section>
+
+<section class="panel">
+  <form method="get" action="/domains" class="filters">
+    <input type="search" name="q" value="{{ q }}" placeholder="Search domains" />
+    <select name="status">
+      <option value="" {% if not status %}selected{% endif %}>All statuses</option>
+      <option value="verified" {% if status == 'verified' %}selected{% endif %}>Site verified</option>
+      <option value="not_verified" {% if status == 'not_verified' %}selected{% endif %}>Not verified</option>
+      <option value="in_postmaster" {% if status == 'in_postmaster' %}selected{% endif %}>In Postmaster</option>
+      <option value="missing_postmaster" {% if status == 'missing_postmaster' %}selected{% endif %}>Missing Postmaster</option>
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th>TXT</th>
+          <th>CF</th>
+          <th>Verified</th>
+          <th>Postmaster</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for d in domains %}
+        <tr>
+          <td class="mono">{{ d.domain }}</td>
+          <td>{% if d.txt_record and not d.txt_record.startswith('ERROR') %}<span class="dot ok"></span>{% elif d.txt_record %}<span class="dot bad" title="{{ d.txt_record }}"></span>{% else %}<span class="dot"></span>{% endif %}</td>
+          <td>{% if d.cloudflare_txt_added %}<span class="dot ok"></span>{% else %}<span class="dot"></span>{% endif %}</td>
+          <td>{% if d.site_verified %}<span class="dot ok"></span>{% else %}<span class="dot"></span>{% endif %}</td>
+          <td>{% if d.postmaster_registered %}<span class="dot ok"></span>{% else %}<span class="dot"></span>{% endif %}</td>
+          <td>
+            <form method="post" action="/domains/{{ d.id }}/delete" onsubmit="return confirm('Delete {{ d.domain }}?')">
+              <button type="submit" class="ghost danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6" class="muted">No domains match.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

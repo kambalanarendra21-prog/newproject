@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Postmaster{% endblock %} · FinCoverTech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  {% if authed %}
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">FC</span>
+        <div>
+          <strong>FinCoverTech</strong>
+          <small>Postmaster Console</small>
+        </div>
+      </div>
+      <nav>
+        <a href="/" class="{% if request.url.path == '/' %}active{% endif %}">Overview</a>
+        <a href="/domains" class="{% if request.url.path.startswith('/domains') %}active{% endif %}">Domains</a>
+        <a href="/jobs" class="{% if request.url.path.startswith('/jobs') %}active{% endif %}">Jobs</a>
+        <a href="/settings" class="{% if request.url.path.startswith('/settings') %}active{% endif %}">Settings</a>
+      </nav>
+      <form method="post" action="/logout" class="logout">
+        <button type="submit">Sign out</button>
+      </form>
+    </aside>
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  {% else %}
+    {% block body %}{% endblock %}
+  {% endif %}
+  <script src="/static/app.js"></script>
+</body>
+</html>

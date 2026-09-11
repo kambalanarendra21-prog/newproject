@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block body %}
+<div class="login-page">
+  <div class="login-panel">
+    <div class="login-brand">
+      <span class="brand-mark lg">FC</span>
+      <h1>FinCoverTech</h1>
+      <p>Private Postmaster automation console</p>
+    </div>
+    <form method="post" action="/login" class="login-form">
+      <label for="password">Dashboard password</label>
+      <input id="password" name="password" type="password" required autofocus placeholder="Enter password" />
+      {% if error %}<p class="error">{{ error }}</p>{% endif %}
+      <button type="submit">Sign in</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

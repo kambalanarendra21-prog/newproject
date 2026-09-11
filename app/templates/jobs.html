@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Jobs{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div>
+    <h1>Jobs</h1>
+    <p>Automation runs and their outcomes.</p>
+  </div>
+  {% if running %}
+  <a class="pill warn" href="/jobs/{{ running.id }}">Running: #{{ running.id }}</a>
+  {% endif %}
+</header>
+
+{% if request.query_params.get('error') %}
+<p class="error banner">{{ request.query_params.get('error') }}</p>
+{% endif %}
+
+<section class="panel">
+  <div class="panel-head"><h2>Start a job</h2></div>
+  <div class="action-grid">
+    <form method="post" action="/jobs/run/fetch_tokens"><button type="submit">Fetch TXT tokens</button></form>
+    <form method="post" action="/jobs/run/cloudflare_txt"><button type="submit">Add Cloudflare TXT</button></form>
+    <form method="post" action="/jobs/run/verify_sites"><button type="submit">Verify with Google</button></form>
+    <form method="post" action="/jobs/run/sync_postmaster"><button type="submit">Sync Postmaster</button></form>
+    <form method="post" action="/jobs/run/register_postmaster"><button type="submit" class="primary">Register missing</button></form>
+  </div>
+</section>
+
+<section class="panel">
+  <table class="table">
+    <thead>
+      <tr><th>ID</th><th>Type</th><th>Status</th><th>Success</th><th>Failed</th><th>Started</th><th></th></tr>
+    </thead>
+    <tbody>
+    {% for job in jobs %}
+      <tr>
+        <td>#{{ job.id }}</td>
+        <td>{{ job.job_type }}</td>
+        <td><span class="status {{ job.status }}">{{ job.status }}</span></td>
+        <td>{{ job.success_count }}</td>
+        <td>{{ job.fail_count }}</td>
+        <td class="mono small">{{ job.started_at[:19] }}</td>
+        <td><a href="/jobs/{{ job.id }}">View</a></td>
+      </tr>
+    {% else %}
+      <tr><td colspan="7" class="muted">No jobs yet.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
