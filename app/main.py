@@ -70,7 +70,14 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
 
 
 def _ctx(request: Request, **extra):
-    return {"request": request, "authed": is_authenticated(request), **extra}
+    settings = get_settings()
+    return {
+        "request": request,
+        "authed": is_authenticated(request),
+        "admin_name": settings.admin_name,
+        "brand_name": "FinCoverTech",
+        **extra,
+    }
 
 
 @app.get("/login", response_class=HTMLResponse)
@@ -243,6 +250,15 @@ async def change_password(
         "/settings?msg=Password+updated.+Also+set+DASHBOARD_PASSWORD+in+Render+Environment.",
         status_code=303,
     )
+
+
+@app.post("/settings/admin-name", dependencies=[Depends(require_login)])
+async def change_admin_name(admin_name: str = Form(...)):
+    name = " ".join(admin_name.strip().split())
+    if not name or len(name) > 60:
+        return RedirectResponse("/settings?error=Admin+name+must+be+1-60+characters", status_code=303)
+    _upsert_runtime_env("ADMIN_NAME", name)
+    return RedirectResponse("/settings?msg=Admin+name+updated", status_code=303)
 
 
 @app.post("/settings/cloudflare", dependencies=[Depends(require_login)])

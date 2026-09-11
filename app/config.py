@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     google_token_file: str = str(SECRETS_DIR / "token.json")
     google_postmaster_token_file: str = str(SECRETS_DIR / "token_postmaster.json")
     public_base_url: str = "http://localhost:8080"
+    admin_name: str = "Admin"
 
 
 @lru_cache

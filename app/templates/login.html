@@ -2,18 +2,45 @@
 {% block title %}Sign in{% endblock %}
 {% block body %}
 <div class="login-page">
-  <div class="login-panel">
-    <div class="login-brand">
-      <span class="brand-mark lg">FC</span>
-      <h1>FinCoverTech</h1>
-      <p>Colorful Postmaster desk for domain delivery health</p>
+  <div class="login-glow login-glow-a"></div>
+  <div class="login-glow login-glow-b"></div>
+  <div class="login-glow login-glow-c"></div>
+
+  <div class="login-shell">
+    <aside class="login-hero">
+      <div class="mail-stamp">POST</div>
+      <div class="mail-envelope" aria-hidden="true">
+        <div class="mail-flap"></div>
+        <div class="mail-body">
+          <span class="mail-line"></span>
+          <span class="mail-line short"></span>
+          <span class="mail-seal">FC</span>
+        </div>
+      </div>
+      <h2>Postmaster Desk</h2>
+      <p>Verify domains, sync DNS, and keep mailbox reputation healthy.</p>
+      <ul class="login-points">
+        <li>Domain verification</li>
+        <li>Cloudflare TXT sync</li>
+        <li>Google Postmaster jobs</li>
+      </ul>
+    </aside>
+
+    <div class="login-panel">
+      <div class="login-brand">
+        <span class="brand-mark lg">FC</span>
+        <p class="login-kicker">FinCoverTech · Private console</p>
+        <h1>Welcome, {{ admin_name }}</h1>
+        <p class="login-sub">Sign in to your Postmaster admin desk</p>
+      </div>
+      <form method="post" action="/login" class="login-form">
+        <label for="password">Dashboard password</label>
+        <input id="password" name="password" type="password" required autofocus placeholder="Enter password" />
+        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        <button type="submit">Sign in as {{ admin_name }}</button>
+      </form>
+      <p class="login-foot">Protected access · fincovertech.com</p>
     </div>
-    <form method="post" action="/login" class="login-form">
-      <label for="password">Dashboard password</label>
-      <input id="password" name="password" type="password" required autofocus placeholder="Enter password" />
-      {% if error %}<p class="error">{{ error }}</p>{% endif %}
-      <button type="submit">Sign in</button>
-    </form>
   </div>
 </div>
 {% endblock %}

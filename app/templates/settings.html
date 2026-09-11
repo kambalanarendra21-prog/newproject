@@ -13,6 +13,18 @@
 
 <section class="panel">
   <div class="panel-head">
+    <h2>Admin profile</h2>
+    <p>This name appears on the login page and in the sidebar.</p>
+  </div>
+  <form method="post" action="/settings/admin-name" class="stack" style="max-width:420px">
+    <label for="admin_name">Admin name</label>
+    <input id="admin_name" name="admin_name" type="text" maxlength="60" required value="{{ admin_name }}" placeholder="Your name" />
+    <button type="submit" class="primary">Save admin name</button>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
     <h2>Admin password</h2>
     <p>Change the dashboard login password. Also update <code>DASHBOARD_PASSWORD</code> in Render so it stays after redeploy.</p>
   </div>

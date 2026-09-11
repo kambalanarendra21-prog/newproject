@@ -332,67 +332,205 @@ textarea { resize: vertical; min-height: 100px; }
 .success.banner { border-color: rgba(5, 150, 105, 0.3); background: rgba(5, 150, 105, 0.08); }
 
 .login-page {
-  min-height: 100vh; display: grid; place-items: center; padding: 1.5rem;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
   position: relative;
+  overflow: hidden;
 }
-.login-page::before {
-  content: "";
+.login-glow {
   position: absolute;
-  inset: 8% 10%;
-  border: 2px dashed rgba(14, 165, 233, 0.28);
-  border-radius: 28px;
+  border-radius: 50%;
+  filter: blur(40px);
   pointer-events: none;
 }
+.login-glow-a {
+  width: 320px; height: 320px;
+  background: rgba(225, 29, 72, 0.28);
+  top: -60px; left: -40px;
+}
+.login-glow-b {
+  width: 380px; height: 380px;
+  background: rgba(14, 165, 233, 0.28);
+  bottom: -80px; right: -60px;
+}
+.login-glow-c {
+  width: 220px; height: 220px;
+  background: rgba(245, 158, 11, 0.22);
+  top: 40%; left: 45%;
+}
+.login-shell {
+  width: min(920px, 100%);
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 2px solid rgba(14, 70, 140, 0.12);
+  box-shadow: 0 28px 60px rgba(16, 55, 110, 0.18);
+  position: relative;
+  z-index: 1;
+  background: #fff;
+}
+.login-hero {
+  padding: 2rem 1.7rem;
+  color: #fff;
+  background:
+    linear-gradient(155deg, #0b4f8a 0%, #0ea5e9 48%, #e11d48 120%);
+  position: relative;
+}
+.login-hero h2 {
+  margin: 1.2rem 0 0.4rem;
+  font-family: var(--display);
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.login-hero > p {
+  margin: 0 0 1.1rem;
+  opacity: 0.92;
+  font-weight: 650;
+  line-height: 1.45;
+}
+.mail-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0.28rem 0.55rem;
+  border: 2px dashed rgba(255,255,255,0.7);
+  border-radius: 8px;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  background: rgba(255,255,255,0.12);
+}
+.mail-envelope {
+  margin-top: 1.4rem;
+  width: 160px;
+  height: 110px;
+  position: relative;
+}
+.mail-flap {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 48px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.05));
+  clip-path: polygon(0 0, 50% 70%, 100% 0);
+  z-index: 2;
+}
+.mail-body {
+  position: absolute;
+  inset: 18px 0 0 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.18);
+  border: 2px solid rgba(255,255,255,0.35);
+  padding: 1.1rem 0.9rem 0.8rem;
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+}
+.mail-line {
+  height: 8px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.45);
+  width: 78%;
+}
+.mail-line.short { width: 52%; }
+.mail-seal {
+  position: absolute;
+  right: 10px; bottom: 10px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(145deg, #f59e0b, #e11d48);
+  font-family: var(--display);
+  font-size: 0.7rem;
+  font-weight: 800;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+}
+.login-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+.login-points li {
+  font-weight: 750;
+  font-size: 0.92rem;
+  padding-left: 1.1rem;
+  position: relative;
+}
+.login-points li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.45rem;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.25);
+}
+
 .login-panel {
-  width: min(450px, 100%);
-  background: rgba(255, 255, 255, 0.95);
-  border: 2px solid rgba(14, 70, 140, 0.1);
-  border-radius: 24px;
-  padding: 2.1rem;
-  box-shadow: var(--shadow);
+  width: auto;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  padding: 2.1rem 1.8rem;
+  box-shadow: none;
   position: relative;
   z-index: 1;
 }
-.login-panel::before {
-  content: "POSTMASTER";
-  position: absolute;
-  top: -12px; right: 18px;
-  background: linear-gradient(135deg, var(--accent), var(--postal));
-  color: #fff;
-  font-family: var(--display);
-  font-size: 0.68rem;
+.login-panel::before { display: none; }
+.login-kicker {
+  margin: 0.15rem 0 0.35rem;
+  color: var(--accent);
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  padding: 0.28rem 0.55rem;
-  border-radius: 999px;
-  box-shadow: 0 8px 16px rgba(225, 29, 72, 0.25);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .login-brand h1 {
-  margin: 0.2rem 0;
+  margin: 0.1rem 0;
   font-family: var(--display);
   font-size: 2rem;
-  font-weight: 780;
+  font-weight: 800;
   letter-spacing: -0.04em;
+  color: var(--text);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
 }
-.login-brand p { margin: 0 0 1.4rem; color: var(--muted); font-weight: 700; }
+.login-sub, .login-brand p.login-sub {
+  margin: 0 0 1.35rem;
+  color: var(--muted);
+  font-weight: 700;
+}
 .login-form { display: grid; gap: 0.7rem; }
 .login-form button {
-  margin-top: 0.4rem;
-  background: linear-gradient(135deg, var(--accent), #fb7185 50%, var(--postal));
+  margin-top: 0.45rem;
+  background: linear-gradient(135deg, var(--accent), #fb7185 48%, var(--postal));
   border: 0;
   color: #fff;
   font-weight: 800;
+  min-height: 48px;
+}
+.login-foot {
+  margin: 1.1rem 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
-@media (max-width: 900px) {
-  .shell { grid-template-columns: 1fr; }
-  .sidebar { border-right: 0; border-bottom: 1px solid var(--line); }
-  .stat-grid, .two-col { grid-template-columns: 1fr 1fr; }
+@media (max-width: 820px) {
+  .login-shell { grid-template-columns: 1fr; }
+  .login-hero { min-height: 220px; }
+  .mail-envelope { margin-top: 0.8rem; }
 }
-@media (max-width: 640px) {
-  .content { padding: 1.1rem; }
-  .stat-grid, .stat-grid.tight, .two-col { grid-template-columns: 1fr; }
-  .page-header { flex-direction: column; }
-  .page-header h1 { font-size: 1.7rem; }
-  .login-page::before { inset: 4% 4%; }
-}
+
+.login-page::before { display: none; }
+
