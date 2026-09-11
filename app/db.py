@@ -43,36 +43,29 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-async def get_db() -> aiosqlite.Connection:
-    db = await aiosqlite.connect(DB_PATH)
-    db.row_factory = aiosqlite.Row
-    await db.execute("PRAGMA foreign_keys = ON")
-    return db
-
-
 async def init_db() -> None:
-    async with await get_db() as db:
-        await db.executescript(SCHEMA)
-        await db.commit()
+    async with aiosqlite.connect(DB_PATH) as conn:
+        await conn.executescript(SCHEMA)
+        await conn.commit()
 
 
 async def upsert_domains(domains: list[str]) -> int:
     now = _now()
     added = 0
-    async with await get_db() as db:
+    async with aiosqlite.connect(DB_PATH) as conn:
         for raw in domains:
             domain = raw.strip().lower().rstrip(".")
             if not domain or " " in domain:
                 continue
             try:
-                await db.execute(
+                await conn.execute(
                     "INSERT INTO domains (domain, created_at, updated_at) VALUES (?, ?, ?)",
                     (domain, now, now),
                 )
                 added += 1
             except aiosqlite.IntegrityError:
                 pass
-        await db.commit()
+        await conn.commit()
     return added
 
 
@@ -91,21 +84,23 @@ async def list_domains(q: str | None = None, status: str | None = None) -> list[
     elif status == "in_postmaster":
         sql += " AND postmaster_registered = 1"
     sql += " ORDER BY domain ASC"
-    async with await get_db() as db:
-        cur = await db.execute(sql, params)
+    async with aiosqlite.connect(DB_PATH) as conn:
+        conn.row_factory = aiosqlite.Row
+        cur = await conn.execute(sql, params)
         rows = await cur.fetchall()
     return [dict(r) for r in rows]
 
 
 async def delete_domain(domain_id: int) -> None:
-    async with await get_db() as db:
-        await db.execute("DELETE FROM domains WHERE id = ?", (domain_id,))
-        await db.commit()
+    async with aiosqlite.connect(DB_PATH) as conn:
+        await conn.execute("DELETE FROM domains WHERE id = ?", (domain_id,))
+        await conn.commit()
 
 
 async def domain_stats() -> dict:
-    async with await get_db() as db:
-        cur = await db.execute(
+    async with aiosqlite.connect(DB_PATH) as conn:
+        conn.row_factory = aiosqlite.Row
+        cur = await conn.execute(
             """
             SELECT
               COUNT(*) AS total,
@@ -133,28 +128,28 @@ async def update_domain(domain: str, **fields) -> None:
     fields["updated_at"] = _now()
     cols = ", ".join(f"{k} = ?" for k in fields)
     values = list(fields.values()) + [domain.lower()]
-    async with await get_db() as db:
-        await db.execute(f"UPDATE domains SET {cols} WHERE domain = ?", values)
-        await db.commit()
+    async with aiosqlite.connect(DB_PATH) as conn:
+        await conn.execute(f"UPDATE domains SET {cols} WHERE domain = ?", values)
+        await conn.commit()
 
 
 async def create_job(job_type: str, total: int = 0) -> int:
-    async with await get_db() as db:
-        cur = await db.execute(
+    async with aiosqlite.connect(DB_PATH) as conn:
+        cur = await conn.execute(
             "INSERT INTO jobs (job_type, status, total, started_at) VALUES (?, 'running', ?, ?)",
             (job_type, total, _now()),
         )
-        await db.commit()
+        await conn.commit()
         return cur.lastrowid
 
 
 async def append_job_log(job_id: int, message: str, level: str = "info") -> None:
-    async with await get_db() as db:
-        await db.execute(
+    async with aiosqlite.connect(DB_PATH) as conn:
+        await conn.execute(
             "INSERT INTO job_logs (job_id, level, message, created_at) VALUES (?, ?, ?, ?)",
             (job_id, level, message, _now()),
         )
-        await db.commit()
+        await conn.commit()
 
 
 async def finish_job(
@@ -164,8 +159,8 @@ async def finish_job(
     fail_count: int,
     message: str = "",
 ) -> None:
-    async with await get_db() as db:
-        await db.execute(
+    async with aiosqlite.connect(DB_PATH) as conn:
+        await conn.execute(
             """
             UPDATE jobs
             SET status = ?, success_count = ?, fail_count = ?, message = ?, finished_at = ?
@@ -173,12 +168,13 @@ async def finish_job(
             """,
             (status, success_count, fail_count, message, _now(), job_id),
         )
-        await db.commit()
+        await conn.commit()
 
 
 async def list_jobs(limit: int = 20) -> list[dict]:
-    async with await get_db() as db:
-        cur = await db.execute(
+    async with aiosqlite.connect(DB_PATH) as conn:
+        conn.row_factory = aiosqlite.Row
+        cur = await conn.execute(
             "SELECT * FROM jobs ORDER BY id DESC LIMIT ?",
             (limit,),
         )
@@ -187,13 +183,14 @@ async def list_jobs(limit: int = 20) -> list[dict]:
 
 
 async def get_job(job_id: int) -> dict | None:
-    async with await get_db() as db:
-        cur = await db.execute("SELECT * FROM jobs WHERE id = ?", (job_id,))
+    async with aiosqlite.connect(DB_PATH) as conn:
+        conn.row_factory = aiosqlite.Row
+        cur = await conn.execute("SELECT * FROM jobs WHERE id = ?", (job_id,))
         row = await cur.fetchone()
         if not row:
             return None
         job = dict(row)
-        cur = await db.execute(
+        cur = await conn.execute(
             "SELECT * FROM job_logs WHERE job_id = ? ORDER BY id ASC",
             (job_id,),
         )
@@ -203,8 +200,9 @@ async def get_job(job_id: int) -> dict | None:
 
 
 async def get_running_job() -> dict | None:
-    async with await get_db() as db:
-        cur = await db.execute(
+    async with aiosqlite.connect(DB_PATH) as conn:
+        conn.row_factory = aiosqlite.Row
+        cur = await conn.execute(
             "SELECT * FROM jobs WHERE status = 'running' ORDER BY id DESC LIMIT 1"
         )
         row = await cur.fetchone()
