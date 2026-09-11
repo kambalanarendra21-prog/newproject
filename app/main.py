@@ -266,7 +266,8 @@ async def save_profile(
 ):
     user = current_user(request)
     try:
-        pwd = password.strip() or None
+        # Only the main/super account may change a password from Settings.
+        pwd = password.strip() or None if is_super(request) else None
         await db.update_user_profile(user["id"], display_name=display_name, password=pwd)
         # Keep session display name in sync
         request.session["user"]["display_name"] = display_name.strip()

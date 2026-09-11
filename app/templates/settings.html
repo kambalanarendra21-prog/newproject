@@ -14,13 +14,19 @@
 <section class="panel" style="margin-bottom:1.25rem">
   <div class="panel-head">
     <h2>Profile</h2>
+    {% if is_super %}
     <p>Update your display name and password for this account.</p>
+    {% else %}
+    <p>Update your display name. Only the main account can change passwords.</p>
+    {% endif %}
   </div>
   <form method="post" action="/settings/profile" class="stack" style="max-width:480px">
     <label for="display_name">Display name</label>
     <input id="display_name" name="display_name" type="text" required value="{{ user.display_name if user else '' }}" />
+    {% if is_super %}
     <label for="password">New password <span class="muted">(optional)</span></label>
     <input id="password" name="password" type="password" minlength="8" placeholder="Leave blank to keep current password" />
+    {% endif %}
     <button type="submit" class="primary">Save profile</button>
   </form>
 </section>
