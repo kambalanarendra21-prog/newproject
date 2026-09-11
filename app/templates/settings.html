@@ -11,34 +11,6 @@
 {% if message %}<p class="success banner">{{ message }}</p>{% endif %}
 {% if error %}<p class="error banner">{{ error }}</p>{% endif %}
 
-<section class="panel">
-  <div class="panel-head">
-    <h2>Admin profile</h2>
-    <p>This name appears on the login page and in the sidebar.</p>
-  </div>
-  <form method="post" action="/settings/admin-name" class="stack" style="max-width:420px">
-    <label for="admin_name">Admin name</label>
-    <input id="admin_name" name="admin_name" type="text" maxlength="60" required value="{{ admin_name }}" placeholder="Your name" />
-    <button type="submit" class="primary">Save admin name</button>
-  </form>
-</section>
-
-<section class="panel">
-  <div class="panel-head">
-    <h2>Admin password</h2>
-    <p>Change the dashboard login password. Also update <code>DASHBOARD_PASSWORD</code> in Render so it stays after redeploy.</p>
-  </div>
-  <form method="post" action="/settings/password" class="stack" style="max-width:420px">
-    <label for="current_password">Current password</label>
-    <input id="current_password" name="current_password" type="password" required />
-    <label for="new_password">New password</label>
-    <input id="new_password" name="new_password" type="password" minlength="8" required />
-    <label for="confirm_password">Confirm new password</label>
-    <input id="confirm_password" name="confirm_password" type="password" minlength="8" required />
-    <button type="submit" class="primary">Update password</button>
-  </form>
-</section>
-
 <section class="two-col">
   <div class="panel">
     <div class="panel-head">
