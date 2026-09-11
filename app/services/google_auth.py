@@ -8,6 +8,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 
 from ..config import get_settings
+from . import user_secrets
 
 SITE_SCOPES = ["https://www.googleapis.com/auth/siteverification"]
 POSTMASTER_SCOPES = [
@@ -17,27 +18,26 @@ POSTMASTER_SCOPES = [
 ]
 
 
-def credentials_file_exists() -> bool:
-    return Path(get_settings().google_credentials_file).exists()
-
-
-def token_path(kind: str) -> Path:
-    settings = get_settings()
-    if kind == "postmaster":
-        return Path(settings.google_postmaster_token_file)
-    return Path(settings.google_token_file)
-
-
-def token_exists(kind: str) -> bool:
-    return token_path(kind).exists()
-
-
 def _scopes(kind: str) -> list[str]:
     return POSTMASTER_SCOPES if kind == "postmaster" else SITE_SCOPES
 
 
-def load_credentials(kind: str = "site") -> Credentials:
-    path = token_path(kind)
+def credentials_file_exists(user_id: int) -> bool:
+    user_secrets.migrate_legacy_secrets_for_user(user_id)
+    return user_secrets.google_credentials_path(user_id).exists()
+
+
+def token_path(user_id: int, kind: str) -> Path:
+    user_secrets.migrate_legacy_secrets_for_user(user_id)
+    return user_secrets.google_token_path(user_id, kind)
+
+
+def token_exists(user_id: int, kind: str) -> bool:
+    return token_path(user_id, kind).exists()
+
+
+def load_credentials(user_id: int, kind: str = "site") -> Credentials:
+    path = token_path(user_id, kind)
     if not path.exists():
         raise RuntimeError(
             f"Google {kind} token missing. Complete OAuth from Settings first."
@@ -51,9 +51,10 @@ def load_credentials(kind: str = "site") -> Credentials:
     return creds
 
 
-def build_flow(kind: str) -> Flow:
+def build_flow(user_id: int, kind: str) -> Flow:
     settings = get_settings()
-    creds_path = Path(settings.google_credentials_file)
+    creds_path = user_secrets.google_credentials_path(user_id)
+    user_secrets.migrate_legacy_secrets_for_user(user_id)
     if not creds_path.exists():
         raise RuntimeError("Upload Google OAuth credentials.json in Settings first.")
 
@@ -61,9 +62,7 @@ def build_flow(kind: str) -> Flow:
     raw = json.loads(creds_path.read_text(encoding="utf-8"))
     if "installed" in raw and "web" not in raw:
         data = {"web": raw["installed"]}
-        # Temporary normalized file for Flow
         normalized = creds_path.parent / f"credentials_{kind}_web.json"
-        # Ensure redirect URIs include our callback
         redirects = list(data["web"].get("redirect_uris") or [])
         callback = f"{settings.public_base_url.rstrip('/')}/oauth/callback"
         if callback not in redirects:
@@ -79,16 +78,15 @@ def build_flow(kind: str) -> Flow:
         client_config_path = str(creds_path)
 
     redirect_uri = f"{settings.public_base_url.rstrip('/')}/oauth/callback"
-    flow = Flow.from_client_secrets_file(
+    return Flow.from_client_secrets_file(
         client_config_path,
         scopes=_scopes(kind),
         redirect_uri=redirect_uri,
     )
-    return flow
 
 
-def authorization_url(kind: str, state: str) -> str:
-    flow = build_flow(kind)
+def authorization_url(user_id: int, kind: str, state: str) -> str:
+    flow = build_flow(user_id, kind)
     url, _ = flow.authorization_url(
         access_type="offline",
         include_granted_scopes="true",
@@ -98,20 +96,18 @@ def authorization_url(kind: str, state: str) -> str:
     return url
 
 
-def exchange_code(kind: str, code: str) -> None:
-    flow = build_flow(kind)
+def exchange_code(user_id: int, kind: str, code: str) -> None:
+    flow = build_flow(user_id, kind)
     flow.fetch_token(code=code)
     creds = flow.credentials
-    path = token_path(kind)
+    path = token_path(user_id, kind)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(creds.to_json(), encoding="utf-8")
 
 
-def save_uploaded_credentials(content: bytes) -> None:
-    settings = get_settings()
-    path = Path(settings.google_credentials_file)
+def save_uploaded_credentials(user_id: int, content: bytes) -> None:
+    path = user_secrets.google_credentials_path(user_id)
     path.parent.mkdir(parents=True, exist_ok=True)
-    # Validate JSON shape
     data = json.loads(content.decode("utf-8"))
     if "installed" not in data and "web" not in data:
         raise ValueError("Invalid credentials.json: expected 'installed' or 'web' key")

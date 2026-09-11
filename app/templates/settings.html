@@ -4,18 +4,32 @@
 <header class="page-header">
   <div>
     <h1>Settings</h1>
-    <p>Store API credentials on the server. Never commit secrets to git.</p>
+    <p>These credentials belong to your account only. Other users cannot see or use them.</p>
   </div>
 </header>
 
 {% if message %}<p class="success banner">{{ message }}</p>{% endif %}
 {% if error %}<p class="error banner">{{ error }}</p>{% endif %}
 
+<section class="panel" style="margin-bottom:1.25rem">
+  <div class="panel-head">
+    <h2>Profile</h2>
+    <p>Update your display name and password for this account.</p>
+  </div>
+  <form method="post" action="/settings/profile" class="stack" style="max-width:480px">
+    <label for="display_name">Display name</label>
+    <input id="display_name" name="display_name" type="text" required value="{{ user.display_name if user else '' }}" />
+    <label for="password">New password <span class="muted">(optional)</span></label>
+    <input id="password" name="password" type="password" minlength="8" placeholder="Leave blank to keep current password" />
+    <button type="submit" class="primary">Save profile</button>
+  </form>
+</section>
+
 <section class="two-col">
   <div class="panel">
     <div class="panel-head">
       <h2>Cloudflare</h2>
-      <p>API token with Zone DNS Edit permission.</p>
+      <p>Your personal API token with Zone DNS Edit permission.</p>
     </div>
     <ul class="checklist">
       <li class="{% if creds.cloudflare %}ok{% else %}bad{% endif %}">Token {% if creds.cloudflare %}configured{% else %}missing{% endif %}</li>
@@ -30,7 +44,7 @@
   <div class="panel">
     <div class="panel-head">
       <h2>Google OAuth</h2>
-      <p>Upload OAuth client JSON, then authorize each API.</p>
+      <p>Upload your OAuth client JSON, then authorize each API for this account.</p>
     </div>
     <ul class="checklist">
       <li class="{% if creds.google_credentials %}ok{% else %}bad{% endif %}">credentials.json</li>

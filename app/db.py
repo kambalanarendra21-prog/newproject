@@ -206,6 +206,30 @@ async def set_user_active(user_id: int, is_active: bool) -> None:
         await conn.commit()
 
 
+
+async def update_user_profile(user_id: int, display_name: str | None = None, password: str | None = None) -> None:
+    """Allow a logged-in user to update their own display name and/or password."""
+    if display_name is None and password is None:
+        return
+    async with aiosqlite.connect(DB_PATH) as conn:
+        if display_name is not None:
+            name = display_name.strip()
+            if not name:
+                raise ValueError("Display name cannot be empty")
+            await conn.execute(
+                "UPDATE users SET display_name = ? WHERE id = ?",
+                (name, user_id),
+            )
+        if password is not None:
+            if len(password) < 8:
+                raise ValueError("Password must be at least 8 characters")
+            await conn.execute(
+                "UPDATE users SET password_hash = ? WHERE id = ?",
+                (hash_password(password), user_id),
+            )
+        await conn.commit()
+
+
 async def reset_user_password(user_id: int, password: str) -> None:
     async with aiosqlite.connect(DB_PATH) as conn:
         await conn.execute(

@@ -137,16 +137,8 @@ async def dashboard(request: Request):
     scope = owner_scope(request)
     stats = await db.domain_stats(owner_id=scope)
     recent_jobs = await db.list_jobs(8, user_id=None if is_super(request) else current_user(request)["id"])
-    creds = await jobs.credential_status() if is_super(request) else {
-        "cloudflare": False,
-        "google_credentials": False,
-        "google_site_token": False,
-        "google_postmaster_token": False,
-        "public_base_url": get_settings().public_base_url,
-    }
-    # Sub users can still run jobs using shared server credentials configured by super
-    if not is_super(request):
-        creds = await jobs.credential_status()
+    user = current_user(request)
+    creds = await jobs.credential_status(user["id"])
     running = await db.get_running_job()
     return templates.TemplateResponse(
         "dashboard.html",
@@ -251,9 +243,10 @@ async def run_job(request: Request, job_type: str):
         return RedirectResponse(f"/jobs?error={str(exc)[:120]}", status_code=303)
 
 
-@app.get("/settings", response_class=HTMLResponse, dependencies=[Depends(require_super)])
+@app.get("/settings", response_class=HTMLResponse, dependencies=[Depends(require_login)])
 async def settings_page(request: Request):
-    creds = await jobs.credential_status()
+    user = current_user(request)
+    creds = await jobs.credential_status(user["id"])
     return templates.TemplateResponse(
         "settings.html",
         _ctx(
@@ -265,49 +258,54 @@ async def settings_page(request: Request):
     )
 
 
-def _upsert_runtime_env(key: str, value: str) -> None:
-    import os
+@app.post("/settings/profile", dependencies=[Depends(require_login)])
+async def save_profile(
+    request: Request,
+    display_name: str = Form(...),
+    password: str = Form(""),
+):
+    user = current_user(request)
+    try:
+        pwd = password.strip() or None
+        await db.update_user_profile(user["id"], display_name=display_name, password=pwd)
+        # Keep session display name in sync
+        request.session["user"]["display_name"] = display_name.strip()
+    except Exception as exc:  # noqa: BLE001
+        return RedirectResponse(f"/settings?error={str(exc)[:120]}", status_code=303)
+    return RedirectResponse("/settings?msg=Profile+updated", status_code=303)
 
-    secrets_env = DATA_DIR / "secrets" / "runtime.env"
-    secrets_env.parent.mkdir(parents=True, exist_ok=True)
-    lines: list[str] = []
-    if secrets_env.exists():
-        lines = [
-            ln
-            for ln in secrets_env.read_text(encoding="utf-8").splitlines()
-            if not ln.startswith(f"{key}=")
-        ]
-    lines.append(f"{key}={value}")
-    secrets_env.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    os.environ[key] = value
-    get_settings.cache_clear()
 
+@app.post("/settings/cloudflare", dependencies=[Depends(require_login)])
+async def save_cloudflare(request: Request, token: str = Form(...)):
+    from .services import user_secrets
 
-@app.post("/settings/cloudflare", dependencies=[Depends(require_super)])
-async def save_cloudflare(token: str = Form(...)):
-    _upsert_runtime_env("CLOUDFLARE_API_TOKEN", token.strip())
+    user = current_user(request)
+    user_secrets.write_cloudflare_token(user["id"], token.strip())
     return RedirectResponse("/settings?msg=Cloudflare+token+saved", status_code=303)
 
 
-@app.post("/settings/credentials", dependencies=[Depends(require_super)])
-async def upload_credentials(file: UploadFile = File(...)):
+@app.post("/settings/credentials", dependencies=[Depends(require_login)])
+async def upload_credentials(request: Request, file: UploadFile = File(...)):
+    user = current_user(request)
     try:
         content = await file.read()
-        google_auth.save_uploaded_credentials(content)
+        google_auth.save_uploaded_credentials(user["id"], content)
         return RedirectResponse("/settings?msg=Google+credentials+uploaded", status_code=303)
     except Exception as exc:  # noqa: BLE001
         return RedirectResponse(f"/settings?error={str(exc)[:120]}", status_code=303)
 
 
-@app.get("/oauth/start/{kind}", dependencies=[Depends(require_super)])
+@app.get("/oauth/start/{kind}", dependencies=[Depends(require_login)])
 async def oauth_start(request: Request, kind: str):
     if kind not in ("site", "postmaster"):
         return RedirectResponse("/settings?error=Invalid+OAuth+kind", status_code=303)
+    user = current_user(request)
     state = secrets.token_urlsafe(24)
     request.session["oauth_state"] = state
     request.session["oauth_kind"] = kind
+    request.session["oauth_user_id"] = user["id"]
     try:
-        url = google_auth.authorization_url(kind, state)
+        url = google_auth.authorization_url(user["id"], kind, state)
         return RedirectResponse(url, status_code=303)
     except Exception as exc:  # noqa: BLE001
         return RedirectResponse(f"/settings?error={str(exc)[:160]}", status_code=303)
@@ -320,17 +318,22 @@ async def oauth_callback(
     state: str | None = None,
     error: str | None = None,
 ):
-    if not is_authenticated(request) or not is_super(request):
+    if not is_authenticated(request):
         return RedirectResponse("/login", status_code=303)
     if error:
         return RedirectResponse(f"/settings?error={error}", status_code=303)
     if not code or state != request.session.get("oauth_state"):
         return RedirectResponse("/settings?error=OAuth+state+mismatch", status_code=303)
     kind = request.session.get("oauth_kind", "site")
+    user = current_user(request)
+    oauth_user_id = int(request.session.get("oauth_user_id") or user["id"])
+    if oauth_user_id != user["id"]:
+        return RedirectResponse("/settings?error=OAuth+user+mismatch", status_code=303)
     try:
-        google_auth.exchange_code(kind, code)
+        google_auth.exchange_code(user["id"], kind, code)
         request.session.pop("oauth_state", None)
         request.session.pop("oauth_kind", None)
+        request.session.pop("oauth_user_id", None)
         return RedirectResponse(f"/settings?msg=Google+{kind}+authorized", status_code=303)
     except Exception as exc:  # noqa: BLE001
         return RedirectResponse(f"/settings?error={str(exc)[:160]}", status_code=303)

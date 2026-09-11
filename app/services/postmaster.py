@@ -6,13 +6,13 @@ from googleapiclient.errors import HttpError
 from . import google_auth
 
 
-def build_service():
-    creds = google_auth.load_credentials("postmaster")
+def build_service(user_id: int):
+    creds = google_auth.load_credentials(user_id, "postmaster")
     return build("gmailpostmastertools", "v2", credentials=creds, cache_discovery=False)
 
 
-def list_domains() -> list[str]:
-    service = build_service()
+def list_domains(user_id: int) -> list[str]:
+    service = build_service(user_id)
     domains: list[str] = []
     page_token = None
     while True:
@@ -28,8 +28,8 @@ def list_domains() -> list[str]:
     return domains
 
 
-def register_domain(domain: str) -> str:
-    service = build_service()
+def register_domain(user_id: int, domain: str) -> str:
+    service = build_service(user_id)
     try:
         service.domains().create(body={"name": f"domains/{domain}"}).execute()
         return "created"
@@ -39,6 +39,6 @@ def register_domain(domain: str) -> str:
         raise
 
 
-def verify_domain(domain: str) -> None:
-    service = build_service()
+def verify_domain(user_id: int, domain: str) -> None:
+    service = build_service(user_id)
     service.domains().verify(name=f"domains/{domain}").execute()
