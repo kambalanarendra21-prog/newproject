@@ -7,15 +7,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/styles.css?v=nologo10" />
+  <link rel="stylesheet" href="/static/styles.css?v=infoscience11" />
 </head>
 <body>
   {% if authed %}
   <div class="shell">
     <aside class="sidebar">
       <div class="brand">
-        <span class="brand-mark">FC</span>
-        <div>
+        <img class="info-science-logo sidebar-logo" src="/static/img/info-science-logo.png" alt="INFO SCIENCE" />
+        <div class="brand-copy">
           <strong>FinCoverTech</strong>
           <small>Postmaster Desk</small>
         </div>
@@ -44,6 +44,6 @@
   {% else %}
     {% block body %}{% endblock %}
   {% endif %}
-  <script src="/static/app.js?v=nologo10"></script>
+  <script src="/static/app.js?v=infoscience11"></script>
 </body>
 </html>
