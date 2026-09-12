@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>DriveMoro | Auto Loan Financing</title>
+<meta name="description" content="Move forward with auto financing built around you. Soft credit check. Fast decisions. Apply with DriveMoro."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --primary:#0F766E;
+  --accent:#F59E0B;
+  --bg:#F0FDFA;
+  --text:#134E4A;
+  --muted:#5F7A76;
+  --font-display:"Outfit", system-ui, sans-serif;
+  --font-body:"Source Sans 3", system-ui, sans-serif;
+  --radius:14px;
+  --shadow:0 18px 40px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.55}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{width:min(1120px,calc(100% - 2rem));margin-inline:auto}
+.site-header{position:fixed;inset:0 0 auto;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 86%,transparent);border-bottom:1px solid color-mix(in srgb,var(--primary) 10%,transparent)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 0}
+.brand{display:flex;align-items:center;gap:.7rem;font-family:var(--font-display);font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+.brand-mark{width:44px;height:36px;clip-path:polygon(12% 0,100% 0,88% 100%,0 100%);background:var(--accent);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;color:#111;font-size:1rem}
+.nav-links{display:flex;gap:1.25rem;align-items:center;font-weight:600;font-size:.95rem}
+.nav-links a{opacity:.85}
+.nav-links a:hover{opacity:1;color:var(--primary)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;padding:.85rem 1.25rem;border-radius:999px;border:2px solid transparent;font-weight:700;cursor:pointer;transition:.2s ease;font-family:var(--font-body)}
+.btn-primary{background:var(--accent);color:#111;box-shadow:0 10px 24px color-mix(in srgb,var(--accent) 35%,transparent)}
+.btn-primary:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.btn-secondary{background:transparent;border-color:color-mix(in srgb,var(--primary) 35%,transparent);color:var(--text)}
+.btn-secondary:hover{border-color:var(--primary)}
+.cta-row{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:inherit}
+
+.hero{min-height:88vh;display:grid;place-items:center;text-align:center;padding:7.5rem 1.25rem 4rem;position:relative;overflow:hidden;
+ background:
+  radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
+  linear-gradient(180deg, var(--bg), #fff 55%)}
+.hero-inner{max-width:760px;margin:0 auto;position:relative;z-index:1}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.6rem,6vw,4.2rem);line-height:1.02;margin:0 0 1rem;letter-spacing:-.035em;color:var(--text)}
+.hero p{font-size:1.12rem;color:var(--muted);max-width:36rem;margin:0 auto 1.75rem}
+.hero-visual{display:none}
+@media(max-width:700px){.hero{min-height:auto;padding-top:6.5rem}}
+
+.section{padding:4.5rem 0}
+.section h2{font-family:var(--font-display);font-size:clamp(1.7rem,3vw,2.35rem);margin:0 0 .75rem;letter-spacing:-.02em}
+.section .lead{color:var(--muted);max-width:40rem;margin:0 0 2rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.feature{padding:1.35rem;border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);border:1px solid color-mix(in srgb,var(--primary) 8%,transparent)}
+.feature h3{margin:0 0 .4rem;font-family:var(--font-display);font-size:1.15rem}
+.feature p{margin:0;color:var(--muted);font-size:.98rem}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.step{padding:1.2rem;border-radius:var(--radius);background:color-mix(in srgb,var(--primary) 6%,#fff);border:1px solid color-mix(in srgb,var(--primary) 10%,transparent)}
+.step strong{display:block;font-family:var(--font-display);font-size:1.6rem;color:var(--accent);margin-bottom:.35rem}
+.panel{display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;align-items:center;background:#fff;border-radius:1.25rem;padding:2rem;box-shadow:var(--shadow)}
+.panel ul{margin:1rem 0 0;padding:0;list-style:none}
+.panel li{padding:.45rem 0 .45rem 1.4rem;position:relative;color:var(--muted)}
+.panel li::before{content:"";position:absolute;left:0;top:.85rem;width:.55rem;height:.55rem;border-radius:50%;background:var(--accent)}
+.form-card{background:linear-gradient(160deg,var(--primary),color-mix(in srgb,var(--primary) 70%,#000));color:#fff;border-radius:1.25rem;padding:1.75rem}
+.form-card h3{margin:0 0 .35rem;font-family:var(--font-display)}
+.form-card p{margin:0 0 1rem;opacity:.85}
+.form-card label{display:block;font-size:.85rem;margin:.65rem 0 .25rem;opacity:.9}
+.form-card input,.form-card select{width:100%;padding:.75rem .85rem;border-radius:10px;border:0;font:inherit}
+.form-card .btn{width:100%;margin-top:1rem;justify-content:center}
+.faq details{background:#fff;border-radius:12px;padding:1rem 1.1rem;margin-bottom:.7rem;border:1px solid color-mix(in srgb,var(--primary) 10%,transparent)}
+.faq summary{cursor:pointer;font-weight:700;font-family:var(--font-display)}
+.faq p{margin:.65rem 0 0;color:var(--muted)}
+.site-footer{background:#0b1220;color:rgba(255,255,255,.86);padding:3rem 0 2rem;margin-top:2rem}
+.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2rem}
+.site-footer a{color:#fff;opacity:.85}
+.site-footer a:hover{opacity:1}
+.legal{margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.12);font-size:.85rem;opacity:.7}
+@media(max-width:900px){
+  .nav-links{display:none}
+  .grid-3,.steps,.panel,.footer-grid{grid-template-columns:1fr}
+  .cta-row{justify-content:center}
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="brand-mark">D</span><span>DriveMoro</span></a>
+    <nav class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#rates">Rates</a>
+      <a href="#faq">FAQ</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn btn-primary" href="#apply">Apply now</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class='hero-inner'>
+      <h1>Move forward with auto financing built around you.</h1>
+      <p>Compare personalized auto loan options with a soft credit inquiry. DriveMoro helps you move from quote to keys with clear terms and responsive support.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#apply">Check your rate</a>
+        <a class="btn btn-secondary" href="#how">See how it works</a>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="section" id="why">
+    <div class="wrap">
+      <h2>Why drivers choose DriveMoro</h2>
+      <p class="lead">Straightforward auto financing designed for clarity — whether you are buying new, used, or refinancing an existing loan.</p>
+      <div class="grid-3">
+        <article class="feature"><h3>Soft credit check</h3><p>See personalized options without a hard pull that affects your score.</p></article>
+        <article class="feature"><h3>Fast decisions</h3><p>Most applicants receive guidance quickly so you can keep shopping momentum.</p></article>
+        <article class="feature"><h3>Clear terms</h3><p>APR, payment, and timeline shown up front — no mystery fees in the fine print.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" style="background:color-mix(in srgb,var(--primary) 4%,transparent)">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="lead">Four simple steps from application to approval path.</p>
+      <div class="steps">
+        <div class="step"><strong>01</strong>Tell us about the vehicle and your budget.</div>
+        <div class="step"><strong>02</strong>Share basic income and credit profile details.</div>
+        <div class="step"><strong>03</strong>Review matched loan options and estimated payments.</div>
+        <div class="step"><strong>04</strong>Choose a path and connect with a specialist if needed.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="rates">
+    <div class="wrap">
+      <div class="panel">
+        <div>
+          <h2>Rates that fit the road you are on</h2>
+          <p class="lead" style="margin-bottom:0">Your offer depends on credit, down payment, term length, and vehicle details. DriveMoro surfaces options so you can compare before you commit.</p>
+          <ul>
+            <li>New and used vehicle financing</li>
+            <li>Refinance existing auto loans</li>
+            <li>Flexible terms from short to long</li>
+            <li>Support for a wide credit spectrum</li>
+          </ul>
+        </div>
+        <div class="form-card" id="apply">
+          <h3>Start your application</h3>
+          <p>It takes a few minutes. No obligation.</p>
+          <form action="thank-you.html" method="get">
+            <label>Full name</label>
+            <input name="name" required placeholder="Alex Driver"/>
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="you@email.com"/>
+            <label>Phone</label>
+            <input name="phone" required placeholder="(555) 000-0000"/>
+            <label>Estimated credit</label>
+            <select name="credit" required>
+              <option value="">Select range</option>
+              <option>Excellent (720+)</option>
+              <option>Good (680–719)</option>
+              <option>Fair (620–679)</option>
+              <option>Building (below 620)</option>
+            </select>
+            <button class="btn btn-primary" type="submit">See my options</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq" id="faq">
+    <div class="wrap">
+      <h2>Frequently asked questions</h2>
+      <details open><summary>Will checking my rate hurt my credit?</summary><p>Initial rate checks use a soft inquiry and should not impact your credit score. A hard inquiry may occur only if you proceed with a lender.</p></details>
+      <details><summary>What vehicles can I finance?</summary><p>Most applicants finance new or used cars, trucks, and SUVs that meet lender guidelines for age, mileage, and condition.</p></details>
+      <details><summary>How long does approval take?</summary><p>Many customers receive initial options within minutes. Final funding timelines vary by lender and documentation.</p></details>
+      <details><summary>Can I refinance my current auto loan?</summary><p>Yes. If you want a lower payment or better rate, refinance options may be available based on your profile and remaining balance.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <div class="brand" style="margin-bottom:.75rem"><span class="brand-mark">D</span><span>DriveMoro</span></div>
+      <p style="opacity:.8;max-width:28rem">Move forward with auto financing built around you. Licensed lending partners. Equal opportunity.</p>
+    </div>
+    <div>
+      <strong>Explore</strong>
+      <p><a href="about.html">About</a><br/><a href="rates.html">Rates</a><br/><a href="faq.html">FAQ</a><br/><a href="contact.html">Contact</a></p>
+    </div>
+    <div>
+      <strong>Contact</strong>
+      <p>1201 North Market Street, Suite 700, Wilmington, DE 19801<br/>(302) 555-0144<br/><a href="mailto:info@drivemoro.com">info@drivemoro.com</a></p>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <p>© 2026 DriveMoro. All rights reserved. drivemoro.com</p>
+    <p>This website does not constitute an offer of credit. Loan approval, rates, and terms are subject to creditworthiness and lender underwriting. NMLS information available upon request where required.</p>
+  </div>
+</footer>
+</body>
+</html>
