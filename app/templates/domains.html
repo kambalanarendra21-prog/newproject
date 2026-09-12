@@ -11,7 +11,7 @@
 <section class="panel">
   <div class="panel-head">
     <h2>Add domains</h2>
-    <p>Paste one domain per line (or comma-separated).</p>
+    <p>Paste one domain per line (or comma-separated). Jobs later skip domains that already have tokens, DNS, or verification.</p>
   </div>
   <form method="post" action="/domains/add" class="stack">
     <textarea name="domains_text" rows="4" placeholder="example.com&#10;another-domain.com" required></textarea>

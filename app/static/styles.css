@@ -292,6 +292,10 @@ button.danger { color: var(--danger); border-color: rgba(225, 29, 72, 0.3); }
 .status.running { background: rgba(234, 88, 12, 0.14); color: var(--warn); }
 .status.completed { background: rgba(5, 150, 105, 0.14); color: var(--ok); }
 .status.failed { background: rgba(225, 29, 72, 0.12); color: var(--danger); }
+.status.cancelling { background: rgba(234, 88, 12, 0.14); color: var(--warn); }
+.status.cancelled { background: rgba(100, 116, 139, 0.16); color: #475569; }
+
+.running-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
 
 .pill {
   display: inline-flex; align-items: center;

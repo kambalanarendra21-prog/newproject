@@ -236,19 +236,21 @@ async def run_job(request: Request, job_type: str):
     scope = owner_scope(request)
     try:
         domains = await db.list_domains(owner_id=scope)
-        total = len(domains)
-        if job_type == "cloudflare_txt":
-            total = sum(
-                1
-                for d in domains
-                if d.get("txt_record") and not str(d["txt_record"]).startswith("ERROR")
-            )
-        if job_type == "register_postmaster":
-            total = sum(1 for d in domains if not d["postmaster_registered"])
+        total = len(jobs.pending_domains(job_type, domains))
         job_id = await jobs.start_job(job_type, runner, total=total, user_id=user["id"])
         return RedirectResponse(f"/jobs/{job_id}", status_code=303)
     except Exception as exc:  # noqa: BLE001
         return RedirectResponse(f"/jobs?error={str(exc)[:120]}", status_code=303)
+
+
+@app.post("/jobs/{job_id}/stop", dependencies=[Depends(require_login)])
+async def stop_job(request: Request, job_id: int):
+    user = current_user(request)
+    try:
+        await jobs.request_stop(job_id, user["id"], is_super_user=is_super(request))
+    except Exception as exc:  # noqa: BLE001
+        return RedirectResponse(f"/jobs/{job_id}?error={str(exc)[:120]}", status_code=303)
+    return RedirectResponse(f"/jobs/{job_id}", status_code=303)
 
 
 @app.get("/settings", response_class=HTMLResponse, dependencies=[Depends(require_login)])

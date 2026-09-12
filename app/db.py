@@ -433,6 +433,16 @@ async def append_job_log(job_id: int, message: str, level: str = "info") -> None
         await conn.commit()
 
 
+async def mark_job_cancelling(job_id: int) -> bool:
+    async with aiosqlite.connect(DB_PATH) as conn:
+        cur = await conn.execute(
+            "UPDATE jobs SET status = 'cancelling' WHERE id = ? AND status = 'running'",
+            (job_id,),
+        )
+        await conn.commit()
+        return cur.rowcount > 0
+
+
 async def finish_job(
     job_id: int,
     status: str,
@@ -489,11 +499,19 @@ async def get_running_job(user_id: int | None = None) -> dict | None:
         conn.row_factory = aiosqlite.Row
         if user_id is None:
             cur = await conn.execute(
-                "SELECT * FROM jobs WHERE status = 'running' ORDER BY id DESC LIMIT 1"
+                """
+                SELECT * FROM jobs
+                WHERE status IN ('running', 'cancelling')
+                ORDER BY id DESC LIMIT 1
+                """
             )
         else:
             cur = await conn.execute(
-                "SELECT * FROM jobs WHERE status = 'running' AND user_id = ? ORDER BY id DESC LIMIT 1",
+                """
+                SELECT * FROM jobs
+                WHERE status IN ('running', 'cancelling') AND user_id = ?
+                ORDER BY id DESC LIMIT 1
+                """,
                 (user_id,),
             )
         row = await cur.fetchone()

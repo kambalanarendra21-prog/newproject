@@ -7,7 +7,16 @@
     <p>Automation runs and their outcomes.</p>
   </div>
   {% if running %}
-  <a class="pill warn" href="/jobs/{{ running.id }}">Running: #{{ running.id }}</a>
+  <div class="running-actions">
+    <a class="pill warn" href="/jobs/{{ running.id }}">
+      {% if running.status == 'cancelling' %}Stopping{% else %}Running{% endif %}: #{{ running.id }}
+    </a>
+    {% if running.status != 'cancelling' %}
+    <form method="post" action="/jobs/{{ running.id }}/stop">
+      <button type="submit" class="danger">Stop</button>
+    </form>
+    {% endif %}
+  </div>
   {% endif %}
 </header>
 
@@ -16,13 +25,16 @@
 {% endif %}
 
 <section class="panel">
-  <div class="panel-head"><h2>Start a job</h2></div>
+  <div class="panel-head">
+    <h2>Start a job</h2>
+    <p>Each job skips domains that already finished that step. Only new or failed domains are processed.</p>
+  </div>
   <div class="action-grid">
-    <form method="post" action="/jobs/run/fetch_tokens"><button type="submit">Fetch TXT tokens</button></form>
-    <form method="post" action="/jobs/run/cloudflare_txt"><button type="submit">Add Cloudflare TXT</button></form>
-    <form method="post" action="/jobs/run/verify_sites"><button type="submit">Verify with Google</button></form>
-    <form method="post" action="/jobs/run/sync_postmaster"><button type="submit">Sync Postmaster</button></form>
-    <form method="post" action="/jobs/run/register_postmaster"><button type="submit" class="primary">Register missing</button></form>
+    <form method="post" action="/jobs/run/fetch_tokens"><button type="submit" {% if running %}disabled{% endif %}>Fetch TXT tokens</button></form>
+    <form method="post" action="/jobs/run/cloudflare_txt"><button type="submit" {% if running %}disabled{% endif %}>Add Cloudflare TXT</button></form>
+    <form method="post" action="/jobs/run/verify_sites"><button type="submit" {% if running %}disabled{% endif %}>Verify with Google</button></form>
+    <form method="post" action="/jobs/run/sync_postmaster"><button type="submit" {% if running %}disabled{% endif %}>Sync Postmaster</button></form>
+    <form method="post" action="/jobs/run/register_postmaster"><button type="submit" class="primary" {% if running %}disabled{% endif %}>Register missing</button></form>
   </div>
 </section>
 
