@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "vaultifypro",
+    "name": "Vaultify Pro",
+    "domain": "vaultifypro.com",
+    "theme": "dawn",
+    "tagline": "A single request, reviewed by independent lenders."
+  },
+  {
+    "slug": "trustpathlending",
+    "name": "Trust Path Lending",
+    "domain": "trustpathlending.com",
+    "theme": "harbor",
+    "tagline": "Ask once. Compare only what a lender actually offers."
+  },
+  {
+    "slug": "lifepulsea",
+    "name": "Life Pulse A",
+    "domain": "lifepulsea.com",
+    "theme": "grove",
+    "tagline": "Short-term help starts with one honest request."
+  },
+  {
+    "slug": "lendcrestfield",
+    "name": "Lend Crest Field",
+    "domain": "lendcrestfield.com",
+    "theme": "harbor",
+    "tagline": "Put your request in front of lenders who serve your state."
+  },
+  {
+    "slug": "lendbrightway",
+    "name": "Lend Brightway",
+    "domain": "lendbrightway.com",
+    "theme": "dawn",
+    "tagline": "Request $100–$5,000 without touring a dozen lender sites."
+  },
+  {
+    "slug": "lendbrancher",
+    "name": "Lend Brancher",
+    "domain": "lendbrancher.com",
+    "theme": "grove",
+    "tagline": "One form. The lender you choose sets every term."
+  },
+  {
+    "slug": "capitalbridgeusa",
+    "name": "Capital Bridge USA",
+    "domain": "capitalbridgeusa.com",
+    "theme": "harbor",
+    "tagline": "A U.S. referral desk for short-term personal loan requests."
+  },
+  {
+    "slug": "fineasehub",
+    "name": "FinEase Hub",
+    "domain": "fineasehub.com",
+    "theme": "dawn",
+    "tagline": "Start a request. Walk away if nothing fits."
+  },
+  {
+    "slug": "fundoralane",
+    "name": "Fundora Lane",
+    "domain": "fundoralane.com",
+    "theme": "harbor",
+    "tagline": "Your request, their offer — you decide whether to continue."
+  },
+  {
+    "slug": "lendinggrove",
+    "name": "Lending Grove",
+    "domain": "lendinggrove.com",
+    "theme": "grove",
+    "tagline": "A quieter way to ask for a short-term personal loan."
+  },
+  {
+    "slug": "fundpinegrove",
+    "name": "Fund Pine Grove",
+    "domain": "fundpinegrove.com",
+    "theme": "grove",
+    "tagline": "Send one request. Review real terms before you agree."
+  },
+  {
+    "slug": "lendinganchor",
+    "name": "Lending Anchor",
+    "domain": "lendinganchor.com",
+    "theme": "dawn",
+    "tagline": "Stay in control from the first question to the last offer."
+  }
+]

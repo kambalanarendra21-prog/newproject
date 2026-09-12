@@ -1,0 +1,59 @@
+:root {
+  --bg: #f3f6fb;
+  --ink: #0f172a;
+  --muted: #475569;
+  --card: #ffffff;
+  --line: #d7e0ee;
+  --accent: #1d4ed8;
+  --accent-ink: #eff6ff;
+  --chip: #dbeafe;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+}
+a { color: var(--accent); }
+.top, .foot, main { width: min(1080px, calc(100% - 2rem)); margin: 0 auto; }
+.top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.2rem 0;
+}
+.mark { font-weight: 700; text-decoration: none; color: var(--ink); font-size: 1.15rem; }
+nav { display: flex; gap: 1rem; font-family: system-ui, sans-serif; font-size: 0.92rem; }
+.hero, .panel, .legal {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.6rem;
+  margin: 0 0 1.2rem;
+}
+.eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; color: var(--muted); font-family: system-ui, sans-serif; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; margin: 0.35rem 0 0.8rem; }
+h2 { margin-top: 0; }
+.lede { font-size: 1.08rem; color: var(--muted); max-width: 40rem; }
+.ask { display: grid; gap: 0.75rem; margin: 1.3rem 0; max-width: 28rem; }
+.ask label { display: grid; gap: 0.3rem; font-family: system-ui, sans-serif; font-size: 0.9rem; font-weight: 700; }
+.ask input, .ask button, .button {
+  font: inherit; padding: 0.7rem 0.8rem; border-radius: 12px; border: 1px solid var(--line);
+}
+.ask button, .button {
+  background: var(--accent); color: #fff; border: 0; font-family: system-ui, sans-serif; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block;
+}
+.fine { font-size: 0.82rem; color: var(--muted); font-family: system-ui, sans-serif; }
+.chips, .reasons, .steps { padding-left: 1.1rem; }
+.chips { display: flex; gap: 0.5rem; list-style: none; padding: 0; flex-wrap: wrap; }
+.chips li { background: var(--chip); padding: 0.35rem 0.7rem; border-radius: 999px; font-family: system-ui, sans-serif; font-size: 0.85rem; }
+.steps { display: grid; gap: 0.8rem; }
+.split { display: grid; gap: 1rem; }
+@media (min-width: 800px) { .split { grid-template-columns: 1.4fr 0.8fr; } }
+aside { background: var(--accent-ink); border-radius: 14px; padding: 1rem; }
+.faq dt { font-weight: 700; margin-top: 0.9rem; }
+.faq dd { margin: 0.25rem 0 0; color: var(--muted); }
+.legal p { max-width: 42rem; }
+.foot { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
+.foot a { margin-right: 0.8rem; }
