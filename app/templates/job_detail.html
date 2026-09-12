@@ -6,8 +6,20 @@
     <h1>Job #{{ job.id }}</h1>
     <p>{{ job.job_type }} · <span class="status {{ job.status }}">{{ job.status }}</span></p>
   </div>
-  <a href="/jobs" class="text-link">← All jobs</a>
+  <div class="running-actions">
+    {% if job.status in ('running', 'cancelling') %}
+    <form method="post" action="/jobs/{{ job.id }}/stop">
+      <button type="submit" class="danger" {% if job.status == 'cancelling' %}disabled{% endif %}>
+        {% if job.status == 'cancelling' %}Stopping…{% else %}Stop job{% endif %}
+      </button>
+    </form>
+    {% endif %}
+    <a href="/jobs" class="text-link">← All jobs</a>
+  </div>
 </header>
+{% if request.query_params.get('error') %}
+<p class="error banner">{{ request.query_params.get('error') }}</p>
+{% endif %}
 
 <section class="stat-grid tight">
   <div class="stat"><span>Total</span><strong>{{ job.total }}</strong></div>

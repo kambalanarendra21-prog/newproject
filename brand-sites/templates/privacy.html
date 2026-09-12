@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="legal">
+  <h1>Privacy</h1>
+  <p>{{ brand.name }} ({{ brand.domain }}) collects only what you type into the request form and ordinary server logs. It uses that information to forward a request to independent lenders and to operate the site.</p>
+  <p>This brand does not sell your form answers as a standalone list. Lenders who receive a request apply their own privacy practices once they contact you.</p>
+  <p>You can ask questions at <a href="mailto:info@{{ brand.domain }}">info@{{ brand.domain }}</a>.</p>
+</article>
+{% endblock %}

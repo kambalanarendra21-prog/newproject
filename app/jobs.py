@@ -1,15 +1,15 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Callable, Awaitable
+from typing import Awaitable, Callable
 
 from . import db
 from .config import get_settings
-from .services import cloudflare, google_auth, postmaster, site_verification
+from .services import cloudflare, google_auth, postmaster, site_verification, user_secrets
 
 JobRunner = Callable[[int], Awaitable[None]]
-
 _lock = asyncio.Lock()
+_cancel_ids: set[int] = set()
 
 
 async def _ensure_idle() -> None:
@@ -18,10 +18,15 @@ async def _ensure_idle() -> None:
         raise RuntimeError(f"Job #{running['id']} ({running['job_type']}) is already running")
 
 
-async def start_job(job_type: str, runner: JobRunner, total: int = 0) -> int:
+async def start_job(
+    job_type: str,
+    runner: JobRunner,
+    total: int = 0,
+    user_id: int | None = None,
+) -> int:
     async with _lock:
         await _ensure_idle()
-        job_id = await db.create_job(job_type, total=total)
+        job_id = await db.create_job(job_type, total=total, user_id=user_id)
 
     async def _wrap():
         try:
@@ -29,17 +34,110 @@ async def start_job(job_type: str, runner: JobRunner, total: int = 0) -> int:
         except Exception as exc:  # noqa: BLE001
             await db.append_job_log(job_id, f"Fatal: {exc}", level="error")
             await db.finish_job(job_id, "failed", 0, 1, str(exc))
+        finally:
+            _cancel_ids.discard(job_id)
 
     asyncio.create_task(_wrap())
     return job_id
 
 
+async def request_stop(job_id: int, user_id: int | None, *, is_super_user: bool) -> None:
+    job = await db.get_job(job_id)
+    if not job:
+        raise RuntimeError("Job not found")
+    if job["status"] not in ("running", "cancelling"):
+        raise RuntimeError("This job is not running")
+    if not is_super_user and job.get("user_id") != user_id:
+        raise RuntimeError("You cannot stop this job")
+    _cancel_ids.add(job_id)
+    if job["status"] == "running":
+        await db.mark_job_cancelling(job_id)
+        await db.append_job_log(
+            job_id,
+            "Stop requested. The current domain will finish, then the job will stop.",
+        )
+
+
+def has_valid_txt(row: dict) -> bool:
+    record = row.get("txt_record")
+    return bool(record) and not str(record).startswith("ERROR")
+
+
+def pending_domains(job_type: str, domains: list[dict]) -> list[dict]:
+    """Return only domains that still need this step."""
+    if job_type == "fetch_tokens":
+        return [row for row in domains if not has_valid_txt(row)]
+    if job_type == "cloudflare_txt":
+        return [row for row in domains if has_valid_txt(row) and not row.get("cloudflare_txt_added")]
+    if job_type == "verify_sites":
+        return [row for row in domains if not row.get("site_verified")]
+    if job_type == "register_postmaster":
+        return [row for row in domains if not row.get("postmaster_registered")]
+    return list(domains)
+
+
+async def _user_id_for_job(job_id: int) -> int:
+    job = await db.get_job(job_id)
+    if not job or not job.get("user_id"):
+        raise RuntimeError("Job has no owning user for credentials")
+    return int(job["user_id"])
+
+
+async def _scope_for_job(job_id: int) -> int | None:
+    job = await db.get_job(job_id)
+    if not job or not job.get("user_id"):
+        return None
+    user = await db.get_user(int(job["user_id"]))
+    if not user or user.get("role") == "super":
+        return None
+    return int(user["id"])
+
+
+async def _is_stop_requested(job_id: int) -> bool:
+    if job_id in _cancel_ids:
+        return True
+    job = await db.get_job(job_id)
+    if job and job["status"] == "cancelling":
+        _cancel_ids.add(job_id)
+        return True
+    return False
+
+
+async def _stop_if_requested(job_id: int, success: int, fail: int) -> bool:
+    if not await _is_stop_requested(job_id):
+        return False
+    await db.append_job_log(job_id, "Stopped by user")
+    await db.finish_job(job_id, "cancelled", success, fail, "Stopped by user")
+    return True
+
+
+async def _domains_for_job(job_id: int, job_type: str) -> list[dict]:
+    scope = await _scope_for_job(job_id)
+    all_rows = await db.list_domains(owner_id=scope)
+    pending = pending_domains(job_type, all_rows)
+    skipped = len(all_rows) - len(pending)
+    if skipped:
+        await db.append_job_log(
+            job_id,
+            f"Skipping {skipped} already completed domain(s); {len(pending)} new/pending remain",
+        )
+    return pending
+
+
 async def run_fetch_tokens(job_id: int) -> None:
-    domains = await db.list_domains()
-    await db.append_job_log(job_id, f"Fetching TXT tokens for {len(domains)} domains")
+    user_id = await _user_id_for_job(job_id)
+    domains = await _domains_for_job(job_id, "fetch_tokens")
+    await db.append_job_log(job_id, f"Fetching TXT tokens for {len(domains)} new/pending domains")
+    if await _stop_if_requested(job_id, 0, 0):
+        return
+    if not domains:
+        await db.finish_job(job_id, "completed", 0, 0, "No new domains need TXT tokens")
+        return
     success = fail = 0
-    service = site_verification.build_service()
+    service = site_verification.build_service(user_id)
     for i, row in enumerate(domains, 1):
+        if await _stop_if_requested(job_id, success, fail):
+            return
         domain = row["domain"]
         try:
             token = await asyncio.to_thread(site_verification.get_txt_token, service, domain)
@@ -55,19 +153,26 @@ async def run_fetch_tokens(job_id: int) -> None:
 
 
 async def run_cloudflare_txt(job_id: int) -> None:
-    settings = get_settings()
-    if not settings.cloudflare_api_token:
-        raise RuntimeError("CLOUDFLARE_API_TOKEN is not configured")
-    domains = [d for d in await db.list_domains() if d.get("txt_record") and not str(d["txt_record"]).startswith("ERROR")]
-    await db.append_job_log(job_id, f"Adding Cloudflare TXT for {len(domains)} domains")
+    user_id = await _user_id_for_job(job_id)
+    if not user_secrets.read_cloudflare_token(user_id):
+        raise RuntimeError("Cloudflare API token is not configured in your Settings")
+    domains = await _domains_for_job(job_id, "cloudflare_txt")
+    await db.append_job_log(job_id, f"Adding Cloudflare TXT for {len(domains)} new/pending domains")
+    if await _stop_if_requested(job_id, 0, 0):
+        return
+    if not domains:
+        await db.finish_job(job_id, "completed", 0, 0, "No new domains need Cloudflare TXT")
+        return
     success = fail = 0
     for i, row in enumerate(domains, 1):
+        if await _stop_if_requested(job_id, success, fail):
+            return
         domain = row["domain"]
         try:
-            zone_id = await cloudflare.get_zone_id(domain)
+            zone_id = await cloudflare.get_zone_id(user_id, domain)
             if not zone_id:
                 raise RuntimeError("Domain not found in this Cloudflare account")
-            ok = await cloudflare.create_txt_record(zone_id, row["txt_record"])
+            ok = await cloudflare.create_txt_record(user_id, zone_id, row["txt_record"])
             if not ok:
                 raise RuntimeError("Cloudflare API rejected TXT create")
             await db.update_domain(domain, cloudflare_txt_added=1, last_error=None)
@@ -82,11 +187,19 @@ async def run_cloudflare_txt(job_id: int) -> None:
 
 
 async def run_verify_sites(job_id: int) -> None:
-    domains = await db.list_domains()
-    await db.append_job_log(job_id, f"Verifying {len(domains)} domains with Google Site Verification")
+    user_id = await _user_id_for_job(job_id)
+    domains = await _domains_for_job(job_id, "verify_sites")
+    await db.append_job_log(job_id, f"Verifying {len(domains)} new/pending domains with Google")
+    if await _stop_if_requested(job_id, 0, 0):
+        return
+    if not domains:
+        await db.finish_job(job_id, "completed", 0, 0, "No new domains need site verification")
+        return
     success = fail = 0
-    service = site_verification.build_service()
+    service = site_verification.build_service(user_id)
     for i, row in enumerate(domains, 1):
+        if await _stop_if_requested(job_id, success, fail):
+            return
         domain = row["domain"]
         try:
             await asyncio.to_thread(site_verification.verify_domain, service, domain)
@@ -108,12 +221,20 @@ async def run_verify_sites(job_id: int) -> None:
 
 
 async def run_sync_postmaster(job_id: int) -> None:
+    user_id = await _user_id_for_job(job_id)
     await db.append_job_log(job_id, "Fetching domains from Google Postmaster Tools")
-    registered = await asyncio.to_thread(postmaster.list_domains)
+    if await _stop_if_requested(job_id, 0, 0):
+        return
+    registered = await asyncio.to_thread(postmaster.list_domains, user_id)
+    if await _stop_if_requested(job_id, 0, 0):
+        return
     registered_set = {d.lower() for d in registered}
-    domains = await db.list_domains()
+    scope = await _scope_for_job(job_id)
+    domains = await db.list_domains(owner_id=scope)
     success = 0
     for row in domains:
+        if await _stop_if_requested(job_id, success, 0):
+            return
         in_pm = 1 if row["domain"] in registered_set else 0
         await db.update_domain(row["domain"], postmaster_registered=in_pm)
         success += 1
@@ -126,13 +247,21 @@ async def run_sync_postmaster(job_id: int) -> None:
 
 
 async def run_register_postmaster(job_id: int) -> None:
-    domains = [d for d in await db.list_domains() if not d["postmaster_registered"]]
+    user_id = await _user_id_for_job(job_id)
+    domains = await _domains_for_job(job_id, "register_postmaster")
     await db.append_job_log(job_id, f"Registering {len(domains)} missing domains in Postmaster")
+    if await _stop_if_requested(job_id, 0, 0):
+        return
+    if not domains:
+        await db.finish_job(job_id, "completed", 0, 0, "No new domains need Postmaster registration")
+        return
     success = fail = skipped = 0
     for i, row in enumerate(domains, 1):
+        if await _stop_if_requested(job_id, success + skipped, fail):
+            return
         domain = row["domain"]
         try:
-            result = await asyncio.to_thread(postmaster.register_domain, domain)
+            result = await asyncio.to_thread(postmaster.register_domain, user_id, domain)
             if result == "exists":
                 skipped += 1
                 await db.update_domain(domain, postmaster_registered=1, last_error=None)
@@ -142,7 +271,7 @@ async def run_register_postmaster(job_id: int) -> None:
                 await db.update_domain(domain, postmaster_registered=1, last_error=None)
                 await db.append_job_log(job_id, f"[{i}/{len(domains)}] REGISTERED {domain}")
                 try:
-                    await asyncio.to_thread(postmaster.verify_domain, domain)
+                    await asyncio.to_thread(postmaster.verify_domain, user_id, domain)
                 except Exception:
                     pass
         except Exception as exc:  # noqa: BLE001
@@ -159,12 +288,22 @@ async def run_register_postmaster(job_id: int) -> None:
     )
 
 
-async def credential_status() -> dict:
+async def credential_status(user_id: int, public_base_url: str | None = None) -> dict:
     settings = get_settings()
+    user_secrets.migrate_legacy_secrets_for_user(user_id)
+    base = (public_base_url or settings.public_base_url).rstrip("/")
+    info = google_auth.credentials_info(user_id) if google_auth.credentials_file_exists(user_id) else {
+        "client_type": None,
+        "redirect_uris": [],
+    }
+    callback = f"{base}/oauth/callback"
     return {
-        "cloudflare": bool(settings.cloudflare_api_token),
-        "google_credentials": google_auth.credentials_file_exists(),
-        "google_site_token": google_auth.token_exists("site"),
-        "google_postmaster_token": google_auth.token_exists("postmaster"),
-        "public_base_url": settings.public_base_url,
+        "cloudflare": bool(user_secrets.read_cloudflare_token(user_id)),
+        "google_credentials": google_auth.credentials_file_exists(user_id),
+        "google_site_token": google_auth.token_exists(user_id, "site"),
+        "google_postmaster_token": google_auth.token_exists(user_id, "postmaster"),
+        "public_base_url": base,
+        "oauth_callback": callback,
+        "oauth_client_type": info["client_type"],
+        "oauth_redirect_uris": info["redirect_uris"],
     }

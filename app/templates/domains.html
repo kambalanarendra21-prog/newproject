@@ -11,7 +11,7 @@
 <section class="panel">
   <div class="panel-head">
     <h2>Add domains</h2>
-    <p>Paste one domain per line (or comma-separated).</p>
+    <p>Paste one domain per line (or comma-separated). Jobs later skip domains that already have tokens, DNS, or verification.</p>
   </div>
   <form method="post" action="/domains/add" class="stack">
     <textarea name="domains_text" rows="4" placeholder="example.com&#10;another-domain.com" required></textarea>
@@ -37,6 +37,7 @@
       <thead>
         <tr>
           <th>Domain</th>
+          {% if is_super %}<th>Owner</th>{% endif %}
           <th>TXT</th>
           <th>CF</th>
           <th>Verified</th>
@@ -48,6 +49,7 @@
       {% for d in domains %}
         <tr>
           <td class="mono">{{ d.domain }}</td>
+          {% if is_super %}<td class="mono">@{{ d.owner_username or '—' }}</td>{% endif %}
           <td>{% if d.txt_record and not d.txt_record.startswith('ERROR') %}<span class="dot ok"></span>{% elif d.txt_record %}<span class="dot bad" title="{{ d.txt_record }}"></span>{% else %}<span class="dot"></span>{% endif %}</td>
           <td>{% if d.cloudflare_txt_added %}<span class="dot ok"></span>{% else %}<span class="dot"></span>{% endif %}</td>
           <td>{% if d.site_verified %}<span class="dot ok"></span>{% else %}<span class="dot"></span>{% endif %}</td>
@@ -59,7 +61,7 @@
           </td>
         </tr>
       {% else %}
-        <tr><td colspan="6" class="muted">No domains match.</td></tr>
+        <tr><td colspan="{% if is_super %}7{% else %}6{% endif %}" class="muted">No domains match.</td></tr>
       {% endfor %}
       </tbody>
     </table>

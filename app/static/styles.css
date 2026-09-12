@@ -60,7 +60,13 @@ a:hover { color: var(--accent); text-decoration: underline; }
   gap: 1.5rem;
 }
 
-.brand { display: flex; gap: 0.8rem; align-items: center; padding: 0 0.4rem; }
+.brand { display: flex; flex-direction: column; gap: 0.65rem; align-items: flex-start; padding: 0 0.2rem 0.15rem; }
+.sidebar-logo {
+  width: 100%;
+  max-width: 210px;
+  height: auto;
+}
+.brand-copy { padding: 0 0.15rem; }
 .brand strong {
   display: block;
   font-family: var(--display);
@@ -104,6 +110,19 @@ a:hover { color: var(--accent); text-decoration: underline; }
 }
 
 .logout { margin-top: auto; }
+.sidebar-user {
+  margin-top: auto;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: rgba(11, 95, 255, 0.06);
+  border: 1px solid var(--line);
+}
+.sidebar-user strong { display: block; font-size: 0.95rem; }
+.sidebar-user small { color: var(--muted); font-size: 0.78rem; }
+.logout { margin-top: 0.75rem; }
+.inline-form { display: flex; gap: 0.4rem; align-items: center; }
+.inline-form input { min-width: 140px; }
+button.ghost.danger, .ghost.danger { color: var(--danger); }
 .logout button, button, .button {
   font: inherit;
   border: 2px solid var(--line);
@@ -273,6 +292,10 @@ button.danger { color: var(--danger); border-color: rgba(225, 29, 72, 0.3); }
 .status.running { background: rgba(234, 88, 12, 0.14); color: var(--warn); }
 .status.completed { background: rgba(5, 150, 105, 0.14); color: var(--ok); }
 .status.failed { background: rgba(225, 29, 72, 0.12); color: var(--danger); }
+.status.cancelling { background: rgba(234, 88, 12, 0.14); color: var(--warn); }
+.status.cancelled { background: rgba(100, 116, 139, 0.16); color: #475569; }
+
+.running-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
 
 .pill {
   display: inline-flex; align-items: center;
@@ -430,8 +453,8 @@ textarea { resize: vertical; min-height: 100px; }
   display: block;
 }
 .login-panel-logo {
-  width: min(210px, 90%);
-  margin-bottom: 0.85rem;
+  width: min(240px, 100%);
+  margin: 0 0 1rem;
 }
 .login-points {
   list-style: none;

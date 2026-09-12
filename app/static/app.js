@@ -3,7 +3,7 @@
   if (!log) return;
   const jobId = log.dataset.jobId;
   let status = log.dataset.status;
-  if (!jobId || status !== "running") return;
+  if (!jobId || (status !== "running" && status !== "cancelling")) return;
 
   const tick = async () => {
     try {
@@ -16,7 +16,7 @@
       log.textContent = text + (text ? "\n" : "");
       log.scrollTop = log.scrollHeight;
       status = data.status;
-      if (status === "running") {
+      if (status === "running" || status === "cancelling") {
         setTimeout(tick, 1500);
       } else {
         window.location.reload();

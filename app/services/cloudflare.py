@@ -2,27 +2,27 @@ from __future__ import annotations
 
 import httpx
 
-from ..config import get_settings
+from . import user_secrets
 
 API = "https://api.cloudflare.com/client/v4"
 
 
-def _headers() -> dict[str, str]:
-    token = get_settings().cloudflare_api_token
+def _headers(user_id: int) -> dict[str, str]:
+    token = user_secrets.read_cloudflare_token(user_id)
     if not token:
-        raise RuntimeError("CLOUDFLARE_API_TOKEN is not set")
+        raise RuntimeError("Cloudflare API token is not configured in your Settings")
     return {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
     }
 
 
-async def get_zone_id(domain: str) -> str | None:
+async def get_zone_id(user_id: int, domain: str) -> str | None:
     async with httpx.AsyncClient(timeout=30) as client:
         resp = await client.get(
             f"{API}/zones",
             params={"name": domain},
-            headers=_headers(),
+            headers=_headers(user_id),
         )
         data = resp.json()
         if data.get("success") and data.get("result"):
@@ -30,7 +30,7 @@ async def get_zone_id(domain: str) -> str | None:
     return None
 
 
-async def create_txt_record(zone_id: str, txt_value: str) -> bool:
+async def create_txt_record(user_id: int, zone_id: str, txt_value: str) -> bool:
     payload = {
         "type": "TXT",
         "name": "@",
@@ -41,7 +41,7 @@ async def create_txt_record(zone_id: str, txt_value: str) -> bool:
         listed = await client.get(
             f"{API}/zones/{zone_id}/dns_records",
             params={"type": "TXT", "per_page": 100},
-            headers=_headers(),
+            headers=_headers(user_id),
         )
         listed_data = listed.json()
         if listed_data.get("success"):
@@ -51,7 +51,7 @@ async def create_txt_record(zone_id: str, txt_value: str) -> bool:
 
         resp = await client.post(
             f"{API}/zones/{zone_id}/dns_records",
-            headers=_headers(),
+            headers=_headers(user_id),
             json=payload,
         )
         data = resp.json()

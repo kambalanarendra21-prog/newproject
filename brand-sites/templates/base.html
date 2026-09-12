@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title }} · {{ brand.name }}</title>
+  <meta name="description" content="{{ brand.tagline }}" />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body class="theme-{{ brand.theme }}">
+  <header class="top">
+    <a class="mark" href="index.html">{{ brand.name }}</a>
+    <nav>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#questions">Questions</a>
+      <a href="disclosures.html">Disclosures</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="foot">
+    <p><strong>{{ brand.name }}</strong> is a request-referral service, not a lender. It does not approve loans, set rates, or send funds.</p>
+    <p>Keep using <a href="https://{{ brand.domain }}">{{ brand.domain }}</a> as this brand’s public address.</p>
+    <p>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="disclosures.html">Disclosures</a>
+      <a href="mailto:info@{{ brand.domain }}">info@{{ brand.domain }}</a>
+    </p>
+  </footer>
+</body>
+</html>

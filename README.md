@@ -55,7 +55,7 @@ PUBLIC_BASE_URL=https://postmaster.fincovertech.com
 CLOUDFLARE_API_TOKEN=
 ```
 
-Persist `/app/data` as a volume so the SQLite DB and OAuth tokens survive restarts.
+Persist `/data` as a volume (`DATA_DIR=/data`) so the SQLite DB, user accounts, API keys, and OAuth tokens survive restarts. On Render, attach a 1 GB disk mounted at `/data`.
 
 ### 2. Cloudflare DNS
 

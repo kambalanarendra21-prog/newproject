@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div>
+    <h1>Users</h1>
+    <p>Main (super) account has full access. Sub accounts only see their own domains.</p>
+  </div>
+</header>
+
+{% if message %}<p class="success banner">{{ message }}</p>{% endif %}
+{% if error %}<p class="error banner">{{ error }}</p>{% endif %}
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>Create sub account</h2>
+    <p>Sub users can add/manage only their domains and run automation on them.</p>
+  </div>
+  <form method="post" action="/users/create" class="stack" style="max-width:480px">
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text" required placeholder="e.g. teammate1" />
+    <label for="display_name">Display name</label>
+    <input id="display_name" name="display_name" type="text" required placeholder="e.g. Teammate One" />
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" minlength="8" required placeholder="At least 8 characters" />
+    <input type="hidden" name="role" value="sub" />
+    <button type="submit" class="primary">Create sub account</button>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="panel-head"><h2>All accounts</h2></div>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Reset password</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for u in users %}
+        <tr>
+          <td class="mono">{{ u.username }}</td>
+          <td>{{ u.display_name }}</td>
+          <td>{% if u.role == 'super' %}Main (super){% else %}Sub account{% endif %}</td>
+          <td>{% if u.is_active %}Active{% else %}Disabled{% endif %}</td>
+          <td>
+            <form method="post" action="/users/{{ u.id }}/password" class="inline-form">
+              <input name="password" type="password" minlength="8" required placeholder="New password" />
+              <button type="submit">Reset</button>
+            </form>
+          </td>
+          <td>
+            {% if u.role != 'super' %}
+            <form method="post" action="/users/{{ u.id }}/toggle">
+              {% if u.is_active %}
+              <input type="hidden" name="is_active" value="0" />
+              <button type="submit" class="ghost danger">Disable</button>
+              {% else %}
+              <input type="hidden" name="is_active" value="1" />
+              <button type="submit" class="ghost">Enable</button>
+              {% endif %}
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
