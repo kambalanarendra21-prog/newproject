@@ -111,3 +111,33 @@ def save_uploaded_credentials(user_id: int, content: bytes) -> None:
     if "installed" not in data and "web" not in data:
         raise ValueError("Invalid credentials.json: expected 'installed' or 'web' key")
     user_secrets.save_google_credentials_text(user_id, content.decode("utf-8"))
+
+
+def credentials_info(user_id: int) -> dict:
+    """Describe the uploaded OAuth client so Settings can warn about mismatches."""
+    path = user_secrets.google_credentials_path(user_id)
+    if not path.exists():
+        return {"client_type": None, "redirect_uris": []}
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    if "web" in raw:
+        block = raw["web"]
+        client_type = "web"
+    elif "installed" in raw:
+        block = raw["installed"]
+        client_type = "installed"
+    else:
+        return {"client_type": None, "redirect_uris": []}
+    return {
+        "client_type": client_type,
+        "redirect_uris": list(block.get("redirect_uris") or []),
+    }
+
+
+def require_web_client(user_id: int) -> None:
+    info = credentials_info(user_id)
+    if info["client_type"] == "installed":
+        raise RuntimeError(
+            "This credentials.json is a Desktop app. Create a Web application "
+            "OAuth client in Google Cloud, add the callback URL shown in Settings, "
+            "then upload that new JSON."
+        )

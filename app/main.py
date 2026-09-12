@@ -319,6 +319,7 @@ async def oauth_start(request: Request, kind: str):
     request.session["oauth_user_id"] = user["id"]
     request.session["oauth_redirect_base"] = public_base
     try:
+        google_auth.require_web_client(user["id"])
         url = google_auth.authorization_url(user["id"], kind, state, public_base_url=public_base)
         return RedirectResponse(url, status_code=303)
     except Exception as exc:  # noqa: BLE001

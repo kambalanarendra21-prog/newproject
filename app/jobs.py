@@ -196,10 +196,19 @@ async def run_register_postmaster(job_id: int) -> None:
 async def credential_status(user_id: int, public_base_url: str | None = None) -> dict:
     settings = get_settings()
     user_secrets.migrate_legacy_secrets_for_user(user_id)
+    base = (public_base_url or settings.public_base_url).rstrip("/")
+    info = google_auth.credentials_info(user_id) if google_auth.credentials_file_exists(user_id) else {
+        "client_type": None,
+        "redirect_uris": [],
+    }
+    callback = f"{base}/oauth/callback"
     return {
         "cloudflare": bool(user_secrets.read_cloudflare_token(user_id)),
         "google_credentials": google_auth.credentials_file_exists(user_id),
         "google_site_token": google_auth.token_exists(user_id, "site"),
         "google_postmaster_token": google_auth.token_exists(user_id, "postmaster"),
-        "public_base_url": (public_base_url or settings.public_base_url).rstrip("/"),
+        "public_base_url": base,
+        "oauth_callback": callback,
+        "oauth_client_type": info["client_type"],
+        "oauth_redirect_uris": info["redirect_uris"],
     }

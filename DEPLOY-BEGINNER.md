@@ -67,9 +67,14 @@ After you can log in:
 
 1. Open **Settings** in the dashboard  
 2. Paste your **Cloudflare API token** → Save  
-3. Upload your Google `credentials.json`  
-4. Click **Authorize Site Verification** and **Authorize Postmaster**  
-5. Then use **Overview** buttons 1 → 5 to run jobs
+3. In Google Cloud Console create an OAuth client of type **Web application** (not Desktop)
+4. Add Authorized redirect URI exactly as Settings shows, usually:  
+   `https://newproject-p8x7.onrender.com/oauth/callback`
+5. Download that client JSON and upload it in Settings  
+6. Click **Authorize Site Verification** and **Authorize Postmaster**  
+7. Then use **Overview** buttons 1 → 5 to run jobs
+
+If Google says `redirect_uri_mismatch`, the callback URL in Settings is not listed on that Web client yet. Add it, wait a minute, try Authorize again.
 
 ---
 

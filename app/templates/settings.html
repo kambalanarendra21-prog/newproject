@@ -67,12 +67,17 @@
       <a class="button primary" href="/oauth/start/postmaster">Authorize Postmaster</a>
     </div>
     <p class="muted small" style="margin-top:1rem">
-      In Google Cloud → OAuth client → Authorized redirect URIs, add exactly:<br />
-      <code class="mono">{{ creds.public_base_url }}/oauth/callback</code>
+      Google Cloud → APIs &amp; Services → Credentials → your OAuth <strong>Web application</strong> client → Authorized redirect URIs. Add this exact URL:<br />
+      <code class="mono">{{ creds.oauth_callback }}</code>
     </p>
+    {% if creds.oauth_client_type == 'installed' %}
+    <p class="error banner" style="margin-top:0.75rem">
+      The uploaded file is a Desktop OAuth client. Google will show redirect_uri_mismatch. Create a new <strong>Web application</strong> client, add the callback above, download that JSON, and upload it here.
+    </p>
+    {% endif %}
     {% if 'localhost' in creds.public_base_url or '127.0.0.1' in creds.public_base_url %}
     <p class="error banner" style="margin-top:0.75rem">
-      You are authorizing from localhost. Open Settings on the live Render URL first, then add that live callback in Google Cloud. Otherwise Google sends you back to localhost and the page cannot load.
+      You are authorizing from localhost. Open Settings on the live Render URL first, then add that live callback in Google Cloud.
     </p>
     {% endif %}
   </div>
