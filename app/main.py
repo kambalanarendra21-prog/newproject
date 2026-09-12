@@ -21,7 +21,7 @@ from .auth import (
     require_login,
     require_super,
 )
-from .config import DATA_DIR, get_settings
+from .config import DATA_DIR, get_settings, persist_public_base_url, public_base_from_request
 from .services import google_auth
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -146,7 +146,7 @@ async def dashboard(request: Request):
     stats = await db.domain_stats(owner_id=scope)
     recent_jobs = await db.list_jobs(8, user_id=None if is_super(request) else current_user(request)["id"])
     user = current_user(request)
-    creds = await jobs.credential_status(user["id"])
+    creds = await jobs.credential_status(user["id"], public_base_from_request(request))
     running = await db.get_running_job()
     return templates.TemplateResponse(
         "dashboard.html",
@@ -254,7 +254,9 @@ async def run_job(request: Request, job_type: str):
 @app.get("/settings", response_class=HTMLResponse, dependencies=[Depends(require_login)])
 async def settings_page(request: Request):
     user = current_user(request)
-    creds = await jobs.credential_status(user["id"])
+    public_base = public_base_from_request(request)
+    persist_public_base_url(public_base)
+    creds = await jobs.credential_status(user["id"], public_base)
     return templates.TemplateResponse(
         "settings.html",
         _ctx(
@@ -310,11 +312,14 @@ async def oauth_start(request: Request, kind: str):
         return RedirectResponse("/settings?error=Invalid+OAuth+kind", status_code=303)
     user = current_user(request)
     state = secrets.token_urlsafe(24)
+    public_base = public_base_from_request(request)
+    persist_public_base_url(public_base)
     request.session["oauth_state"] = state
     request.session["oauth_kind"] = kind
     request.session["oauth_user_id"] = user["id"]
+    request.session["oauth_redirect_base"] = public_base
     try:
-        url = google_auth.authorization_url(user["id"], kind, state)
+        url = google_auth.authorization_url(user["id"], kind, state, public_base_url=public_base)
         return RedirectResponse(url, status_code=303)
     except Exception as exc:  # noqa: BLE001
         return RedirectResponse(f"/settings?error={str(exc)[:160]}", status_code=303)
@@ -339,10 +344,12 @@ async def oauth_callback(
     if oauth_user_id != user["id"]:
         return RedirectResponse("/settings?error=OAuth+user+mismatch", status_code=303)
     try:
-        google_auth.exchange_code(user["id"], kind, code)
+        public_base = request.session.get("oauth_redirect_base") or public_base_from_request(request)
+        google_auth.exchange_code(user["id"], kind, code, public_base_url=public_base)
         request.session.pop("oauth_state", None)
         request.session.pop("oauth_kind", None)
         request.session.pop("oauth_user_id", None)
+        request.session.pop("oauth_redirect_base", None)
         return RedirectResponse(f"/settings?msg=Google+{kind}+authorized", status_code=303)
     except Exception as exc:  # noqa: BLE001
         return RedirectResponse(f"/settings?error={str(exc)[:160]}", status_code=303)

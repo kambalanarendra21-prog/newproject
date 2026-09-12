@@ -51,20 +51,24 @@ def load_credentials(user_id: int, kind: str = "site") -> Credentials:
     return creds
 
 
-def build_flow(user_id: int, kind: str) -> Flow:
+def _callback_url(public_base_url: str) -> str:
+    return f"{public_base_url.rstrip('/')}/oauth/callback"
+
+
+def build_flow(user_id: int, kind: str, public_base_url: str | None = None) -> Flow:
     settings = get_settings()
+    base = (public_base_url or settings.public_base_url).rstrip("/")
     creds_path = user_secrets.google_credentials_path(user_id)
     user_secrets.migrate_legacy_secrets_for_user(user_id)
     if not creds_path.exists():
         raise RuntimeError("Upload Google OAuth credentials.json in Settings first.")
 
-    # Support both "installed" and "web" client types by normalizing to web flow.
     raw = json.loads(creds_path.read_text(encoding="utf-8"))
+    callback = _callback_url(base)
     if "installed" in raw and "web" not in raw:
         data = {"web": raw["installed"]}
         normalized = creds_path.parent / f"credentials_{kind}_web.json"
         redirects = list(data["web"].get("redirect_uris") or [])
-        callback = f"{settings.public_base_url.rstrip('/')}/oauth/callback"
         if callback not in redirects:
             redirects.append(callback)
         data["web"]["redirect_uris"] = redirects
@@ -77,16 +81,15 @@ def build_flow(user_id: int, kind: str) -> Flow:
     else:
         client_config_path = str(creds_path)
 
-    redirect_uri = f"{settings.public_base_url.rstrip('/')}/oauth/callback"
     return Flow.from_client_secrets_file(
         client_config_path,
         scopes=_scopes(kind),
-        redirect_uri=redirect_uri,
+        redirect_uri=callback,
     )
 
 
-def authorization_url(user_id: int, kind: str, state: str) -> str:
-    flow = build_flow(user_id, kind)
+def authorization_url(user_id: int, kind: str, state: str, public_base_url: str | None = None) -> str:
+    flow = build_flow(user_id, kind, public_base_url=public_base_url)
     url, _ = flow.authorization_url(
         access_type="offline",
         include_granted_scopes="true",
@@ -96,8 +99,8 @@ def authorization_url(user_id: int, kind: str, state: str) -> str:
     return url
 
 
-def exchange_code(user_id: int, kind: str, code: str) -> None:
-    flow = build_flow(user_id, kind)
+def exchange_code(user_id: int, kind: str, code: str, public_base_url: str | None = None) -> None:
+    flow = build_flow(user_id, kind, public_base_url=public_base_url)
     flow.fetch_token(code=code)
     creds = flow.credentials
     user_secrets.save_google_token_text(user_id, kind, creds.to_json())

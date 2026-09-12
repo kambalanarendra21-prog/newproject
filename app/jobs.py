@@ -193,7 +193,7 @@ async def run_register_postmaster(job_id: int) -> None:
     )
 
 
-async def credential_status(user_id: int) -> dict:
+async def credential_status(user_id: int, public_base_url: str | None = None) -> dict:
     settings = get_settings()
     user_secrets.migrate_legacy_secrets_for_user(user_id)
     return {
@@ -201,5 +201,5 @@ async def credential_status(user_id: int) -> dict:
         "google_credentials": google_auth.credentials_file_exists(user_id),
         "google_site_token": google_auth.token_exists(user_id, "site"),
         "google_postmaster_token": google_auth.token_exists(user_id, "postmaster"),
-        "public_base_url": settings.public_base_url,
+        "public_base_url": (public_base_url or settings.public_base_url).rstrip("/"),
     }

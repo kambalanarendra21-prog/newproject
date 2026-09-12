@@ -67,9 +67,14 @@
       <a class="button primary" href="/oauth/start/postmaster">Authorize Postmaster</a>
     </div>
     <p class="muted small" style="margin-top:1rem">
-      OAuth redirect URI must include:<br />
+      In Google Cloud → OAuth client → Authorized redirect URIs, add exactly:<br />
       <code class="mono">{{ creds.public_base_url }}/oauth/callback</code>
     </p>
+    {% if 'localhost' in creds.public_base_url or '127.0.0.1' in creds.public_base_url %}
+    <p class="error banner" style="margin-top:0.75rem">
+      You are authorizing from localhost. Open Settings on the live Render URL first, then add that live callback in Google Cloud. Otherwise Google sends you back to localhost and the page cannot load.
+    </p>
+    {% endif %}
   </div>
 </section>
 {% endblock %}

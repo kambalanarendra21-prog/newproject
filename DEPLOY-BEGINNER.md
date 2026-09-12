@@ -25,7 +25,7 @@ Use this path: **Render.com** (free to start) + your GitHub repo.
 |-----|--------|
 | `DASHBOARD_PASSWORD` | invent a strong password (you will use this to log in) |
 | `SECRET_KEY` | paste any long random text, e.g. `fincover-secret-93847-change-me` |
-| `PUBLIC_BASE_URL` | leave as `https://temp` for now — you will update after first deploy |
+| `PUBLIC_BASE_URL` | your live URL, e.g. `https://newproject-p8x7.onrender.com` (not localhost) |
 
 8. **Required so accounts and API keys survive restarts** — click **Advanced** → **Add Disk**:
    - Name: `postmaster-data`
