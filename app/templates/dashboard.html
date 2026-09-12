@@ -7,7 +7,16 @@
     <p>Track mailbox verification and Postmaster registration across your domains.</p>
   </div>
   {% if running %}
-  <a class="pill warn" href="/jobs/{{ running.id }}">Job #{{ running.id }} running · {{ running.job_type }}</a>
+  <div class="running-actions">
+    <a class="pill warn" href="/jobs/{{ running.id }}">
+      Job #{{ running.id }} {% if running.status == 'cancelling' %}stopping{% else %}running{% endif %} · {{ running.job_type }}
+    </a>
+    {% if running.status != 'cancelling' %}
+    <form method="post" action="/jobs/{{ running.id }}/stop">
+      <button type="submit" class="danger">Stop</button>
+    </form>
+    {% endif %}
+  </div>
   {% endif %}
 </header>
 
@@ -43,14 +52,14 @@
 <section class="panel">
   <div class="panel-head">
     <h2>Run automation</h2>
-    <p>Jobs run one at a time. Configure credentials in Settings first.</p>
+    <p>Jobs run one at a time and only process new or unfinished domains. Use Stop to cancel a run.</p>
   </div>
   <div class="action-grid">
-    <form method="post" action="/jobs/run/fetch_tokens"><button type="submit" {% if not creds.google_site_token %}disabled title="Authorize Google Site Verification first"{% endif %}>1. Fetch TXT tokens</button></form>
-    <form method="post" action="/jobs/run/cloudflare_txt"><button type="submit" {% if not creds.cloudflare %}disabled title="Add Cloudflare token first"{% endif %}>2. Add Cloudflare TXT</button></form>
-    <form method="post" action="/jobs/run/verify_sites"><button type="submit" {% if not creds.google_site_token %}disabled{% endif %}>3. Verify with Google</button></form>
-    <form method="post" action="/jobs/run/sync_postmaster"><button type="submit" {% if not creds.google_postmaster_token %}disabled{% endif %}>4. Sync Postmaster status</button></form>
-    <form method="post" action="/jobs/run/register_postmaster"><button type="submit" class="primary" {% if not creds.google_postmaster_token %}disabled{% endif %}>5. Register missing in Postmaster</button></form>
+    <form method="post" action="/jobs/run/fetch_tokens"><button type="submit" {% if running or not creds.google_site_token %}disabled title="{% if running %}A job is already running{% else %}Authorize Google Site Verification first{% endif %}"{% endif %}>1. Fetch TXT tokens</button></form>
+    <form method="post" action="/jobs/run/cloudflare_txt"><button type="submit" {% if running or not creds.cloudflare %}disabled title="{% if running %}A job is already running{% else %}Add Cloudflare token first{% endif %}"{% endif %}>2. Add Cloudflare TXT</button></form>
+    <form method="post" action="/jobs/run/verify_sites"><button type="submit" {% if running or not creds.google_site_token %}disabled{% endif %}>3. Verify with Google</button></form>
+    <form method="post" action="/jobs/run/sync_postmaster"><button type="submit" {% if running or not creds.google_postmaster_token %}disabled{% endif %}>4. Sync Postmaster status</button></form>
+    <form method="post" action="/jobs/run/register_postmaster"><button type="submit" class="primary" {% if running or not creds.google_postmaster_token %}disabled{% endif %}>5. Register missing in Postmaster</button></form>
   </div>
 </section>
 

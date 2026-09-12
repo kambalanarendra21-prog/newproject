@@ -8,8 +8,8 @@ from googleapiclient.errors import HttpError
 from . import google_auth
 
 
-def build_service():
-    creds = google_auth.load_credentials("site")
+def build_service(user_id: int):
+    creds = google_auth.load_credentials(user_id, "site")
     return build("siteVerification", "v1", credentials=creds, cache_discovery=False)
 
 

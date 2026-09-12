@@ -15,7 +15,8 @@ COPY app ./app
 COPY seed ./seed
 COPY .env.example ./.env.example
 
-RUN mkdir -p /app/data/secrets
+ENV DATA_DIR=/data
+RUN mkdir -p /data/secrets
 
 EXPOSE 8080
 
