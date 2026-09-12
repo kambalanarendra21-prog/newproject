@@ -32,6 +32,15 @@ add_session_middleware(app)
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 
+@app.middleware("http")
+async def no_store_html(request: Request, call_next):
+    response = await call_next(request)
+    content_type = response.headers.get("content-type", "")
+    if "text/html" in content_type:
+        response.headers["Cache-Control"] = "no-store"
+    return response
+
+
 def _load_runtime_env() -> None:
     import os
 
