@@ -45,7 +45,7 @@ def load_credentials(user_id: int, kind: str = "site") -> Credentials:
     creds = Credentials.from_authorized_user_file(str(path), _scopes(kind))
     if creds.expired and creds.refresh_token:
         creds.refresh(Request())
-        path.write_text(creds.to_json(), encoding="utf-8")
+        user_secrets.save_google_token_text(user_id, kind, creds.to_json())
     if not creds.valid:
         raise RuntimeError(f"Google {kind} credentials are invalid. Re-authorize.")
     return creds
@@ -100,15 +100,11 @@ def exchange_code(user_id: int, kind: str, code: str) -> None:
     flow = build_flow(user_id, kind)
     flow.fetch_token(code=code)
     creds = flow.credentials
-    path = token_path(user_id, kind)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(creds.to_json(), encoding="utf-8")
+    user_secrets.save_google_token_text(user_id, kind, creds.to_json())
 
 
 def save_uploaded_credentials(user_id: int, content: bytes) -> None:
-    path = user_secrets.google_credentials_path(user_id)
-    path.parent.mkdir(parents=True, exist_ok=True)
     data = json.loads(content.decode("utf-8"))
     if "installed" not in data and "web" not in data:
         raise ValueError("Invalid credentials.json: expected 'installed' or 'web' key")
-    path.write_bytes(content)
+    user_secrets.save_google_credentials_text(user_id, content.decode("utf-8"))

@@ -64,7 +64,6 @@ async def startup() -> None:
     (DATA_DIR / "secrets").mkdir(parents=True, exist_ok=True)
     _load_runtime_env()
     await db.init_db()
-    await db.clear_demo_seed_once()
     settings = get_settings()
     await db.ensure_super_user(
         settings.super_username,
@@ -391,4 +390,11 @@ async def users_reset_password(user_id: int, password: str = Form(...)):
 
 @app.get("/healthz")
 async def healthz():
-    return {"ok": True}
+    from .config import DATA_DIR, DB_PATH
+
+    return {
+        "ok": True,
+        "data_dir": str(DATA_DIR),
+        "db_exists": DB_PATH.exists(),
+        "users": db.count_users(),
+    }

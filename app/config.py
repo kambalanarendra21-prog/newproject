@@ -1,3 +1,4 @@
+import os
 from functools import lru_cache
 from pathlib import Path
 
@@ -5,11 +6,20 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = ROOT / "data"
+
+
+def resolve_data_dir() -> Path:
+    """Use DATA_DIR env when set (Render disk, Docker volume). Else ./data."""
+    override = os.environ.get("DATA_DIR", "").strip()
+    path = Path(override).expanduser() if override else ROOT / "data"
+    path.mkdir(parents=True, exist_ok=True)
+    (path / "secrets").mkdir(parents=True, exist_ok=True)
+    return path
+
+
+DATA_DIR = resolve_data_dir()
 SECRETS_DIR = DATA_DIR / "secrets"
 DB_PATH = DATA_DIR / "postmaster.db"
-# Backwards-compatible alias
-DB_PATH = DB_PATH
 
 
 class Settings(BaseSettings):

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
+import sqlite3
 
 import aiosqlite
 from passlib.context import CryptContext
@@ -61,6 +63,15 @@ CREATE TABLE IF NOT EXISTS app_meta (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS user_secrets (
+    user_id INTEGER NOT NULL,
+    kind TEXT NOT NULL,
+    payload TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    PRIMARY KEY (user_id, kind),
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);
 """
 
 
@@ -81,6 +92,8 @@ def verify_password(password: str, password_hash: str) -> bool:
 
 async def init_db() -> None:
     async with aiosqlite.connect(DB_PATH) as conn:
+        await conn.execute("PRAGMA journal_mode=WAL")
+        await conn.execute("PRAGMA synchronous=NORMAL")
         await conn.executescript(SCHEMA)
         # Safe migrations for older DBs
         cur = await conn.execute("PRAGMA table_info(domains)")
@@ -105,10 +118,10 @@ async def ensure_super_user(username: str, password: str, display_name: str = "S
             await conn.execute(
                 """
                 UPDATE users
-                SET username = ?, password_hash = ?, display_name = ?, is_active = 1
+                SET username = ?, password_hash = ?, is_active = 1
                 WHERE id = ?
                 """,
-                (uname, hash_password(password), display_name or row["display_name"], row["id"]),
+                (uname, hash_password(password), row["id"]),
             )
             await conn.execute(
                 "UPDATE domains SET owner_id = ? WHERE owner_id IS NULL",
@@ -134,23 +147,67 @@ async def ensure_super_user(username: str, password: str, display_name: str = "S
 
 
 async def clear_demo_seed_once() -> bool:
-    async with aiosqlite.connect(DB_PATH) as conn:
-        cur = await conn.execute(
-            "SELECT value FROM app_meta WHERE key = ?",
-            ("demo_seed_cleared_v1",),
+    """No-op. Kept so older startup code does not wipe live accounts or domains."""
+    return False
+
+
+def count_users() -> int:
+    if not Path(DB_PATH).exists():
+        return 0
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            cur = conn.execute("SELECT COUNT(*) FROM users")
+            row = cur.fetchone()
+        return int(row[0] if row else 0)
+    except sqlite3.Error:
+        return 0
+
+
+def get_user_secret(user_id: int, kind: str) -> str | None:
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS user_secrets (
+                user_id INTEGER NOT NULL,
+                kind TEXT NOT NULL,
+                payload TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                PRIMARY KEY (user_id, kind)
+            )
+            """
         )
-        row = await cur.fetchone()
-        if row:
-            return False
-        await conn.execute("DELETE FROM job_logs")
-        await conn.execute("DELETE FROM jobs")
-        await conn.execute("DELETE FROM domains")
-        await conn.execute(
-            "INSERT INTO app_meta (key, value) VALUES (?, ?)",
-            ("demo_seed_cleared_v1", _now()),
+        cur = conn.execute(
+            "SELECT payload FROM user_secrets WHERE user_id = ? AND kind = ?",
+            (int(user_id), kind),
         )
-        await conn.commit()
-    return True
+        row = cur.fetchone()
+    return row[0] if row and row[0] else None
+
+
+def upsert_user_secret(user_id: int, kind: str, payload: str) -> None:
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS user_secrets (
+                user_id INTEGER NOT NULL,
+                kind TEXT NOT NULL,
+                payload TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                PRIMARY KEY (user_id, kind)
+            )
+            """
+        )
+        conn.execute(
+            """
+            INSERT INTO user_secrets (user_id, kind, payload, updated_at)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(user_id, kind) DO UPDATE SET
+                payload = excluded.payload,
+                updated_at = excluded.updated_at
+            """,
+            (int(user_id), kind, payload, _now()),
+        )
+        conn.commit()
 
 
 async def get_user_by_username(username: str) -> dict | None:

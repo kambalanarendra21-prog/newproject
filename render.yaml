@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: postmaster-dashboard
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    disk:
+      name: postmaster-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /data
+      - key: SUPER_USERNAME
+        value: admin
+      - key: DASHBOARD_PASSWORD
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: ADMIN_NAME
+        value: Admin
