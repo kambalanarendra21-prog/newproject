@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advertising Disclosure | Lendcrestfield</title>
+<meta name="robots" content="noindex, follow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pri:#4A2E6B;--pri-d:#341F4C;--acc:#B6E23A;
+  --pri-on:#FFFFFF;--acc-on:#1A1408;--acc-ink:#61781f;
+  --acc-rgb:182,226,58;--pri-rgb:74,46,107;
+  --ink:#1B1420;--mut:#4a2e6b;--bg:#FBF7FF;--card:#FFFFFF;
+  --foot-bg:#1B1420;--foot-fg:#aa9db9;--foot-mut:#8c7aa1;--hero-hl:#b6e23a;
+  --line:#EBDFC8;--sh:0 18px 40px -22px rgba(43,36,28,.35);
+  --r:22px;
+  --font-head:'Spectral',Georgia,serif;--font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif
+}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.62}
+h1,h2,h3{font-family:var(--font-head);color:var(--ink)}
+
+h1 .hl{color:var(--acc-ink)}
+p{color:var(--mut)}
+a{color:var(--pri-d);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--acc);color:var(--acc-on);
+  padding:16px 32px;border-radius:14px;font-weight:800;font-size:1.08rem;border:0;cursor:pointer;position:relative;
+  box-shadow:0 16px 32px -12px rgba(0,0,0,.35);transition:transform .12s,box-shadow .12s;min-height:54px}
+.btn:hover{transform:translateY(-1px)}
+.btn.secondary{background:var(--ink);box-shadow:0 14px 28px -14px rgba(36,30,21,.6)}
+.btn.on-dark{background:#fff;color:var(--pri-d)}
+.btn.block{width:100%}
+
+.topbar{padding:16px 0;background:var(--bg)}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brandmark{display:flex;align-items:center;gap:9px;font-weight:800;font-size:1.2rem;color:var(--ink);font-family:var(--font-head)}
+.brandmark .mark{width:32px;height:32px;border-radius:10px;background:var(--pri);color:var(--pri-on);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;transform:rotate(-4deg)}
+.topnav{display:flex;gap:22px;font-size:.95rem;font-weight:700;color:var(--ink)}
+@media(max-width:760px){.topnav{display:none}}
+
+.hero{padding:36px 0 48px;background:
+  radial-gradient(52rem 34rem at 8% -12%, rgba(var(--pri-rgb),.30), transparent 60%),
+  radial-gradient(46rem 30rem at 102% 4%, rgba(var(--acc-rgb),.24), transparent 55%),
+  var(--ink)}
+.hero-stack{display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px}
+.hero-head{max-width:760px}
+.hero-sub{max-width:600px}
+.hero-sub .sub{margin-bottom:14px}
+
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:800;color:var(--pri-on);background:var(--pri);padding:8px 16px;border-radius:999px}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--pri-on)}
+.hero h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:700;line-height:1.16;letter-spacing:-.015em;margin-top:16px;color:var(--foot-fg)}
+.hero h1 .hl{color:var(--hero-hl)}
+.hero .sub{font-size:1.05rem;color:var(--foot-mut)}
+
+.trust-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px}
+.trust-bar span{display:flex;align-items:center;gap:6px;font-size:.86rem;font-weight:700;color:var(--foot-fg)}
+.trust-bar svg{color:var(--hero-hl);flex:none}
+
+.req-panel-wrap{position:relative}
+.req-panel-wrap::before{content:"";position:absolute;inset:-28px -20px;background:
+  radial-gradient(60% 70% at 20% 0%, rgba(var(--acc-rgb),.22), transparent 70%),
+  radial-gradient(60% 70% at 85% 100%, rgba(var(--pri-rgb),.20), transparent 70%);
+  filter:blur(6px);z-index:0;border-radius:36px}
+.req-panel{position:relative;z-index:1;width:100%;max-width:800px;margin:0 auto;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);box-shadow:0 22px 48px -20px rgba(var(--pri-rgb),.38),0 10px 26px -14px rgba(var(--acc-rgb),.22);overflow:hidden}
+
+.req-head{padding:22px 32px 14px;text-align:left}
+.req-head .step-tag{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:900;letter-spacing:.03em;text-transform:uppercase;color:var(--acc-on);background:var(--acc);padding:6px 14px;border-radius:999px}
+.req-head h2{font-size:1.4rem;font-weight:600;margin:12px 0 4px}
+.req-head p{color:var(--mut);font-size:.94rem}
+.req-body{padding:18px 32px 32px}
+.vendor-slot{border:2px dashed var(--line);border-radius:16px;padding:28px 16px;text-align:center;color:var(--mut);font-size:.9rem;background:#FBF8F1}
+
+.vendor-embed{min-height:220px}
+.reassure{font-size:.88rem;color:var(--ink);font-weight:700;margin-top:14px}
+.reassure::before{content:"\2713 ";color:var(--pri-d)}
+.req-note{font-size:.8rem;color:var(--mut);margin-top:8px;line-height:1.6}
+
+.sec{padding:52px 0}
+.sec-head{max-width:640px;margin:0 auto 32px}
+.sec-head h2{font-size:1.65rem;font-weight:600;letter-spacing:-.01em;margin:10px 0 8px}
+.sec-head p{color:var(--mut);font-size:1rem}
+
+.sec-white{background:var(--card)}
+
+.steps-list{display:flex;flex-direction:column;gap:16px;max-width:640px}
+.step-row{display:flex;gap:16px;align-items:flex-start;background:var(--bg);border:1.5px solid var(--line);border-left:4px solid var(--pri);border-radius:18px;padding:20px}
+.step-row:nth-child(2n){border-left-color:var(--acc)}
+.step-badge{flex:none;width:46px;height:46px;border-radius:14px;background:var(--pri);color:var(--pri-on);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;transform:rotate(-3deg)}
+.step-row:nth-child(2n) .step-badge{background:var(--acc);color:var(--acc-on)}
+.step-row h3{font-size:1.08rem;font-weight:700;margin-bottom:4px;font-family:var(--font-body);color:var(--ink)}
+.step-row p{font-size:.97rem;color:var(--mut)}
+
+.why-bg{background:var(--pri-d);color:#fff}
+.why-bg .eyebrow{background:rgba(255,255,255,0.16);color:#fff}
+.why-bg .eyebrow .dot{background:var(--acc)}
+.why-bg .sec-head h2{color:#fff}
+.why-bg .sec-head p{color:rgba(255,255,255,0.6)}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:600px){.why-grid{grid-template-columns:1fr}}
+.why-item{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,.18);border-radius:18px;padding:22px}
+.why-icon{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,0.16);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:12px}
+.why-item h3{font-size:1.05rem;font-weight:700;margin-bottom:6px;font-family:var(--font-body);color:#fff}
+.why-item p{font-size:.95rem;color:rgba(255,255,255,0.6)}
+
+.sec-tint{background:
+  radial-gradient(46rem 30rem at 92% -10%, rgba(var(--acc-rgb),.07), transparent 60%),
+  radial-gradient(46rem 30rem at 4% 110%, rgba(var(--pri-rgb),.08), transparent 60%),
+  var(--bg)}
+
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:720px}
+.faq-row{border:1.5px solid var(--line);border-radius:16px;background:var(--bg);overflow:hidden}
+.faq-row summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:700;font-size:1.02rem;display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--ink)}
+.faq-row summary::-webkit-details-marker{display:none}
+.faq-row summary::after{content:"+";font-size:1.35rem;color:var(--acc-ink);flex:none}
+.faq-row[open] summary::after{content:"\2212"}
+.faq-row .faq-a{padding:0 20px 18px;color:var(--mut);font-size:.97rem;line-height:1.65}
+
+.bottom-cta-sec{padding:0 0 48px}
+
+.disclosure-zone{background:var(--foot-bg);padding:40px 0 4px}
+.disclosure-zone h2{color:var(--foot-fg);font-size:1.2rem;margin-bottom:16px}
+
+.disclosure-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 28px;max-width:980px}
+@media(max-width:680px){.disclosure-grid{grid-template-columns:1fr}}
+.disclosure-item{background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 20px}
+.disclosure-item:last-child:nth-child(odd){grid-column:1/-1}
+.disc-tag{display:inline-block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--foot-fg);background:rgba(var(--pri-rgb),0.32);border:1px solid rgba(255,255,255,.16);padding:3px 11px;border-radius:999px;margin-bottom:8px}
+.disclosure-item:nth-child(2n) .disc-tag{background:rgba(var(--acc-rgb),0.19)}
+.disclosure-item p{color:var(--foot-mut);font-size:.82rem;line-height:1.55;margin:0}
+.disclosure-item a{color:var(--foot-mut);font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,255,255,.35)}
+.disclosure-item a:hover{color:var(--foot-fg)}
+
+footer{padding:36px 0 24px;background:var(--foot-bg)}
+.foot-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;padding-bottom:28px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.12)}
+.foot-brand{max-width:320px}
+.foot-brand .brandmark{color:var(--foot-fg)}
+.foot-brand .brandmark .mark{background:var(--pri);color:var(--pri-on)}
+.foot-tagline{color:var(--foot-mut);font-size:.92rem;margin-top:8px}
+.foot-address{color:var(--foot-mut);font-size:.85rem;margin-top:14px;line-height:1.6}
+.foot-address a{color:var(--foot-mut);font-weight:700}
+.foot-address a:hover{color:var(--foot-fg)}
+.foot-linkgroups{display:flex;flex-wrap:wrap;gap:40px}
+.foot-linkgroup h4{color:var(--foot-fg);font-size:.78rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px}
+.foot-linkgroup ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.foot-linkgroup a{color:var(--foot-mut);font-size:.9rem;font-weight:600}
+.foot-linkgroup a:hover{color:var(--foot-fg)}
+.foot-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;font-size:.82rem;color:var(--foot-mut)}
+
+.legal-wrap{max-width:760px;margin:0 auto;padding:40px 20px 60px}
+.legal-wrap h1{font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:6px}
+.legal-updated{color:var(--mut);font-size:.88rem;margin-bottom:28px}
+.legal-sec{margin-bottom:26px}
+.legal-sec h2{font-size:1.15rem;font-weight:700;font-family:var(--font-body);margin-bottom:8px;color:var(--ink)}
+.legal-sec p{color:var(--mut);font-size:.98rem;margin-bottom:2px}
+.legal-list{padding-left:20px;color:var(--mut);font-size:.96rem;display:flex;flex-direction:column;gap:6px}
+.legal-table-wrap{overflow-x:auto;border:1.5px solid var(--line);border-radius:14px;margin-top:4px}
+.legal-table{width:100%;border-collapse:collapse;font-size:.92rem}
+.legal-table caption{caption-side:top;text-align:left;font-weight:800;padding:12px 14px;background:var(--pri);color:var(--pri-on)}
+.legal-table th{background:var(--bg);text-align:left;font-weight:800;color:var(--ink)}
+.legal-table th,.legal-table td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--mut)}
+.legal-table tr:last-child td{border-bottom:0}
+.legal-draft-note{background:#FFF4E0;border:1.5px solid #E5A93A;border-radius:14px;padding:16px 18px;font-size:.9rem;color:#5C4310;margin-bottom:26px}
+.legal-draft-note strong{color:#3D2C0B}
+.legal-back{display:inline-block;margin-top:8px;font-weight:700}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a href="index.html" class="brandmark"><span class="mark">C</span>Lendcrestfield</a>
+  </div>
+</header>
+
+<main class="legal-wrap">
+  <h1>Advertising Disclosure</h1>
+  <p class="legal-updated">Last updated: 2026-08-18</p>
+  
+  <div class="legal-sec"><p>Lendcrestfield is not a lender and does not approve or deny loans or make credit decisions. Lendcrestfield provides a marketplace/matching service only and is not acting as a representative, agent, or correspondent for any lender or service provider. Lendcrestfield does not endorse any particular lender, loan product or service provider, and you are under no obligation to use our service or to accept any loan product from any lender we refer you to. This service is not available in all states.</p></div>
+<div class="legal-sec"><h2>How we&#39;re compensated</h2><p>Using Lendcrestfield is free to you. Lendcrestfield may receive compensation from the lenders and other third parties in our network when we refer your request to them — typically a fee paid by the lender, not by you. This compensation does not affect whether any lender chooses to make you an offer, and it does not change any rate, fee or term a lender offers you. We do not accept payment in exchange for guaranteeing a match, an approval, or any specific rate or term to any lender.</p></div>
+<div class="legal-sec"><h2>How matching works</h2><p>By submitting your information via this website, you authorize Lendcrestfield to share your request with a network of lenders, which may include a credit check (potentially through Experian, Equifax, TransUnion or alternative bureaus). There is no fee to submit a request. Based on the information you provide, Lendcrestfield will attempt to connect you with a lender that may be able to serve your needs.</p></div>
+<div class="legal-sec"><h2>After you&#39;re matched</h2><p>If a lender is able to help, you will be directed to that lender&#39;s own site to review and, if you choose, e-sign their offer. All rates, fees and terms are disclosed by the lender directly at that point — review them carefully before agreeing to anything. You are under no obligation to accept terms you&#39;re not comfortable with. Once you sign with a lender, your agreement is with that lender, and any repayment or loan-specific question is between you and them, not Lendcrestfield.</p></div>
+<div class="legal-sec"><h2>A note on short-term borrowing</h2><p>Short-term loans and cash advances are intended as short-term financial relief, not long-term financial solutions. If you&#39;re facing ongoing debt or credit difficulty, consider speaking with a nonprofit credit counselor. See our Rates &amp; Fees page for more on the risks involved, and check your state&#39;s specific rules — Lendcrestfield does not offer or solicit certain short-term products in states where they are restricted or prohibited by law.</p></div>
+<div class="legal-sec"><h2>Contact Information</h2><p>Company name: Lendcrestfield (doing business as Lendcrestfield). Email: info@lendcrestfield.com. Mailing address: 304 S. Jones Blvd #3567, Las Vegas, NV 89107.</p></div>
+  <a href="index.html" class="legal-back">&larr; Back to Lendcrestfield</a>
+</main>
+
+<footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div class="foot-brand">
+          <div class="brandmark"><span class="mark">C</span>Lendcrestfield</div>
+          <p class="foot-tagline">Just a faster way to see who wants your business.</p>
+          <p class="foot-address">
+        304 S. Jones Blvd #3567<br>
+        Las Vegas, NV 89107
+        <br><a href="mailto:info@lendcrestfield.com">info@lendcrestfield.com</a>
+      </p>
+        </div>
+        <div class="foot-linkgroups">
+          <div class="foot-linkgroup">
+            <h4>Legal</h4>
+            <ul><li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-of-use.html">Terms of Use</a></li>
+            <li><a href="advertising-disclosure.html">Advertising Disclosure</a></li>
+            <li><a href="e-consent.html">E-Consent</a></li>
+            <li><a href="credit-authorization.html">Credit Authorization</a></li>
+            <li><a href="do-not-sell.html">Do Not Sell or Share</a></li>
+            <li><a href="california-privacy-notice.html">California Privacy Notice</a></li></ul>
+          </div>
+          <div class="foot-linkgroup">
+            <h4>More info</h4>
+            <ul><li><a href="lending-policy.html">Lending Policy</a></li>
+            <li><a href="rates-and-fees.html">Rates &amp; Fees</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="faq.html">FAQ</a></li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="foot-row">
+        <div>&copy; 2026 Lendcrestfield. Operated by Lendcrestfield.</div>
+        <div>Service not available in all states.</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

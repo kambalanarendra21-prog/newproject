@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | Fundoralane</title>
+<meta name="robots" content="noindex, follow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pri:#AE4019;--pri-d:#7E2F13;--acc:#0B7A86;
+  --pri-on:#FFFFFF;--acc-on:#FFFFFF;--acc-ink:#0a6e79;--pri-d-txt:#7e2f13;
+  --acc-rgb:11,122,134;
+  --ink:#241712;--mut:#ae4019;--bg:#F8F0E3;--card:#FFFFFF;--hero-hl:#aad1d5;--hero-grad-end:#7e2f13;
+  --section-tint:#dce2d8;--mut-tint:#9d3a17;--pri-d-txt-tint:#7e2f13;
+  --line:#E8DBC8;--neutral-badge:#EDE1D2;--notch:26px;
+  --font-head:'Zilla Slab',Georgia,serif;--font-body:'Hanken Grotesk',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.62}
+h1,h2,h3{font-family:var(--font-head);color:var(--ink);font-weight:700;letter-spacing:-.005em}
+p{color:var(--mut)}
+a{color:var(--pri-d-txt);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--acc);color:var(--acc-on);
+  padding:14px 28px;font-weight:700;font-size:.95rem;border:0;cursor:pointer;min-height:50px;border-radius:8px}
+.btn:hover{filter:brightness(.95)}
+
+.topbar{padding:20px 0;background:var(--card);border-bottom:1px solid var(--line)}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brandmark{display:flex;align-items:center;gap:11px;font-family:var(--font-head);font-weight:700;font-size:1.2rem;color:var(--ink)}
+.brandmark .mark{width:32px;height:32px;background:var(--pri);color:var(--pri-on);flex:none;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;font-family:var(--font-head);font-weight:700;
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+.topnav a{font-size:.9rem;font-weight:700;color:var(--pri-d-txt)}
+
+.hero{position:relative;overflow:hidden;padding:42px 0 0;background:linear-gradient(135deg,var(--pri) 0%,var(--hero-grad-end) 100%)}
+.hero-glow{position:absolute;width:520px;height:520px;border-radius:50%;top:-200px;right:-180px;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(var(--acc-rgb),.4),rgba(var(--acc-rgb),0) 70%)}
+.hero-stack{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;padding-bottom:44px}
+.hero-head{max-width:720px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.hero .eyebrow{color:var(--pri-on)}
+.hero h1{font-size:clamp(2rem,5vw,2.9rem);font-weight:700;line-height:1.2;color:var(--pri-on);margin-top:12px}
+.hero h1 .hl{color:var(--hero-hl)}
+.hero .sub{font-size:1.05rem;color:var(--pri-on);max-width:540px;margin:0 auto}
+
+.panel-wrap{width:100%;max-width:640px;margin:0 auto;position:relative}
+.panel-wrap::before{content:"";position:absolute;top:0;right:0;width:var(--notch);height:var(--notch);
+  background:var(--acc);clip-path:polygon(100% 0,100% 100%,0 0);z-index:0}
+.panel{position:relative;z-index:1;background:var(--card);text-align:left;box-shadow:0 20px 44px -22px rgba(0,0,0,.4);
+  clip-path:polygon(0 0,calc(100% - var(--notch)) 0,100% var(--notch),100% 100%,0 100%)}
+.panel-head{padding:24px 30px 14px}
+.panel-head .step-tag{font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--pri-d-txt)}
+.panel-body{padding:16px 30px 30px}
+.vendor-slot{border:1px dashed var(--line);padding:28px 16px;text-align:center;color:var(--mut);font-size:.9rem}
+.vendor-embed{min-height:220px}
+.reassure{font-size:.88rem;color:var(--ink);font-weight:700;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.req-note{font-size:.8rem;color:var(--mut);margin-top:10px;line-height:1.65}
+
+.trust-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:6px}
+.trust-chips .item{display:inline-flex;align-items:center;gap:7px;font-size:.85rem;font-weight:700;color:var(--ink);
+  background:var(--card);padding:9px 16px;border-radius:999px}
+.trust-chips svg{flex:none;color:var(--acc-ink)}
+
+.sec{padding:58px 0}
+.sec.tint{background:var(--section-tint)}
+.sec-head{max-width:660px;margin:0 auto 30px;text-align:center}
+.sec-head .eyebrow{color:var(--pri-d-txt)}
+.sec.tint .sec-head .eyebrow{color:var(--pri-d-txt-tint)}
+.sec-head h2{font-size:1.8rem;margin:12px 0 8px;font-weight:700}
+.sec-head p{color:var(--mut)}
+.sec.tint .sec-head p{color:var(--mut-tint)}
+.sec.tint .elig-note{color:var(--mut-tint)}
+
+.path-rail{position:relative;max-width:760px;margin:0 auto}
+.path-rail::before{content:"";position:absolute;top:6px;bottom:6px;left:50%;width:2px;background:var(--line);transform:translateX(-50%);z-index:0}
+.path-flag{position:relative;z-index:1;text-align:center;margin:2px 0 34px}
+.path-flag span{display:inline-block;background:var(--acc);color:var(--acc-on);padding:7px 18px;border-radius:999px;
+  font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.path-node{position:relative;z-index:1;width:50%;padding-bottom:40px}
+.path-node:nth-child(odd){left:0;text-align:right;padding-right:52px}
+.path-node:nth-child(even){left:50%;text-align:left;padding-left:52px}
+.path-marker{position:absolute;top:0;width:42px;height:42px;border-radius:50%;background:var(--pri);color:var(--pri-on);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;font-family:var(--font-head)}
+.path-node:nth-child(odd) .path-marker{right:-21px}
+.path-node:nth-child(even) .path-marker{left:-21px}
+.path-card{display:inline-block;text-align:left;background:var(--card);padding:18px 22px;max-width:340px;
+  box-shadow:0 10px 26px -18px rgba(0,0,0,.3)}
+.path-node:nth-child(odd) .path-card{clip-path:polygon(16px 0,100% 0,100% 100%,0 100%,0 16px)}
+.path-node:nth-child(even) .path-card{clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px))}
+.path-card h3,.path-card .q{font-size:1.02rem;font-weight:700;color:var(--ink);margin:0}
+.path-card p,.path-card .a{font-size:.94rem;color:var(--mut);margin-top:6px}
+.path-card.faq{cursor:pointer}
+.path-card.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.path-card.faq summary::-webkit-details-marker{display:none}
+.path-card.faq .toggle{flex:none;font-weight:800;color:var(--acc-ink);font-size:1.15rem}
+.path-card.faq .toggle::before{content:"+"}
+.path-card.faq[open] .toggle::before{content:"\2212"}
+.path-card.faq .a{margin-top:10px}
+@media(max-width:760px){
+  .path-rail::before{left:20px}
+  .path-node{width:100%;text-align:left !important;padding:0 0 36px 52px !important;left:0 !important}
+  .path-node .path-marker{left:0 !important;right:auto !important}
+  .path-node .path-card{max-width:none}
+  .path-node:nth-child(odd) .path-card,.path-node:nth-child(even) .path-card{clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px))}
+}
+
+.elig-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;margin:0 auto}
+.elig-item{background:var(--card);padding:14px 18px;display:flex;align-items:center;gap:12px;font-weight:700;color:var(--ink);font-size:.95rem;
+  clip-path:polygon(0 0,100% 0,100% 100%,14px 100%,0 calc(100% - 14px))}
+.elig-check{flex:none;width:26px;height:26px;border-radius:50%;background:var(--acc);color:var(--acc-on);
+  display:flex;align-items:center;justify-content:center}
+.elig-note{max-width:680px;margin:18px auto 0;font-size:.85rem;text-align:center;color:var(--mut)}
+@media(max-width:640px){.elig-grid{grid-template-columns:1fr}}
+
+.bottom-cta-sec{padding:4px 0 54px;text-align:center}
+.bottom-cta-sec a{display:inline-flex;font-weight:700;font-size:.92rem;color:var(--acc-on);background:var(--acc);
+  padding:12px 26px;border-radius:999px}
+
+.foot-wrap{max-width:760px;margin:0 auto}
+.foot-card{background:var(--card);padding:8px 30px 10px;box-shadow:0 8px 24px -18px rgba(0,0,0,.2)}
+.foot-card h2{font-size:1.2rem;margin:22px 0 6px;font-weight:700}
+.foot-note{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.foot-note:last-child{padding-bottom:24px}
+.foot-note .marker{flex:none;width:24px;height:24px;border-radius:50%;font-size:.72rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-head);background:var(--neutral-badge);color:var(--ink)}
+.foot-note p{font-size:.9rem;color:var(--mut);line-height:1.65;margin:0}
+.foot-note a{color:var(--ink);font-weight:700;text-decoration:underline}
+
+footer{padding:40px 0 30px;background:var(--card);border-top:1px solid var(--line)}
+.foot-row-main{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;flex-wrap:wrap}
+.foot-brand .brandmark{margin-bottom:8px}
+.foot-tagline{color:var(--mut);font-size:.92rem;font-weight:700}
+.foot-address{color:var(--mut);font-size:.85rem;line-height:1.6;margin-top:10px}
+.foot-address a{color:var(--mut);font-weight:700}
+.foot-linkline{list-style:none;display:flex;flex-wrap:wrap;gap:0;max-width:420px}
+.foot-linkline li{padding:0 14px;border-left:1px solid var(--line)}
+.foot-linkline li:first-child{border-left:0;padding-left:0}
+.foot-linkline a{color:var(--mut);font-size:.86rem;font-weight:600}
+.foot-linkline a:hover{color:var(--ink)}
+.foot-bottom{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:.8rem;color:var(--mut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+
+.legal-wrap{max-width:740px;margin:0 auto;padding:44px 20px 64px}
+.legal-wrap h1{font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:6px}
+.legal-updated{color:var(--mut);font-size:.85rem;margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.legal-sec{margin-bottom:26px}
+.legal-sec h2{font-size:1.1rem;font-weight:700;font-family:var(--font-body);margin-bottom:8px;color:var(--ink)}
+.legal-sec p{color:var(--mut);font-size:.98rem;margin-bottom:2px}
+.legal-list{padding-left:20px;color:var(--mut);font-size:.96rem;display:flex;flex-direction:column;gap:6px}
+.legal-table-wrap{overflow-x:auto;border:1px solid var(--line);margin-top:4px}
+.legal-table{width:100%;border-collapse:collapse;font-size:.92rem}
+.legal-table caption{caption-side:top;text-align:left;font-weight:700;padding:12px 14px;background:var(--pri);color:var(--pri-on)}
+.legal-table th{background:var(--bg);text-align:left;font-weight:700;color:var(--ink)}
+.legal-table th,.legal-table td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--mut)}
+.legal-table tr:last-child td{border-bottom:0}
+.legal-draft-note{background:rgba(var(--acc-rgb),.08);border:1px solid rgba(var(--acc-rgb),.35);border-left:4px solid var(--acc);padding:16px 18px;font-size:.9rem;color:var(--ink);margin-bottom:26px}
+.legal-back{display:inline-block;margin-top:8px;font-weight:700;border-bottom:2px solid var(--acc);padding-bottom:2px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <a href="index.html" class="brandmark"><span class="mark">O</span>Fundoralane</a>
+  </div>
+</header>
+
+<main class="legal-wrap">
+  <h1>Privacy Policy</h1>
+  <p class="legal-updated">Last updated: 2026-08-18</p>
+  
+  <div class="legal-sec"><div class="legal-table-wrap"><table class="legal-table"><caption>FACTS — What does Fundoralane do with your personal information?</caption><tr><td>Why?</td><td>Financial companies choose how they share your personal information. Federal law gives consumers the right to limit some but not all sharing, and requires us to tell you how we collect, share and protect your personal information. Please read this notice carefully.</td></tr><tr><td>What?</td><td>The types of personal information we collect and share depend on the product or service you use. This can include Social Security number, checking account information, transaction history and income, and credit history and account balances.</td></tr><tr><td>How?</td><td>All financial companies need to share customers&#39; personal information to run their everyday business. Below we list the reasons financial companies can share personal information, the reasons Fundoralane chooses to share, and whether you can limit that sharing.</td></tr></table></div></div>
+<div class="legal-sec"><h2>Reasons we can share your personal information</h2><div class="legal-table-wrap"><table class="legal-table"><tr><th>Reason</th><th>Does Fundoralane share?</th><th>Can you limit this?</th></tr><tr><td>For our everyday business purposes — to process transactions, maintain accounts, respond to legal investigations, or report to credit bureaus</td><td>Yes</td><td>No</td></tr><tr><td>For our marketing purposes — to offer products and services to you</td><td>Yes</td><td>No</td></tr><tr><td>For joint marketing with other financial companies</td><td>Yes</td><td>No</td></tr><tr><td>For our affiliates&#39; everyday business purposes — information about your transactions and experiences</td><td>Yes</td><td>No</td></tr><tr><td>For our affiliates&#39; everyday business purposes — information about your creditworthiness</td><td>Yes</td><td>Yes</td></tr><tr><td>For our affiliates to market to you</td><td>Yes</td><td>Yes</td></tr><tr><td>For nonaffiliates to market to you</td><td>Yes</td><td>Yes</td></tr></table></div></div>
+<div class="legal-sec"><h2>Who we are and what we do</h2><p>Who is providing this notice? Fundoralane Demo Holdings (dba Fundoralane). To protect your personal information from unauthorized access and use, we use security measures that comply with federal law, including computer safeguards and secured files. We collect your personal information when you submit a loan request, provide contact information, or request help obtaining a loan — and from others, such as credit bureaus, affiliates or other companies. Federal law gives you the right to limit sharing for affiliates&#39; use of your creditworthiness information and affiliate/nonaffiliate marketing; state laws may give you additional rights. If you hold an account jointly with someone else, your sharing choices apply to everyone on that account.</p></div>
+<div class="legal-sec"><h2>Definitions</h2><p>Affiliates: companies related by common ownership or control (financial or nonfinancial). Nonaffiliates: companies not related by common ownership or control. Joint marketing: a formal agreement between nonaffiliated financial companies to jointly market products or services to you.</p></div>
+<div class="legal-sec"><h2>State-specific and other important information</h2><p>Material changes to this Privacy Policy will be posted here and are effective upon posting. Vermont residents: we will not disclose information about you to affiliates or non-affiliated third parties, other than as required or permitted by law, without your express permission. California residents: see our separate California Privacy Notice. North Dakota residents: we will not disclose information about you to non-affiliated third parties, other than as required or permitted by law, without your express permission. Nevada residents: for more information about this notice or Nevada&#39;s do-not-call registry, contact us at the email below or the Bureau of Consumer Protection, Office of the Nevada Attorney General, 555 E. Washington Street, Suite 3900, Las Vegas, Nevada 89101, phone (702) 486-3132. We honor Do Not Track requests only where required by applicable law; other parties may still collect information about your activity across other websites.</p></div>
+<div class="legal-sec"><h2>Contact Information</h2><p>Company name: Fundoralane Demo Holdings (doing business as Fundoralane). Email: info@fundoralane.com. Mailing address: 1207 Delaware Ave #2451, Wilmington, DE 19806.</p></div>
+  <a href="index.html" class="legal-back">&larr; Back to Fundoralane</a>
+</main>
+
+<footer>
+    <div class="wrap">
+      <div class="foot-row-main">
+        <div class="foot-brand">
+          <div class="brandmark"><span class="mark">O</span>Fundoralane</div>
+          <p class="foot-tagline">We point the way — the lender decides the rest.</p>
+          <p class="foot-address">
+        1207 Delaware Ave #2451<br>
+        Wilmington, DE 19806
+        <br><a href="mailto:info@fundoralane.com">info@fundoralane.com</a>
+      </p>
+        </div>
+        <ul class="foot-linkline"><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms-of-use.html">Terms of Use</a></li><li><a href="lending-policy.html">Lending Policy</a></li><li><a href="rates-and-fees.html">Rates &amp; Fees</a></li><li><a href="advertising-disclosure.html">Advertising Disclosure</a></li><li><a href="e-consent.html">E-Consent</a></li><li><a href="credit-authorization.html">Credit Authorization</a></li><li><a href="do-not-sell.html">Do Not Sell or Share</a></li><li><a href="california-privacy-notice.html">California Privacy Notice</a></li><li><a href="definitions.html">Definitions</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li></ul>
+      </div>
+      <div class="foot-bottom">
+        <div>&copy; 2026 Fundoralane. Operated by Fundoralane.</div>
+        <div>Service not available in all states.</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+vaultifypro.com <= brackenwell-demo.example
+trustpathlending.com <= casement-demo.example
+lifepulsea.com <= example-sunsetberry.com
+lendcrestfield.com <= example-vividplum.com
+lendbrightway.com <= example-goldenhour.com
+lendbrancher.com <= example-oceantrust.com
+capitalbridgeusa.com <= example-bridge.com
+fineasehub.com <= loanchaintech.com
+fundoralane.com <= waypoint-demo.example
+lendinggrove.com <= marigoldpath-demo.example
+fundpinegrove.com <= hollowcreek-demo.example
+lendinganchor.com <= solmere-demo.example

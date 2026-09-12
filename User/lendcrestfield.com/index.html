@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request $100–$5000 From Real Lenders | lendcrestfield.com</title>
+<meta name="description" content="Send one request and see what lenders in our network can offer for $100 to $5000. Lendcrestfield is a loan-request and referral service, not a lender.">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pri:#4A2E6B;--pri-d:#341F4C;--acc:#B6E23A;
+  --pri-on:#FFFFFF;--acc-on:#1A1408;--acc-ink:#61781f;
+  --acc-rgb:182,226,58;--pri-rgb:74,46,107;
+  --ink:#1B1420;--mut:#4a2e6b;--bg:#FBF7FF;--card:#FFFFFF;
+  --foot-bg:#1B1420;--foot-fg:#aa9db9;--foot-mut:#8c7aa1;--hero-hl:#b6e23a;
+  --line:#EBDFC8;--sh:0 18px 40px -22px rgba(43,36,28,.35);
+  --r:22px;
+  --font-head:'Spectral',Georgia,serif;--font-body:'IBM Plex Sans',system-ui,-apple-system,sans-serif
+}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);line-height:1.62}
+h1,h2,h3{font-family:var(--font-head);color:var(--ink)}
+
+h1 .hl{color:var(--acc-ink)}
+p{color:var(--mut)}
+a{color:var(--pri-d);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--acc);color:var(--acc-on);
+  padding:16px 32px;border-radius:14px;font-weight:800;font-size:1.08rem;border:0;cursor:pointer;position:relative;
+  box-shadow:0 16px 32px -12px rgba(0,0,0,.35);transition:transform .12s,box-shadow .12s;min-height:54px}
+.btn:hover{transform:translateY(-1px)}
+.btn.secondary{background:var(--ink);box-shadow:0 14px 28px -14px rgba(36,30,21,.6)}
+.btn.on-dark{background:#fff;color:var(--pri-d)}
+.btn.block{width:100%}
+
+.topbar{padding:16px 0;background:var(--bg)}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brandmark{display:flex;align-items:center;gap:9px;font-weight:800;font-size:1.2rem;color:var(--ink);font-family:var(--font-head)}
+.brandmark .mark{width:32px;height:32px;border-radius:10px;background:var(--pri);color:var(--pri-on);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;transform:rotate(-4deg)}
+.topnav{display:flex;gap:22px;font-size:.95rem;font-weight:700;color:var(--ink)}
+@media(max-width:760px){.topnav{display:none}}
+
+.hero{padding:36px 0 48px;background:
+  radial-gradient(52rem 34rem at 8% -12%, rgba(var(--pri-rgb),.30), transparent 60%),
+  radial-gradient(46rem 30rem at 102% 4%, rgba(var(--acc-rgb),.24), transparent 55%),
+  var(--ink)}
+.hero-stack{display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px}
+.hero-head{max-width:760px}
+.hero-sub{max-width:600px}
+.hero-sub .sub{margin-bottom:14px}
+
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:800;color:var(--pri-on);background:var(--pri);padding:8px 16px;border-radius:999px}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--pri-on)}
+.hero h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:700;line-height:1.16;letter-spacing:-.015em;margin-top:16px;color:var(--foot-fg)}
+.hero h1 .hl{color:var(--hero-hl)}
+.hero .sub{font-size:1.05rem;color:var(--foot-mut)}
+
+.trust-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px}
+.trust-bar span{display:flex;align-items:center;gap:6px;font-size:.86rem;font-weight:700;color:var(--foot-fg)}
+.trust-bar svg{color:var(--hero-hl);flex:none}
+
+.req-panel-wrap{position:relative}
+.req-panel-wrap::before{content:"";position:absolute;inset:-28px -20px;background:
+  radial-gradient(60% 70% at 20% 0%, rgba(var(--acc-rgb),.22), transparent 70%),
+  radial-gradient(60% 70% at 85% 100%, rgba(var(--pri-rgb),.20), transparent 70%);
+  filter:blur(6px);z-index:0;border-radius:36px}
+.req-panel{position:relative;z-index:1;width:100%;max-width:800px;margin:0 auto;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);box-shadow:0 22px 48px -20px rgba(var(--pri-rgb),.38),0 10px 26px -14px rgba(var(--acc-rgb),.22);overflow:hidden}
+
+.req-head{padding:22px 32px 14px;text-align:left}
+.req-head .step-tag{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:900;letter-spacing:.03em;text-transform:uppercase;color:var(--acc-on);background:var(--acc);padding:6px 14px;border-radius:999px}
+.req-head h2{font-size:1.4rem;font-weight:600;margin:12px 0 4px}
+.req-head p{color:var(--mut);font-size:.94rem}
+.req-body{padding:18px 32px 32px}
+.vendor-slot{border:2px dashed var(--line);border-radius:16px;padding:28px 16px;text-align:center;color:var(--mut);font-size:.9rem;background:#FBF8F1}
+
+.vendor-embed{min-height:220px}
+.reassure{font-size:.88rem;color:var(--ink);font-weight:700;margin-top:14px}
+.reassure::before{content:"\2713 ";color:var(--pri-d)}
+.req-note{font-size:.8rem;color:var(--mut);margin-top:8px;line-height:1.6}
+
+.sec{padding:52px 0}
+.sec-head{max-width:640px;margin:0 auto 32px}
+.sec-head h2{font-size:1.65rem;font-weight:600;letter-spacing:-.01em;margin:10px 0 8px}
+.sec-head p{color:var(--mut);font-size:1rem}
+
+.sec-white{background:var(--card)}
+
+.steps-list{display:flex;flex-direction:column;gap:16px;max-width:640px}
+.step-row{display:flex;gap:16px;align-items:flex-start;background:var(--bg);border:1.5px solid var(--line);border-left:4px solid var(--pri);border-radius:18px;padding:20px}
+.step-row:nth-child(2n){border-left-color:var(--acc)}
+.step-badge{flex:none;width:46px;height:46px;border-radius:14px;background:var(--pri);color:var(--pri-on);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;transform:rotate(-3deg)}
+.step-row:nth-child(2n) .step-badge{background:var(--acc);color:var(--acc-on)}
+.step-row h3{font-size:1.08rem;font-weight:700;margin-bottom:4px;font-family:var(--font-body);color:var(--ink)}
+.step-row p{font-size:.97rem;color:var(--mut)}
+
+.why-bg{background:var(--pri-d);color:#fff}
+.why-bg .eyebrow{background:rgba(255,255,255,0.16);color:#fff}
+.why-bg .eyebrow .dot{background:var(--acc)}
+.why-bg .sec-head h2{color:#fff}
+.why-bg .sec-head p{color:rgba(255,255,255,0.6)}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:600px){.why-grid{grid-template-columns:1fr}}
+.why-item{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,.18);border-radius:18px;padding:22px}
+.why-icon{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,0.16);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:12px}
+.why-item h3{font-size:1.05rem;font-weight:700;margin-bottom:6px;font-family:var(--font-body);color:#fff}
+.why-item p{font-size:.95rem;color:rgba(255,255,255,0.6)}
+
+.sec-tint{background:
+  radial-gradient(46rem 30rem at 92% -10%, rgba(var(--acc-rgb),.07), transparent 60%),
+  radial-gradient(46rem 30rem at 4% 110%, rgba(var(--pri-rgb),.08), transparent 60%),
+  var(--bg)}
+
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:720px}
+.faq-row{border:1.5px solid var(--line);border-radius:16px;background:var(--bg);overflow:hidden}
+.faq-row summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:700;font-size:1.02rem;display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--ink)}
+.faq-row summary::-webkit-details-marker{display:none}
+.faq-row summary::after{content:"+";font-size:1.35rem;color:var(--acc-ink);flex:none}
+.faq-row[open] summary::after{content:"\2212"}
+.faq-row .faq-a{padding:0 20px 18px;color:var(--mut);font-size:.97rem;line-height:1.65}
+
+.bottom-cta-sec{padding:0 0 48px}
+
+.disclosure-zone{background:var(--foot-bg);padding:40px 0 4px}
+.disclosure-zone h2{color:var(--foot-fg);font-size:1.2rem;margin-bottom:16px}
+
+.disclosure-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 28px;max-width:980px}
+@media(max-width:680px){.disclosure-grid{grid-template-columns:1fr}}
+.disclosure-item{background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 20px}
+.disclosure-item:last-child:nth-child(odd){grid-column:1/-1}
+.disc-tag{display:inline-block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--foot-fg);background:rgba(var(--pri-rgb),0.32);border:1px solid rgba(255,255,255,.16);padding:3px 11px;border-radius:999px;margin-bottom:8px}
+.disclosure-item:nth-child(2n) .disc-tag{background:rgba(var(--acc-rgb),0.19)}
+.disclosure-item p{color:var(--foot-mut);font-size:.82rem;line-height:1.55;margin:0}
+.disclosure-item a{color:var(--foot-mut);font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,255,255,.35)}
+.disclosure-item a:hover{color:var(--foot-fg)}
+
+footer{padding:36px 0 24px;background:var(--foot-bg)}
+.foot-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;padding-bottom:28px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.12)}
+.foot-brand{max-width:320px}
+.foot-brand .brandmark{color:var(--foot-fg)}
+.foot-brand .brandmark .mark{background:var(--pri);color:var(--pri-on)}
+.foot-tagline{color:var(--foot-mut);font-size:.92rem;margin-top:8px}
+.foot-address{color:var(--foot-mut);font-size:.85rem;margin-top:14px;line-height:1.6}
+.foot-address a{color:var(--foot-mut);font-weight:700}
+.foot-address a:hover{color:var(--foot-fg)}
+.foot-linkgroups{display:flex;flex-wrap:wrap;gap:40px}
+.foot-linkgroup h4{color:var(--foot-fg);font-size:.78rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px}
+.foot-linkgroup ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.foot-linkgroup a{color:var(--foot-mut);font-size:.9rem;font-weight:600}
+.foot-linkgroup a:hover{color:var(--foot-fg)}
+.foot-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;font-size:.82rem;color:var(--foot-mut)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <div class="brandmark"><span class="mark">C</span>Lendcrestfield</div>
+    <nav class="topnav">
+      <a href="#how">How it works</a>
+      <a href="#why">Why us</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="wrap hero-stack">
+    <div class="hero-head">
+      <span class="eyebrow"><span class="dot"></span>You ask once, lenders come to you</span>
+      <h1>Skip the runaround. <span class="hl">Hear back from real lenders</span>.</h1>
+    </div>
+
+    <div class="req-panel-wrap">
+      <div class="req-panel">
+        <div class="req-head">
+          <span class="step-tag">One quick step</span>
+          
+          <h2>Tell us what you're looking for</h2>
+          <p>The lender you match with confirms final terms before you accept anything.</p>
+        </div>
+        <div class="req-body">
+          <div class="vendor-slot">
+            
+            <div>Lead-request form embeds here once a lender network is connected.</div>
+          </div>
+          <p class="reassure">Free to send. Nothing you&#39;re on the hook for.</p>
+          <p class="req-note">By submitting you agree to be contacted by lenders in our network and to our
+            <a href="privacy-policy.html">Privacy Policy</a>, <a href="terms-of-use.html">Terms</a> and
+            <a href="e-consent.html">E-Consent</a>. Lendcrestfield is not a lender.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-sub">
+      <p class="sub">You fill out one short form. Lenders in our network take it from there and come back with offers for you to weigh, no pressure either way.</p>
+      <div class="trust-bar">
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1.4 1.1-2.5 2.5-2.5s2.5.9 2.5 2.1c0 2.9-5 1.4-5 4.2 0 1.2 1.1 2.1 2.5 2.1s2.5-1.1 2.5-2.5"/></svg> $100–$5000 to request</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Encrypted</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> No credit impact to ask</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Lendcrestfield is not a lender</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-white" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="dot"></span>How it works</span>
+      <h2>Ask once, choose on your own time</h2>
+      <p>Lendcrestfield isn&#39;t a lender — we just put your request in front of ones who might want it. What happens after that is between you and whichever lender you choose, if any.</p>
+    </div>
+    <div class="steps-list">
+      <div class="step-row">
+        <div class="step-badge">1</div>
+        <div><h3>Lenders take a look</h3><p>Your request goes out to lenders in our network. Each one decides on its own whether to make an offer.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-badge">2</div>
+        <div><h3>The lender handles the rest</h3><p>Say yes to an offer, and it&#39;s the lender — not us — who sends the funds and sets the terms with you.</p></div>
+      </div>
+      <div class="step-row">
+        <div class="step-badge">3</div>
+        <div><h3>You pick what fits</h3><p>Read every offer in full before agreeing to anything. If none of them work for you, just walk away.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec why-bg" id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="dot"></span>Before you scroll further</span>
+      <h2>The honest version</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">A</div>
+        <h3>No hoops to jump through</h3><p>Submit a request, hear back from lenders who are interested, look everything over, choose. That&#39;s the whole process.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">B</div>
+        <h3>One form beats ten</h3><p>Instead of filling out the same application over and over, you do it once and it reaches multiple lenders at the same time.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">C</div>
+        <h3>Nothing you have to accept</h3><p>Looking at an offer doesn&#39;t commit you to it. Take your time, weigh it, or walk away — that&#39;s always fine.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">D</div>
+        <h3>We’re not the lender</h3><p>We don&#39;t set rates, approve requests, or hold your money — that part is entirely between you and whichever lender you pick.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-tint" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="dot"></span>Questions, answered</span>
+      <h2>Still unsure about something?</h2>
+      <p>These cover what people usually ask before requesting.</p>
+    </div>
+    <div class="faq-list">
+        <details class="faq-row" open>
+          <summary>Does submitting a request cost me anything?</summary>
+          <div class="faq-a">No. Sending a request through Lendcrestfield is free. If you do accept a loan, whatever fees come with it are the lender&#39;s, and they&#39;ll show you those before you agree to anything.</div>
+        </details>
+        <details class="faq-row">
+          <summary>Can I even use this where I live?</summary>
+          <div class="faq-a">Depends on your state. The Lending Policy page has the current list of places this isn&#39;t available yet — worth a quick check first.</div>
+        </details>
+        <details class="faq-row">
+          <summary>My credit isn&#39;t great, or I&#39;ve been turned down elsewhere — is this worth trying?</summary>
+          <div class="faq-a">Possibly — lenders in our network set their own criteria, and some do consider applicants with less-than-perfect credit. We can&#39;t promise you&#39;ll be matched, but sending a request through Lendcrestfield is free and doesn&#39;t commit you to anything.</div>
+        </details>
+        <details class="faq-row">
+          <summary>Is Lendcrestfield actually the one lending me money?</summary>
+          <div class="faq-a">No — Lendcrestfield passes your request to lenders in our network. Whichever one reaches out to you is the one deciding on approval, rate, and terms, not us.</div>
+        </details>
+        <details class="faq-row">
+          <summary>Will this show up on my credit report?</summary>
+          <div class="faq-a">Sending a request through Lendcrestfield on its own doesn&#39;t touch your score. If a lender you&#39;re matched with runs a credit check, that&#39;s their process — see Credit Authorization for how that works.</div>
+        </details>
+    </div>
+  </div>
+</section>
+
+<section class="sec bottom-cta-sec">
+  <div class="wrap" style="text-align:center">
+    <a href="#hero" class="btn">Back to my request &uarr;</a>
+  </div>
+</section>
+
+<section class="disclosure-zone">
+  <div class="wrap">
+    <h2>Important disclosures</h2>
+    <div class="disclosure-grid">
+      <div class="disclosure-item">
+        <span class="disc-tag">Not a lender</span>
+        <p>Lendcrestfield is a marketing and referral service, not a lender. We don&#39;t make lending decisions, broker loans, or act on behalf of any lender. Submitting a request is not a guarantee of being matched or approved.</p>
+      </div>
+      <div class="disclosure-item">
+        <span class="disc-tag">How we're paid</span>
+        <p>We may receive compensation from the lenders in our network for referring your request to them — you never pay for this, and it doesn&#39;t affect whether any lender decides to approve you. See our <a href="advertising-disclosure.html">Advertising Disclosure</a>.</p>
+      </div>
+      <div class="disclosure-item">
+        <span class="disc-tag">Credit checks</span>
+        <p>Submitting a request means a lender you&#39;re matched with may check your credit or verify details like your identity, income or bank information. See <a href="credit-authorization.html">Credit Authorization</a>.</p>
+      </div>
+      <div class="disclosure-item">
+        <span class="disc-tag">Borrow responsibly</span>
+        <p>Short-term loans are meant to cover a temporary gap, not as an ongoing financial solution — borrow only what you can comfortably repay, and read every term before you sign anything.</p>
+      </div>
+      <div class="disclosure-item">
+        <span class="disc-tag">Where this works</span>
+        <p>This service isn't available in every state. Our <a href="lending-policy.html">Lending Policy</a> has current state availability, and <a href="rates-and-fees.html">Rates &amp; Fees</a> explains how rates and terms actually work once you're matched with a lender.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div class="foot-brand">
+          <div class="brandmark"><span class="mark">C</span>Lendcrestfield</div>
+          <p class="foot-tagline">Just a faster way to see who wants your business.</p>
+          <p class="foot-address">
+        304 S. Jones Blvd #3567<br>
+        Las Vegas, NV 89107
+        <br><a href="mailto:info@lendcrestfield.com">info@lendcrestfield.com</a>
+      </p>
+        </div>
+        <div class="foot-linkgroups">
+          <div class="foot-linkgroup">
+            <h4>Legal</h4>
+            <ul><li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-of-use.html">Terms of Use</a></li>
+            <li><a href="advertising-disclosure.html">Advertising Disclosure</a></li>
+            <li><a href="e-consent.html">E-Consent</a></li>
+            <li><a href="credit-authorization.html">Credit Authorization</a></li>
+            <li><a href="do-not-sell.html">Do Not Sell or Share</a></li>
+            <li><a href="california-privacy-notice.html">California Privacy Notice</a></li></ul>
+          </div>
+          <div class="foot-linkgroup">
+            <h4>More info</h4>
+            <ul><li><a href="lending-policy.html">Lending Policy</a></li>
+            <li><a href="rates-and-fees.html">Rates &amp; Fees</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="faq.html">FAQ</a></li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="foot-row">
+        <div>&copy; 2026 Lendcrestfield. Operated by Lendcrestfield.</div>
+        <div>Service not available in all states.</div>
+      </div>
+    </div>
+  </footer>
+</section>
+
+</body>
+</html>
