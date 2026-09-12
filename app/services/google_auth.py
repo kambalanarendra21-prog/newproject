@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import os
+from contextlib import contextmanager
 from pathlib import Path
 
 from google.auth.transport.requests import Request
@@ -10,16 +12,36 @@ from google_auth_oauthlib.flow import Flow
 from ..config import get_settings
 from . import user_secrets
 
-SITE_SCOPES = ["https://www.googleapis.com/auth/siteverification"]
+SITE_SCOPE = "https://www.googleapis.com/auth/siteverification"
+POSTMASTER_SCOPE = "https://www.googleapis.com/auth/postmaster"
+POSTMASTER_READONLY_SCOPE = "https://www.googleapis.com/auth/postmaster.readonly"
+
+SITE_SCOPES = [SITE_SCOPE]
 POSTMASTER_SCOPES = [
-    "https://www.googleapis.com/auth/postmaster",
-    "https://www.googleapis.com/auth/postmaster.readonly",
-    "https://www.googleapis.com/auth/siteverification",
+    POSTMASTER_SCOPE,
+    POSTMASTER_READONLY_SCOPE,
+    SITE_SCOPE,
 ]
+ALL_SCOPES = POSTMASTER_SCOPES
 
 
 def _scopes(kind: str) -> list[str]:
     return POSTMASTER_SCOPES if kind == "postmaster" else SITE_SCOPES
+
+
+@contextmanager
+def _relax_token_scope():
+    """Google may return extra previously granted scopes; do not fail the login."""
+    key = "OAUTHLIB_RELAX_TOKEN_SCOPE"
+    previous = os.environ.get(key)
+    os.environ[key] = "1"
+    try:
+        yield
+    finally:
+        if previous is None:
+            os.environ.pop(key, None)
+        else:
+            os.environ[key] = previous
 
 
 def credentials_file_exists(user_id: int) -> bool:
@@ -83,7 +105,7 @@ def build_flow(user_id: int, kind: str, public_base_url: str | None = None) -> F
 
     return Flow.from_client_secrets_file(
         client_config_path,
-        scopes=_scopes(kind),
+        scopes=ALL_SCOPES,
         redirect_uri=callback,
     )
 
@@ -92,18 +114,31 @@ def authorization_url(user_id: int, kind: str, state: str, public_base_url: str 
     flow = build_flow(user_id, kind, public_base_url=public_base_url)
     url, _ = flow.authorization_url(
         access_type="offline",
-        include_granted_scopes="true",
         prompt="consent",
         state=state,
     )
     return url
 
 
+def _granted_scopes(creds: Credentials) -> set[str]:
+    return {scope for scope in (creds.scopes or []) if scope}
+
+
+def _save_tokens_from_grant(user_id: int, kind: str, creds: Credentials) -> None:
+    payload = creds.to_json()
+    user_secrets.save_google_token_text(user_id, kind, payload)
+    granted = _granted_scopes(creds)
+    if SITE_SCOPE in granted:
+        user_secrets.save_google_token_text(user_id, "site", payload)
+    if POSTMASTER_SCOPE in granted or POSTMASTER_READONLY_SCOPE in granted:
+        user_secrets.save_google_token_text(user_id, "postmaster", payload)
+
+
 def exchange_code(user_id: int, kind: str, code: str, public_base_url: str | None = None) -> None:
     flow = build_flow(user_id, kind, public_base_url=public_base_url)
-    flow.fetch_token(code=code)
-    creds = flow.credentials
-    user_secrets.save_google_token_text(user_id, kind, creds.to_json())
+    with _relax_token_scope():
+        flow.fetch_token(code=code)
+    _save_tokens_from_grant(user_id, kind, flow.credentials)
 
 
 def save_uploaded_credentials(user_id: int, content: bytes) -> None:
