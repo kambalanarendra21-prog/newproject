@@ -131,17 +131,27 @@ footer{background:var(--hm6m);color:var(--pc8f);padding:44px 0 26px;margin-top:1
 .ys3g{max-width:760px;margin:22px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.18);
   display:flex;justify-content:center;gap:18px;flex-wrap:wrap;color:var(--de1u);font-size:.8rem;text-align:center}
 
-.ask-fallback{border:1px solid color-mix(in srgb, var(--line,#E6E4F0) 100%, #ccc);border-radius:14px;overflow:visible;background:#fff;margin:8px auto 0;max-width:720px;position:relative}
-.ask-banner{background:var(--acc,#F5A623);color:#fff;text-align:center;font-weight:800;font-size:clamp(.95rem,2.2vw,1.15rem);padding:14px 12px;position:relative;border-radius:0}
-.ask-banner:after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--acc,#F5A623)}
-.ask-amount-title{text-align:center;font-weight:800;margin:24px 0 14px;color:var(--ink,#222);font-size:1.15rem}
-.ask-amounts{display:flex;justify-content:space-between;gap:6px;padding:0 12px 18px;flex-wrap:wrap}
-.ask-amt{flex:1;min-width:90px;background:transparent;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;color:var(--ink,#222);font-weight:700;font-size:.78rem;line-height:1.2}
-.ask-ico{width:calc(32px * var(--s,1));height:calc(38px * var(--s,1));border:2.5px solid var(--acc,#F5A623);border-radius:42% 42% 36% 36% / 45% 45% 40% 40%;display:grid;place-items:center;color:var(--acc,#F5A623);font-weight:900;font-size:calc(13px * var(--s,1));position:relative}
-.ask-ico:before{content:"";position:absolute;top:-7px;width:11px;height:8px;border:2.5px solid var(--acc,#F5A623);border-bottom:0;border-radius:8px 8px 0 0}
-.ask-amt:hover .ask-ico,.ask-amt.is-on .ask-ico{background:var(--acc,#F5A623);color:#fff}
-@media(max-width:700px){.ask-amounts{justify-content:center}.ask-amt{min-width:42%}}
+
 .panel-head .step-tag,.req-head .step-tag,span.step-tag{font-family:var(--font-head,Georgia,serif)}
+
+
+
+.ask-card{background:#fff;border-radius:18px;padding:18px 18px 16px;max-width:760px;margin:0 auto;box-shadow:0 14px 34px -18px rgba(0,0,0,.35);text-align:center}
+.ask-card .ask-title{font-family:var(--font-head,Georgia,serif);font-weight:700;font-size:1.35rem;color:var(--ink,#1a2340);margin:4px 0 14px}
+.ask-fallback{border:1px solid #E5E7EB;border-radius:12px;overflow:visible;background:#fff;margin:0 auto;position:relative}
+.ask-banner{background:var(--acc,#F5A623);color:#fff;text-align:center;font-weight:800;font-size:clamp(1rem,2.4vw,1.2rem);padding:14px 12px;position:relative}
+.ask-banner:after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--acc,#F5A623)}
+.ask-amount-title{text-align:center;font-weight:800;margin:24px 0 14px;color:#222;font-size:1.2rem}
+.ask-amounts{display:flex;justify-content:space-between;gap:6px;padding:0 14px 18px;flex-wrap:nowrap}
+.ask-amt{flex:1;background:transparent;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;color:#222;font-weight:700;font-size:.8rem;line-height:1.15;padding:0}
+.ask-ico{width:calc(34px * var(--s,1));height:calc(40px * var(--s,1));border:2.5px solid var(--acc,#F5A623);border-radius:42% 42% 36% 36% / 45% 45% 40% 40%;display:grid;place-items:center;color:var(--acc,#F5A623);font-weight:900;font-size:calc(14px * var(--s,1));position:relative}
+.ask-ico:before{content:"";position:absolute;top:-7px;width:12px;height:8px;border:2.5px solid var(--acc,#F5A623);border-bottom:0;border-radius:8px 8px 0 0}
+.ask-amt:hover .ask-ico,.ask-amt.is-on .ask-ico{background:var(--acc,#F5A623);color:#fff}
+.ask-card .reassure{font-size:.95rem;color:var(--ink,#1a2340);font-weight:700;margin:14px 0 8px;text-align:center}
+.ask-card .req-note{font-size:.82rem;color:var(--ink,#1a2340);margin:0 auto;line-height:1.55;text-align:center;max-width:640px}
+.ask-card .req-note a{color:inherit;text-decoration:underline}
+.hero-sub-exact{font-size:.95rem;color:var(--hero-sub,#cfe0f5);margin:18px auto 0;max-width:620px;text-align:center;line-height:1.45}
+@media(max-width:700px){.ask-amounts{flex-wrap:wrap;justify-content:center}.ask-amt{min-width:42%}}
 
 </style>
 </head>
@@ -160,77 +170,48 @@ footer{background:var(--hm6m);color:var(--pc8f);padding:44px 0 26px;margin-top:1
       <span class="ew1x">Spacefusiontech — ask once, plainly</span>
       <h1>Ask from here. Hear back from a lender, not from <span class="ax0c">us</span>.</h1>
     </div>
-    <div class="yt2w">
-      <div class="cv3w">
-        <div class="tq8t" aria-hidden="true"></div>
-        <div class="js2b"><span class="qa4f">Your ask</span>
-          
-        </div>
-        <div class="cc8j">
-          <div class="ft3u">
-            
-<div class="ask-fallback" aria-label="Amount requested">
-  <div class="ask-banner">How much would you like to borrow?</div>
-  <div class="ask-amount-title">Amount Requested</div>
-  <div class="ask-amounts">
-    <button type="button" class="ask-amt" data-min="100" data-max="1000"><span class="ask-ico" style="--s:1">$</span><span>$100 - $1,000</span></button>
-    <button type="button" class="ask-amt" data-min="1000" data-max="2000"><span class="ask-ico" style="--s:1.15">$</span><span>$1,000 - $2,000</span></button>
-    <button type="button" class="ask-amt" data-min="2000" data-max="3000"><span class="ask-ico" style="--s:1.3">$</span><span>$2,000 - $3,000</span></button>
-    <button type="button" class="ask-amt" data-min="3000" data-max="4000"><span class="ask-ico" style="--s:1.45">$</span><span>$3,000 - $4,000</span></button>
-    <button type="button" class="ask-amt" data-min="4000" data-max="5000"><span class="ask-ico" style="--s:1.6">$</span><span>$4,000 - $5,000</span></button>
+
+<div class="ask-card">
+  <div class="ask-title">Your ask</div>
+  <div class="ask-fallback">
+    <div class="ask-banner">How much would you like to borrow?</div>
+    <div class="ask-amount-title">Amount Requested</div>
+    <div class="ask-amounts">
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1">$</span><span>$100 - $1,000</span></button>
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1.15">$</span><span>$1,000 - $2,000</span></button>
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1.3">$</span><span>$2,000 - $3,000</span></button>
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1.45">$</span><span>$3,000 - $4,000</span></button>
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1.6">$</span><span>$4,000 - $5,000</span></button>
+    </div>
   </div>
+  <script type='text/javascript'>(function(d, w, u, o){ var c = {"affiliate_id":"1937","storekey":"sgavR","steps":"one_one_prepop_confirm_rla_ssn","font_family":"","wrapper_id":"storefrontloans_apply_form","domain":"https://forms.storefrontloans.com","sub_id":"spacefusiontech.com","sub_id2":"","sub_id3":"","sub_id4":"","sub_id5":"","RLA_min":"100","RLA_max":"5000","RLA_step":"1000","RLA_default":"500","e_consent_link":"https://spacefusiontech.com/e-consent.html","privacy_policy_link":"https://spacefusiontech.com/privacy-policy.html","terms_conditions_link":"https://spacefusiontech.com/terms-of-use.html","resp_lending_and_marketing_link":"https://spacefusiontech.com/lending-policy.html","fine_print_link":"https://spacefusiontech.com/rates-and-fees.html"}; try { var qp = new URLSearchParams(w.location.search); ['sub_id','sub_id2','sub_id3','sub_id4','sub_id5'].forEach(function(k){ var v = qp.get(k); if (v) { c[k] = v; } }); } catch (e) {} w[o] = c; var f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = u; f.parentNode.insertBefore(s, f); })(document, window, 'https://forms.storefrontloans.com/js/prepop-form-loader.js?_ver=10', 'storefrontloans');</script>
+<div id="storefrontloans_apply_form" style="min-height:auto"></div>
+  <p class="reassure">No cost to ask, no cost to change your mind.</p>
+  <p class="req-note">By submitting you agree to be contacted by lenders in our network and to our <a href="privacy-policy.html">Privacy Policy</a>, <a href="terms-of-use.html">Terms</a> and <a href="e-consent.html">E-Consent</a>. Spacefusiontech is not a lender.</p>
 </div>
+<p class="hero-sub-exact">Think of Spacefusiontech as the friendly middle step — what happens next is between you and whichever lender responds.</p>
 
-            <script type='text/javascript'>(function(d, w, u, o){ var c = {"affiliate_id":"1937","storekey":"sgavR","steps":"one_one_prepop_confirm_rla_ssn","font_family":"","wrapper_id":"storefrontloans_apply_form","domain":"https://forms.storefrontloans.com","sub_id":"spacefusiontech.com","sub_id2":"","sub_id3":"","sub_id4":"","sub_id5":"","RLA_min":"200","RLA_max":"5000","RLA_step":"1000","RLA_default":"500","e_consent_link":"https://spacefusiontech.com/e-consent.html","privacy_policy_link":"https://spacefusiontech.com/privacy-policy.html","terms_conditions_link":"https://spacefusiontech.com/terms-of-use.html","resp_lending_and_marketing_link":"https://spacefusiontech.com/lending-policy.html","fine_print_link":"https://spacefusiontech.com/rates-and-fees.html"}; try { var qp = new URLSearchParams(w.location.search); ['sub_id','sub_id2','sub_id3','sub_id4','sub_id5'].forEach(function(k){ var v = qp.get(k); if (v) { c[k] = v; } }); } catch (e) {} w[o] = c; var f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = u; f.parentNode.insertBefore(s, f); d['\x77\x72\x69\x74\x65']('\x3c\x64\x69\x76\x20\x69\x64\x3d\x22'+w[o]['\x77\x72\x61\x70\x70\x65\x72\x5f\x69\x64']+'\x22\x20\x73\x74\x79\x6c\x65\x3d\x22\x6d\x69\x6e\x2d\x68\x65\x69\x67\x68\x74\x3a\x20'+'auto'+'\x70\x78\x22\x3e\x3c\x2f\x64\x69\x76\x3e'); })(document, window, 'https://forms.storefrontloans.com/js/prepop-form-loader.js?_ver=10', 'storefrontloans');</script>
-            
-          </div>
-          <p class="ph2n">No cost to ask, no cost to walk away.</p>
-          <p class="sw0m">By submitting you agree to be contacted by lenders in our network and to our
-            <a href="privacy-policy.html">Privacy Policy</a>, <a href="terms-of-use.html">Terms</a> and
-            <a href="e-consent.html">E-Consent</a>. Spacefusiontech is not a lender.</p>
-        </div>
-      </div>
+
+    
+<div class="ask-card">
+  <div class="ask-title">Your ask</div>
+  <div class="ask-amount-title">Amount Requested</div>
+    <div class="ask-amounts">
+      <button type="button" class="ask-amt" data-min="100" data-max="1000"><span class="ask-ico" style="--s:1">$</span><span>$100 - $1,000</span></button>
+      <button type="button" class="ask-amt" data-min="1000" data-max="2000"><span class="ask-ico" style="--s:1.15">$</span><span>$1,000 - $2,000</span></button>
+      <button type="button" class="ask-amt" data-min="2000" data-max="3000"><span class="ask-ico" style="--s:1.3">$</span><span>$2,000 - $3,000</span></button>
+      <button type="button" class="ask-amt" data-min="3000" data-max="4000"><span class="ask-ico" style="--s:1.45">$</span><span>$3,000 - $4,000</span></button>
+      <button type="button" class="ask-amt" data-min="4000" data-max="5000"><span class="ask-ico" style="--s:1.6">$</span><span>$4,000 - $5,000</span></button>
     </div>
-    <p class="tn1v">Spacefusiontech is not a lender — we send your request to lenders in our network, and any real offer comes straight from them.</p>
   </div>
-    <p class="hero-sub">Think of Spacefusiontech as the friendly middle step — what happens next is between you and whichever lender responds.</p>
-</section>
+  <script type='text/javascript'>(function(d, w, u, o){ var c = {"affiliate_id":"1937","storekey":"sgavR","steps":"one_one_prepop_confirm_rla_ssn","font_family":"","wrapper_id":"storefrontloans_apply_form","domain":"https://forms.storefrontloans.com","sub_id":"spacefusiontech.com","sub_id2":"","sub_id3":"","sub_id4":"","sub_id5":"","RLA_min":"100","RLA_max":"5000","RLA_step":"1000","RLA_default":"500","e_consent_link":"https://spacefusiontech.com/e-consent.html","privacy_policy_link":"https://spacefusiontech.com/privacy-policy.html","terms_conditions_link":"https://spacefusiontech.com/terms-of-use.html","resp_lending_and_marketing_link":"https://spacefusiontech.com/lending-policy.html","fine_print_link":"https://spacefusiontech.com/rates-and-fees.html"}; try { var qp = new URLSearchParams(w.location.search); ['sub_id','sub_id2','sub_id3','sub_id4','sub_id5'].forEach(function(k){ var v = qp.get(k); if (v) { c[k] = v; } }); } catch (e) {} w[o] = c; var f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = u; f.parentNode.insertBefore(s, f); })(document, window, 'https://forms.storefrontloans.com/js/prepop-form-loader.js?_ver=10', 'storefrontloans');</script>
+<div id="storefrontloans_apply_form" style="min-height:auto"></div>
+  <p class="reassure">No cost to ask, no cost to change your mind.</p>
+  <p class="req-note">By submitting you agree to be contacted by lenders in our network and to our <a href="privacy-policy.html">Privacy Policy</a>, <a href="terms-of-use.html">Terms</a> and <a href="e-consent.html">E-Consent</a>. Spacefusiontech is not a lender.</p>
+</div>
+<p class="
 
-<section class="qn2r">
-  <div class="jx7e"><span class="af8x">$200–$5000 to request</span>
-<span class="af8x">Encrypted, and never sold</span>
-<span class="af8x">No credit impact just to ask</span>
-<span class="af8x">Spacefusiontech is not a lender</span></div>
-</section>
-
-<section class="au6b" id="steps">
-  <div class="py4w">
-    <div class="xy3k">
-      <span class="zm4v">How it works</span>
-      <h2>Four panes, start to finish</h2>
-      <p>Nothing hidden — this is the whole process.</p>
     </div>
-    <div class="ah8b"><div class="kw4x">
-    <span class="tk4w">01</span>
-    <h3>Write what you need</h3>
-    <p>Amount, purpose, and a way to reach you. That&#39;s the whole form.</p>
-  </div>
-<div class="kw4x">
-    <span class="tk4w">02</span>
-    <h3>We pass it along</h3>
-    <p>Your request goes out to lenders in our network covering your state.</p>
-  </div>
-<div class="kw4x">
-    <span class="tk4w">03</span>
-    <h3>A lender follows up</h3>
-    <p>If one wants to make an offer, they&#39;ll contact you directly with real terms.</p>
-  </div>
-<div class="kw4x">
-    <span class="tk4w">04</span>
-    <h3>You decide</h3>
-    <p>Read the terms, ask questions, accept or pass. No cost either way.</p>
-  </div></div>
-  </div>
 </section>
 
 <section class="au6b mg9f" id="why">

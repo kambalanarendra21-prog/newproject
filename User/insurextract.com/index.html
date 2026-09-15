@@ -154,17 +154,27 @@ footer{padding:36px 0 24px;background:var(--foot-bg)}
 .foot-linkgroup a:hover{color:var(--foot-fg)}
 .foot-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;font-size:.82rem;color:var(--foot-mut)}
 
-.ask-fallback{border:1px solid color-mix(in srgb, var(--line,#E6E4F0) 100%, #ccc);border-radius:14px;overflow:visible;background:#fff;margin:8px auto 0;max-width:720px;position:relative}
-.ask-banner{background:var(--acc,#F5A623);color:#fff;text-align:center;font-weight:800;font-size:clamp(.95rem,2.2vw,1.15rem);padding:14px 12px;position:relative;border-radius:0}
-.ask-banner:after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--acc,#F5A623)}
-.ask-amount-title{text-align:center;font-weight:800;margin:24px 0 14px;color:var(--ink,#222);font-size:1.15rem}
-.ask-amounts{display:flex;justify-content:space-between;gap:6px;padding:0 12px 18px;flex-wrap:wrap}
-.ask-amt{flex:1;min-width:90px;background:transparent;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;color:var(--ink,#222);font-weight:700;font-size:.78rem;line-height:1.2}
-.ask-ico{width:calc(32px * var(--s,1));height:calc(38px * var(--s,1));border:2.5px solid var(--acc,#F5A623);border-radius:42% 42% 36% 36% / 45% 45% 40% 40%;display:grid;place-items:center;color:var(--acc,#F5A623);font-weight:900;font-size:calc(13px * var(--s,1));position:relative}
-.ask-ico:before{content:"";position:absolute;top:-7px;width:11px;height:8px;border:2.5px solid var(--acc,#F5A623);border-bottom:0;border-radius:8px 8px 0 0}
-.ask-amt:hover .ask-ico,.ask-amt.is-on .ask-ico{background:var(--acc,#F5A623);color:#fff}
-@media(max-width:700px){.ask-amounts{justify-content:center}.ask-amt{min-width:42%}}
+
 .panel-head .step-tag,.req-head .step-tag,span.step-tag{font-family:var(--font-head,Georgia,serif)}
+
+
+
+.ask-card{background:#fff;border-radius:18px;padding:18px 18px 16px;max-width:760px;margin:0 auto;box-shadow:0 14px 34px -18px rgba(0,0,0,.35);text-align:center}
+.ask-card .ask-title{font-family:var(--font-head,Georgia,serif);font-weight:700;font-size:1.35rem;color:var(--ink,#1a2340);margin:4px 0 14px}
+.ask-fallback{border:1px solid #E5E7EB;border-radius:12px;overflow:visible;background:#fff;margin:0 auto;position:relative}
+.ask-banner{background:var(--acc,#F5A623);color:#fff;text-align:center;font-weight:800;font-size:clamp(1rem,2.4vw,1.2rem);padding:14px 12px;position:relative}
+.ask-banner:after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--acc,#F5A623)}
+.ask-amount-title{text-align:center;font-weight:800;margin:24px 0 14px;color:#222;font-size:1.2rem}
+.ask-amounts{display:flex;justify-content:space-between;gap:6px;padding:0 14px 18px;flex-wrap:nowrap}
+.ask-amt{flex:1;background:transparent;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;color:#222;font-weight:700;font-size:.8rem;line-height:1.15;padding:0}
+.ask-ico{width:calc(34px * var(--s,1));height:calc(40px * var(--s,1));border:2.5px solid var(--acc,#F5A623);border-radius:42% 42% 36% 36% / 45% 45% 40% 40%;display:grid;place-items:center;color:var(--acc,#F5A623);font-weight:900;font-size:calc(14px * var(--s,1));position:relative}
+.ask-ico:before{content:"";position:absolute;top:-7px;width:12px;height:8px;border:2.5px solid var(--acc,#F5A623);border-bottom:0;border-radius:8px 8px 0 0}
+.ask-amt:hover .ask-ico,.ask-amt.is-on .ask-ico{background:var(--acc,#F5A623);color:#fff}
+.ask-card .reassure{font-size:.95rem;color:var(--ink,#1a2340);font-weight:700;margin:14px 0 8px;text-align:center}
+.ask-card .req-note{font-size:.82rem;color:var(--ink,#1a2340);margin:0 auto;line-height:1.55;text-align:center;max-width:640px}
+.ask-card .req-note a{color:inherit;text-decoration:underline}
+.hero-sub-exact{font-size:.95rem;color:var(--hero-sub,#cfe0f5);margin:18px auto 0;max-width:620px;text-align:center;line-height:1.45}
+@media(max-width:700px){.ask-amounts{flex-wrap:wrap;justify-content:center}.ask-amt{min-width:42%}}
 
 </style>
 </head>
@@ -188,59 +198,51 @@ footer{padding:36px 0 24px;background:var(--foot-bg)}
       <h1>See what lenders will <span class="hl">actually offer</span> you.</h1>
     </div>
 
-    <div class="req-panel-wrap">
-      <div class="req-panel">
-        <div class="req-head">
-          <span class="step-tag">Your ask</span>
-          
-          <h2>Tell us what you're looking for</h2>
-          <p>The lender you match with confirms final terms before you accept anything.</p>
-        </div>
-        <div class="req-body">
-          <div class="vendor-embed">
-
-<div class="ask-fallback" aria-label="Amount requested">
-  <div class="ask-banner">How much would you like to borrow?</div>
-          <p class="reassure">✓ No cost to ask, no cost to change your mind.</p>
-          <p class="req-note">By submitting you agree to be contacted by lenders in our network and to our
-            <a href="privacy-policy.html">Privacy Policy</a>, <a href="terms-of-use.html">Terms</a> and
-            <a href="e-consent.html">E-Consent</a>. Insurextract is not a lender.</p>
-  <div class="ask-amount-title">Amount Requested</div>
-  <div class="ask-amounts">
-    <button type="button" class="ask-amt" data-min="100" data-max="1000"><span class="ask-ico" style="--s:1">$</span><span>$100 - $1,000</span></button>
-    <button type="button" class="ask-amt" data-min="1000" data-max="2000"><span class="ask-ico" style="--s:1.15">$</span><span>$1,000 - $2,000</span></button>
-    <button type="button" class="ask-amt" data-min="2000" data-max="3000"><span class="ask-ico" style="--s:1.3">$</span><span>$2,000 - $3,000</span></button>
-    <button type="button" class="ask-amt" data-min="3000" data-max="4000"><span class="ask-ico" style="--s:1.45">$</span><span>$3,000 - $4,000</span></button>
-    <button type="button" class="ask-amt" data-min="4000" data-max="5000"><span class="ask-ico" style="--s:1.6">$</span><span>$4,000 - $5,000</span></button>
+<div class="ask-card">
+  <div class="ask-title">Your ask</div>
+  <div class="ask-fallback">
+    <div class="ask-banner">How much would you like to borrow?</div>
+    <div class="ask-amount-title">Amount Requested</div>
+    <div class="ask-amounts">
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1">$</span><span>$100 - $1,000</span></button>
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1.15">$</span><span>$1,000 - $2,000</span></button>
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1.3">$</span><span>$2,000 - $3,000</span></button>
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1.45">$</span><span>$3,000 - $4,000</span></button>
+      <button type="button" class="ask-amt"><span class="ask-ico" style="--s:1.6">$</span><span>$4,000 - $5,000</span></button>
+    </div>
   </div>
-</div>
-
-<script type='text/javascript'>(function(d, w, u, o){ var c = {"affiliate_id":"1937","storekey":"sgavR","steps":"one_one_prepop_confirm_rla_ssn","font_family":"","wrapper_id":"storefrontloans_apply_form","domain":"https://forms.storefrontloans.com","sub_id":"insurextract.com","sub_id2":"","sub_id3":"","sub_id4":"","sub_id5":"","RLA_min":"100","RLA_max":"5000","RLA_step":"1000","RLA_default":"500","e_consent_link":"https://insurextract.com/e-consent.html","privacy_policy_link":"https://insurextract.com/privacy-policy.html","terms_conditions_link":"https://insurextract.com/terms-of-use.html","resp_lending_and_marketing_link":"https://insurextract.com/lending-policy.html","fine_print_link":"https://insurextract.com/rates-and-fees.html"}; try { var qp = new URLSearchParams(w.location.search); ['sub_id','sub_id2','sub_id3','sub_id4','sub_id5'].forEach(function(k){ var v = qp.get(k); if (v) { c[k] = v; } }); } catch (e) {} w[o] = c; var f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = u; f.parentNode.insertBefore(s, f); })(document, window, 'https://forms.storefrontloans.com/js/prepop-form-loader.js?_ver=10', 'storefrontloans');</script>
+  <script type='text/javascript'>(function(d, w, u, o){ var c = {"affiliate_id":"1937","storekey":"sgavR","steps":"one_one_prepop_confirm_rla_ssn","font_family":"","wrapper_id":"storefrontloans_apply_form","domain":"https://forms.storefrontloans.com","sub_id":"insurextract.com","sub_id2":"","sub_id3":"","sub_id4":"","sub_id5":"","RLA_min":"100","RLA_max":"5000","RLA_step":"1000","RLA_default":"500","e_consent_link":"https://insurextract.com/e-consent.html","privacy_policy_link":"https://insurextract.com/privacy-policy.html","terms_conditions_link":"https://insurextract.com/terms-of-use.html","resp_lending_and_marketing_link":"https://insurextract.com/lending-policy.html","fine_print_link":"https://insurextract.com/rates-and-fees.html"}; try { var qp = new URLSearchParams(w.location.search); ['sub_id','sub_id2','sub_id3','sub_id4','sub_id5'].forEach(function(k){ var v = qp.get(k); if (v) { c[k] = v; } }); } catch (e) {} w[o] = c; var f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = u; f.parentNode.insertBefore(s, f); })(document, window, 'https://forms.storefrontloans.com/js/prepop-form-loader.js?_ver=10', 'storefrontloans');</script>
 <div id="storefrontloans_apply_form" style="min-height:auto"></div>
-          </div>
-          <div class="vendor-slot">
-            
-            <div>Lead-request form embeds here once a lender network is connected.</div>
-          </div>
-          <p class="reassure">No cost, no catch, no pressure to say yes to anything.</p>
-          <p class="req-note">By submitting you agree to be contacted by lenders in our network and to our
-            <a href="privacy-policy.html">Privacy Policy</a>, <a href="terms-of-use.html">Terms</a> and
-            <a href="e-consent.html">E-Consent</a>. Insurextract is not a lender.</p>
-        </div>
-      </div>
-    </div>
+  <p class="reassure">No cost to ask, no cost to change your mind.</p>
+  <p class="req-note">By submitting you agree to be contacted by lenders in our network and to our <a href="privacy-policy.html">Privacy Policy</a>, <a href="terms-of-use.html">Terms</a> and <a href="e-consent.html">E-Consent</a>. Insurextract is not a lender.</p>
+</div>
+<p class="hero-sub-exact">Think of Insurextract as the friendly middle step — what happens next is between you and whichever lender responds.</p>
 
-    <div class="hero-sub">
-      <p class="sub">You fill out one short form. Lenders in our network take it from there and come back with offers for you to weigh, no pressure either way.</p>
-      <div class="trust-bar">
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1.4 1.1-2.5 2.5-2.5s2.5.9 2.5 2.1c0 2.9-5 1.4-5 4.2 0 1.2 1.1 2.1 2.5 2.1s2.5-1.1 2.5-2.5"/></svg> $100–$5000 to request</span>
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Encrypted</span>
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> No credit impact to ask</span>
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Insurextract is not a lender</span>
-      </div>
+
+
+    
+<div class="ask-card">
+  <div class="ask-title">Your ask</div>
+  <div class="ask-amount-title">Amount Requested</div>
+    <div class="ask-amounts">
+      <button type="button" class="ask-amt" data-min="100" data-max="1000"><span class="ask-ico" style="--s:1">$</span><span>$100 - $1,000</span></button>
+      <button type="button" class="ask-amt" data-min="1000" data-max="2000"><span class="ask-ico" style="--s:1.15">$</span><span>$1,000 - $2,000</span></button>
+      <button type="button" class="ask-amt" data-min="2000" data-max="3000"><span class="ask-ico" style="--s:1.3">$</span><span>$2,000 - $3,000</span></button>
+      <button type="button" class="ask-amt" data-min="3000" data-max="4000"><span class="ask-ico" style="--s:1.45">$</span><span>$3,000 - $4,000</span></button>
+      <button type="button" class="ask-amt" data-min="4000" data-max="5000"><span class="ask-ico" style="--s:1.6">$</span><span>$4,000 - $5,000</span></button>
     </div>
   </div>
-    <p class="hero-sub">Think of Insurextract as the friendly middle step — what happens next is between you and whichever lender responds.</p>
+  <script type='text/javascript'>(function(d, w, u, o){ var c = {"affiliate_id":"1937","storekey":"sgavR","steps":"one_one_prepop_confirm_rla_ssn","font_family":"","wrapper_id":"storefrontloans_apply_form","domain":"https://forms.storefrontloans.com","sub_id":"insurextract.com","sub_id2":"","sub_id3":"","sub_id4":"","sub_id5":"","RLA_min":"100","RLA_max":"5000","RLA_step":"1000","RLA_default":"500","e_consent_link":"https://insurextract.com/e-consent.html","privacy_policy_link":"https://insurextract.com/privacy-policy.html","terms_conditions_link":"https://insurextract.com/terms-of-use.html","resp_lending_and_marketing_link":"https://insurextract.com/lending-policy.html","fine_print_link":"https://insurextract.com/rates-and-fees.html"}; try { var qp = new URLSearchParams(w.location.search); ['sub_id','sub_id2','sub_id3','sub_id4','sub_id5'].forEach(function(k){ var v = qp.get(k); if (v) { c[k] = v; } }); } catch (e) {} w[o] = c; var f = d.getElementsByTagName('script')[0], s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = u; f.parentNode.insertBefore(s, f); })(document, window, 'https://forms.storefrontloans.com/js/prepop-form-loader.js?_ver=10', 'storefrontloans');</script>
+<div id="storefrontloans_apply_form" style="min-height:auto"></div>
+  <p class="reassure">No cost to ask, no cost to change your mind.</p>
+  <p class="req-note">By submitting you agree to be contacted by lenders in our network and to our <a href="privacy-policy.html">Privacy Policy</a>, <a href="terms-of-use.html">Terms</a> and <a href="e-consent.html">E-Consent</a>. Insurextract is not a lender.</p>
+</div>
+<p class="
+
+    
+    </div>
+  </div>
+    
 </section>
 
 <section class="sec sec-white" id="how">
