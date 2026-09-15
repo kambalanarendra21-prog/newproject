@@ -130,6 +130,19 @@ footer{background:var(--hm6m);color:var(--pc8f);padding:44px 0 26px;margin-top:1
 .jj0p a:hover{color:var(--pc8f)}
 .ys3g{max-width:760px;margin:22px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.18);
   display:flex;justify-content:center;gap:18px;flex-wrap:wrap;color:var(--de1u);font-size:.8rem;text-align:center}
+
+.ask-fallback{border:1px solid color-mix(in srgb, var(--line,#E6E4F0) 100%, #ccc);border-radius:14px;overflow:visible;background:#fff;margin:8px auto 0;max-width:720px;position:relative}
+.ask-banner{background:var(--acc,#F5A623);color:#fff;text-align:center;font-weight:800;font-size:clamp(.95rem,2.2vw,1.15rem);padding:14px 12px;position:relative;border-radius:0}
+.ask-banner:after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--acc,#F5A623)}
+.ask-amount-title{text-align:center;font-weight:800;margin:24px 0 14px;color:var(--ink,#222);font-size:1.15rem}
+.ask-amounts{display:flex;justify-content:space-between;gap:6px;padding:0 12px 18px;flex-wrap:wrap}
+.ask-amt{flex:1;min-width:90px;background:transparent;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;color:var(--ink,#222);font-weight:700;font-size:.78rem;line-height:1.2}
+.ask-ico{width:calc(32px * var(--s,1));height:calc(38px * var(--s,1));border:2.5px solid var(--acc,#F5A623);border-radius:42% 42% 36% 36% / 45% 45% 40% 40%;display:grid;place-items:center;color:var(--acc,#F5A623);font-weight:900;font-size:calc(13px * var(--s,1));position:relative}
+.ask-ico:before{content:"";position:absolute;top:-7px;width:11px;height:8px;border:2.5px solid var(--acc,#F5A623);border-bottom:0;border-radius:8px 8px 0 0}
+.ask-amt:hover .ask-ico,.ask-amt.is-on .ask-ico{background:var(--acc,#F5A623);color:#fff}
+@media(max-width:700px){.ask-amounts{justify-content:center}.ask-amt{min-width:42%}}
+.panel-head .step-tag,.req-head .step-tag,span.step-tag{font-family:var(--font-head,Georgia,serif)}
+
 </style>
 </head>
 <body>
@@ -150,7 +163,7 @@ footer{background:var(--hm6m);color:var(--pc8f);padding:44px 0 26px;margin-top:1
     <div class="yt2w">
       <div class="cv3w">
         <div class="tq8t" aria-hidden="true"></div>
-        <div class="js2b"><span class="qa4f">Your request</span>
+        <div class="js2b"><span class="qa4f">Your ask</span>
           
         </div>
         <div class="cc8j">
@@ -167,6 +180,7 @@ footer{background:var(--hm6m);color:var(--pc8f);padding:44px 0 26px;margin-top:1
     </div>
     <p class="tn1v">Smartfundsync is not a lender — we send your request to lenders in our network, and any real offer comes straight from them.</p>
   </div>
+    <p class="hero-sub">Think of Smartfundsync as the friendly middle step — what happens next is between you and whichever lender responds.</p>
 </section>
 
 <section class="qn2r">
