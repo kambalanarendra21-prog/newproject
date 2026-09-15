@@ -1,0 +1,43 @@
+aihealthbridge.com <= inspired:capitalbridgeusa fonts=Fraunces mark=0 | pri=#0EA85C acc=#E0293D | 304 S. Jones Blvd #3351, Las Vegas, NV 89107
+buzzbridgepro.com <= inspired:fineasehub fonts=Space Grotesk mark=1 | pri=#0A6F69 acc=#7C2FE0 | 1441 Woodmont Ln NW #1054, Atlanta, GA 30318
+digitaldynamopro.com <= inspired:fundoralane fonts=Zilla Slab mark=2 | pri=#AE4019 acc=#0B7A86 | 2140 Peachtree Road NW, Suite 400, Atlanta, GA 30309
+fundclaimai.com <= inspired:fundpinegrove fonts=Syne mark=3 | pri=#33307A acc=#17C98B | 1201 North Market Street, Suite 700, Wilmington, DE 19801
+growthcatalystx.com <= inspired:lendbrancher fonts=Source Serif 4 mark=4 | pri=#1D5FA8 acc=#F5A623 | 539 W. Commerce St #5241, Dallas, TX 75208
+healthinnoai.com <= inspired:lendbrightway fonts=Bitter mark=5 | pri=#E5920A acc=#12A594 | 1207 Delaware Ave #2451, Wilmington, DE 19806
+insurextract.com <= inspired:lendcrestfield fonts=Spectral mark=6 | pri=#4A2E6B acc=#B6E23A | 304 S. Jones Blvd #3567, Las Vegas, NV 89107
+leadmintlabs.com <= inspired:lendinganchor fonts=Fredoka mark=7 | pri=#2E6C8E acc=#EF7A52 | 1445 Woodmont Ln NW #1346, Atlanta, GA 30318
+leadquesthq.com <= inspired:lendinggrove fonts=Baloo 2 mark=8 | pri=#8E2A44 acc=#FFB627 | 9169 W State St #3857, Garden City, ID 83714
+leadquestlabs.com <= inspired:lifepulsea fonts=Playfair Display mark=9 | pri=#8C2D5C acc=#0EA5E9 | 304 S. Jones Blvd #3351, Las Vegas, NV 89107
+leadquestnetwork.com <= inspired:trustpathlending fonts=Libre Franklin mark=10 | pri=#3A4663 acc=#C4843A | 1441 Woodmont Ln NW #1054, Atlanta, GA 30318
+primeprogresses.com <= inspired:vaultifypro fonts=Literata mark=11 | pri=#173C34 acc=#B08D4F | 539 W. Commerce St #5241, Dallas, TX 75208
+revcreatelab.com <= unique#13 fonts=Cabin mark=0 | pri=#0F4C5C acc=#E36414 | 1207 Delaware Ave #2451, Wilmington, DE 19806
+salesbridgepro.com <= unique#14 fonts=Domine mark=1 | pri=#5B2A86 acc=#F4A261 | 1445 Woodmont Ln NW #1346, Atlanta, GA 30318
+salesnexusai.com <= unique#15 fonts=Sora mark=2 | pri=#1B4332 acc=#D90429 | 9169 W State St #3857, Garden City, ID 83714
+salesorbitai.com <= unique#16 fonts=Cormorant Garamond mark=3 | pri=#023E8A acc=#48CAE4 | 304 S. Jones Blvd #3351, Las Vegas, NV 89107
+scienceinnovatelab.com <= unique#17 fonts=Archivo mark=4 | pri=#6D2E1A acc=#2A9D8F | 304 S. Jones Blvd #3567, Las Vegas, NV 89107
+skywareai.com <= unique#18 fonts=Newsreader mark=5 | pri=#3D5A80 acc=#EE6C4D | 1445 Woodmont Ln NW #1346, Atlanta, GA 30318
+smartbrandiq.com <= unique#19 fonts=Lexend mark=6 | pri=#7B2D26 acc=#E9C46A | 9169 W State St #3857, Garden City, ID 83714
+smartclaimnet.com <= unique#20 fonts=Epilogue mark=7 | pri=#114B5F acc=#F45B69 | 1441 Woodmont Ln NW #1054, Atlanta, GA 30318
+smartfluxai.com <= unique#21 fonts=Bricolage Grotesque mark=8 | pri=#2D6A4F acc=#FFBA08 | 304 S. Jones Blvd #3351, Las Vegas, NV 89107
+smartfundsync.com <= unique#22 fonts=Fraunces mark=9 | pri=#4C1D95 acc=#34D399 | 2140 Peachtree Road NW, Suite 400, Atlanta, GA 30309
+smartinnovateai.com <= unique#23 fonts=Fraunces mark=10 | pri=#9A031E acc=#FB8500 | 1201 North Market Street, Suite 700, Wilmington, DE 19801
+smartmedix360.com <= unique#24 fonts=Space Grotesk mark=11 | pri=#006D77 acc=#E29578 | 1441 Woodmont Ln NW #1054, Atlanta, GA 30318
+smartpitch360.com <= unique#25 fonts=Zilla Slab mark=0 | pri=#264653 acc=#E76F51 | 2140 Peachtree Road NW, Suite 400, Atlanta, GA 30309
+smartreachbot.com <= unique#26 fonts=Syne mark=1 | pri=#22223B acc=#F2CC8F | 539 W. Commerce St #5241, Dallas, TX 75208
+smartroihub.com <= unique#27 fonts=Source Serif 4 mark=2 | pri=#1D3557 acc=#A8DADC | 1201 North Market Street, Suite 700, Wilmington, DE 19801
+smartyieldtech.com <= unique#28 fonts=Bitter mark=3 | pri=#6A040F acc=#F48C06 | 539 W. Commerce St #5241, Dallas, TX 75208
+spacefusiontech.com <= unique#29 fonts=Spectral mark=4 | pri=#0B525B acc=#76C893 | 1207 Delaware Ave #2451, Wilmington, DE 19806
+spacemindset.com <= unique#30 fonts=Fredoka mark=5 | pri=#540B0E acc=#BC6C25 | 304 S. Jones Blvd #3567, Las Vegas, NV 89107
+synapsesphereai.com <= unique#31 fonts=Baloo 2 mark=6 | pri=#133C55 acc=#F28F3B | 1445 Woodmont Ln NW #1346, Atlanta, GA 30318
+techcoreinnovate.com <= unique#32 fonts=Playfair Display mark=7 | pri=#3C096C acc=#FF9F1C | 9169 W State St #3857, Garden City, ID 83714
+technodatalab.com <= unique#33 fonts=Libre Franklin mark=8 | pri=#1A535C acc=#FF6B6B | 304 S. Jones Blvd #3351, Las Vegas, NV 89107
+technogridai.com <= unique#34 fonts=Literata mark=9 | pri=#283618 acc=#BC4749 | 1207 Delaware Ave #2451, Wilmington, DE 19806
+technosplice.com <= unique#35 fonts=Cabin mark=10 | pri=#012A4A acc=#00B4D8 | 1441 Woodmont Ln NW #1054, Atlanta, GA 30318
+technovacore.com <= unique#36 fonts=Domine mark=11 | pri=#582F0E acc=#AACC00 | 2140 Peachtree Road NW, Suite 400, Atlanta, GA 30309
+techscalerx.com <= unique#37 fonts=Sora mark=0 | pri=#3A0CA3 acc=#F72585 | 1201 North Market Street, Suite 700, Wilmington, DE 19801
+techsphereinnovate.com <= unique#38 fonts=Cormorant Garamond mark=1 | pri=#1B263B acc=#E0AAFF | 304 S. Jones Blvd #3567, Las Vegas, NV 89107
+telecureai.com <= unique#39 fonts=Archivo mark=2 | pri=#2B2D42 acc=#EF233C | 539 W. Commerce St #5241, Dallas, TX 75208
+tradecraftpro.com <= unique#40 fonts=Newsreader mark=3 | pri=#084C61 acc=#DB3A34 | 1207 Delaware Ave #2451, Wilmington, DE 19806
+ultratechedge.com <= unique#41 fonts=Lexend mark=4 | pri=#386641 acc=#BC4749 | 304 S. Jones Blvd #3567, Las Vegas, NV 89107
+vendorelevate.com <= unique#42 fonts=Epilogue mark=5 | pri=#14213D acc=#FCA311 | 1445 Woodmont Ln NW #1346, Atlanta, GA 30318
+vendorpathway.com <= unique#43 fonts=Bricolage Grotesque mark=6 | pri=#5C4D7A acc=#81B29A | 9169 W State St #3857, Garden City, ID 83714
