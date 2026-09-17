@@ -7,18 +7,18 @@
 <meta name="description" content="Send one request to lenders in our network for $200 to $5000. Trustpathlending is not a lender — just a simpler way to reach lenders who are looking.">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --mt9r:#3A4663;--hm6m:#242C40;--wm6f:#C4843A;
-  --gf4p:#FFFFFF;--rv4b:#1A1408;--tt7v:#8f602a;--dv0u:#242c40;
-  --nd6m:196,132,58;
-  --df4m:#1E1C18;--vv5u:#3a4663;--wk4g:#F3F0E8;--ne2b:#FFFFFF;
-  --jg3y:#ece1d0;--xy8h:#3a4663;--nf2p:#242c40;
-  --pc8f:#FFFFFF;--de1u:#bdc0c6;--xs2e:0.85;--ch9v:#cc9556;
-  --hb3f:#E4DFD2;
-  --ju6j:'Literata',Georgia,serif;--ma5q:'Outfit',system-ui,sans-serif;
+  --mt9r:#0B4F6C;--hm6m:#07384D;--wm6f:#E36414;
+  --gf4p:#FFFFFF;--rv4b:#1A1408;--tt7v:#a34810;--dv0u:#07384d;
+  --nd6m:227,100,20;
+  --df4m:#102A33;--vv5u:#0b4f6c;--wk4g:#F2F8FA;--ne2b:#FFFFFF;
+  --jg3y:#dceef4;--xy8h:#0b4f6c;--nf2p:#07384d;
+  --pc8f:#FFFFFF;--de1u:#9bb0b8;--xs2e:0.85;--ch9v:#e36414;
+  --hb3f:#D7E6EC;
+  --ju6j:'Fraunces',Georgia,serif;--ma5q:'Manrope',system-ui,sans-serif;
 }
 html{scroll-behavior:smooth;font-size:16px}
 body{font-family:var(--ma5q);color:var(--df4m);background:var(--wk4g);line-height:1.62}
@@ -35,8 +35,8 @@ a{color:var(--dv0u)}
 .nv3p{padding:16px 0;background:var(--wk4g);border-bottom:1px solid var(--hb3f)}
 .um2b{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .ck7c{display:flex;align-items:center;gap:10px;font-family:var(--ju6j);font-weight:700;font-size:1.15rem;color:var(--df4m);text-decoration:none}
-.ck7c .vv4x{width:28px;height:28px;flex:none;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--mt9r);padding:2px}
-.ck7c .vv4x i{background:var(--gf4p);display:block}
+.ck7c .vv4x{width:30px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:700;font-size:.95rem;color:#fff;background:var(--mt9r);clip-path:polygon(50% 0%,100% 18%,100% 62%,50% 100%,0% 62%,0% 18%)}
+
 .ss0c a{font-size:.88rem;font-weight:700;color:var(--dv0u);text-decoration:none}
 
 .vn5w{background:var(--mt9r);padding:34px 0 46px;text-align:center}
@@ -46,12 +46,12 @@ a{color:var(--dv0u)}
 .rh5a .ax0c{color:var(--ch9v)}
 
 .yt2w{width:100%;max-width:640px;margin:26px auto 0;text-align:left}
-.cv3w{background:var(--ne2b);box-shadow:0 16px 36px -18px rgba(0,0,0,.35)}
+.cv3w{background:var(--ne2b);box-shadow:0 18px 40px -20px rgba(11,79,108,.4);border-radius:22px;overflow:hidden;border:1px solid rgba(11,79,108,.1)}
 .tq8t{height:10px;background:var(--wm6f)}
 .js2b{padding:18px 24px 4px;text-align:center}
 .js2b .qa4f{font-family:var(--ju6j);font-size:.95rem;font-weight:700;color:var(--dv0u)}
 .cc8j{padding:10px 24px 24px}
-.bs1m{border:1px solid var(--hb3f);padding:24px 16px;text-align:center;color:var(--vv5u);font-size:.9rem}
+.bs1m{border:1px dashed rgba(11,79,108,.25);padding:24px 16px;text-align:center;color:var(--vv5u);font-size:.9rem;border-radius:14px;background:rgba(11,79,108,.03)}
 .ft3u{min-height:190px}
 .ph2n{font-size:.9rem;color:var(--df4m);font-weight:700;margin-top:14px;text-align:center}
 .sw0m{font-size:.78rem;color:var(--vv5u);margin-top:8px;line-height:1.55;text-align:center}
@@ -62,9 +62,9 @@ a{color:var(--dv0u)}
 
 .qn2r{background:var(--jg3y);padding:26px 0}
 .jx7e{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:920px;margin:0 auto}
-.af8x{min-width:160px;padding:14px 16px;font-size:.84rem;font-weight:700;text-align:center;border:3px solid var(--mt9r)}
+.af8x{min-width:160px;padding:12px 18px;font-size:.84rem;font-weight:700;text-align:center;border:1.5px solid transparent;border-radius:999px;box-shadow:0 6px 16px -10px rgba(11,79,108,.35)}
 .af8x:nth-child(odd){background:var(--mt9r);color:var(--gf4p);border-color:var(--mt9r)}
-.af8x:nth-child(even){background:var(--wm6f);color:var(--rv4b);border-color:var(--wm6f)}
+.af8x:nth-child(even){background:#fff;color:var(--mt9r);border-color:rgba(11,79,108,.28)}
 
 .au6b{padding:60px 0}
 .au6b.mg9f{background:var(--jg3y)}
@@ -76,9 +76,8 @@ a{color:var(--dv0u)}
 .au6b.mg9f .xy3k p{color:var(--xy8h)}
 
 .ah8b{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--mt9r);padding:6px;max-width:860px;margin:0 auto}
-.kw4x{background:var(--ne2b);padding:22px 18px;min-height:140px}
-.kw4x .tk4w{display:inline-block;font-family:var(--ju6j);font-weight:700;font-size:.85rem;color:var(--gf4p);
-  background:var(--mt9r);padding:2px 8px;margin-bottom:10px}
+.kw4x{background:var(--ne2b);padding:22px 18px;min-height:140px;border:1px solid rgba(11,79,108,.12);border-radius:18px;box-shadow:0 10px 28px -18px rgba(11,79,108,.35)}
+.kw4x .tk4w{display:inline-block;font-family:var(--ju6j);font-weight:700;font-size:.85rem;color:var(--gf4p);background:var(--mt9r);padding:4px 12px;margin-bottom:10px;border-radius:999px}
 .kw4x h3{font-size:1.08rem}
 .kw4x p{font-size:.92rem;margin-top:6px}
 @media(max-width:640px){ .ah8b{grid-template-columns:1fr} }
@@ -91,18 +90,16 @@ a{color:var(--dv0u)}
 .rd4a p{font-size:.92rem}
 
 .xj0g{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:760px;margin:0 auto}
-.kw3t{display:flex;align-items:center;gap:10px;background:var(--ne2b);border:3px solid var(--mt9r);padding:8px 14px 8px 8px;
-  font-size:.92rem;font-weight:700;color:var(--df4m)}
-.kw3t .hu3d{flex:none;width:26px;height:26px;background:var(--mt9r);color:var(--gf4p);display:flex;align-items:center;justify-content:center}
+.kw3t{display:flex;align-items:center;gap:10px;background:var(--ne2b);border:1.5px solid rgba(11,79,108,.22);padding:8px 14px 8px 8px;font-size:.92rem;font-weight:700;color:var(--df4m);border-radius:999px;box-shadow:0 6px 16px -12px rgba(11,79,108,.3)}
+.kw3t .hu3d{flex:none;width:26px;height:26px;background:var(--mt9r);color:var(--gf4p);display:flex;align-items:center;justify-content:center;border-radius:50%}
 .gv7m{max-width:640px;margin:20px auto 0;text-align:center;font-size:.85rem;color:var(--vv5u)}
 
 .bc0n{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
-.cj0u{background:var(--ne2b);border:3px solid var(--mt9r)}
+.cj0u{background:var(--ne2b);border:1.5px solid rgba(11,79,108,.18);border-radius:16px;overflow:hidden;box-shadow:0 8px 22px -16px rgba(11,79,108,.28)}
 .cj0u summary{list-style:none;cursor:pointer;display:flex;align-items:stretch;min-height:54px}
 .cj0u summary::-webkit-details-marker{display:none}
 .cj0u summary .fw7z{flex:1;padding:14px 16px;font-weight:700;font-size:1.02rem;color:var(--df4m);display:flex;align-items:center}
-.cj0u .ae7e{flex:none;width:48px;background:var(--wm6f);color:var(--rv4b);display:flex;align-items:center;justify-content:center;
-  font-family:var(--ju6j);font-weight:700;font-size:1.2rem}
+.cj0u .ae7e{flex:none;width:48px;background:var(--wm6f);color:var(--rv4b);display:flex;align-items:center;justify-content:center;font-family:var(--ju6j);font-weight:700;font-size:1.2rem}
 .cj0u .ae7e::before{content:"+"}
 .cj0u[open] .ae7e::before{content:"\2212"}
 .cj0u .jk9v{padding:0 16px 16px;color:var(--vv5u);font-size:.94rem}
@@ -114,8 +111,7 @@ a{color:var(--dv0u)}
 .sm3w h2{font-size:1.3rem;margin-bottom:14px}
 .ad7j{display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--hb3f)}
 .ad7j:first-of-type{border-top:0}
-.ad7j .ey6x{flex:none;display:flex;align-items:center;justify-content:center;width:28px;height:28px;
-  background:var(--mt9r);color:var(--gf4p);font-family:var(--ju6j);font-weight:700;font-size:.72rem}
+.ad7j .ey6x{flex:none;display:flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--mt9r);color:var(--gf4p);font-family:var(--ju6j);font-weight:700;font-size:.72rem;border-radius:50%}
 .ad7j p{font-size:.89rem;color:var(--vv5u);line-height:1.6;margin:0}
 .ad7j a{color:var(--df4m);font-weight:700;text-decoration:underline}
 
@@ -130,13 +126,41 @@ footer{background:var(--hm6m);color:var(--pc8f);padding:44px 0 26px;margin-top:1
 .jj0p a:hover{color:var(--pc8f)}
 .ys3g{max-width:760px;margin:22px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.18);
   display:flex;justify-content:center;gap:18px;flex-wrap:wrap;color:var(--de1u);font-size:.8rem;text-align:center}
+
+/* Unique layouts: process spine + reason ledger (no cards) */
+.tp-spine{list-style:none;margin:8px auto 0;padding:0;max-width:740px;position:relative}
+.tp-spine::before{content:"";position:absolute;left:27px;top:12px;bottom:12px;width:2px;background:linear-gradient(180deg,var(--mt9r),var(--wm6f));border-radius:2px}
+.tp-spine__step{display:grid;grid-template-columns:56px minmax(0,1fr);column-gap:22px;align-items:start;padding:0 0 36px;position:relative}
+.tp-spine__step:last-child{padding-bottom:0}
+.tp-spine__rail{position:relative;z-index:1;display:flex;justify-content:center;padding-top:2px}
+.tp-spine__dot{width:54px;height:54px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--ju6j);font-weight:700;font-size:.92rem;letter-spacing:.02em;color:#fff;background:var(--mt9r);box-shadow:0 0 0 7px #fff}
+.tp-spine__step:nth-child(even) .tp-spine__dot{background:var(--wm6f);color:#1A1408}
+.tp-spine__copy{padding-top:10px}
+.tp-spine__copy h3{font-size:1.4rem;margin:0 0 8px;font-family:var(--ju6j);line-height:1.2;color:var(--df4m)}
+.tp-spine__copy p{margin:0;color:var(--vv5u);font-size:1.02rem;line-height:1.55;max-width:40ch}
+.mg9f .tp-spine__dot{box-shadow:0 0 0 7px var(--jg3y,#dceef4)}
+
+.tp-ledger{max-width:860px;margin:10px auto 0}
+.tp-ledger__row{display:grid;grid-template-columns:96px minmax(0,1fr);column-gap:28px;align-items:start;padding:28px 0;border-top:1px solid rgba(11,79,108,.16)}
+.tp-ledger__row:last-child{border-bottom:1px solid rgba(11,79,108,.16)}
+.tp-ledger__num{font-family:var(--ju6j);font-weight:700;font-size:2.75rem;line-height:.9;color:var(--wm6f);letter-spacing:-.04em;padding-top:2px}
+.tp-ledger__body h3{margin:0 0 8px;font-size:1.28rem;font-family:var(--ju6j);color:var(--df4m)}
+.tp-ledger__body p{margin:0;color:var(--vv5u);font-size:1rem;line-height:1.55;max-width:54ch}
+@media(max-width:640px){
+  .tp-spine::before{left:20px}
+  .tp-spine__step{grid-template-columns:42px minmax(0,1fr);column-gap:14px;padding-bottom:28px}
+  .tp-spine__dot{width:42px;height:42px;font-size:.78rem;box-shadow:0 0 0 5px #fff}
+  .tp-ledger__row{grid-template-columns:64px minmax(0,1fr);column-gap:14px;padding:22px 0}
+  .tp-ledger__num{font-size:1.9rem}
+}
+
 </style>
 </head>
 <body>
 
 <header class="nv3p">
   <div class="py4w um2b">
-    <a href="#hero" class="ck7c"><span class="vv4x" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Trustpathlending</a>
+    <a href="#hero" class="ck7c"><span class="vv4x" aria-hidden="true">T</span>Trustpathlending</a>
     <nav class="ss0c"><a href="#faq">FAQ</a></nav>
   </div>
 </header>
@@ -183,26 +207,36 @@ footer{background:var(--hm6m);color:var(--pc8f);padding:44px 0 26px;margin-top:1
       <h2>Four panes, start to finish</h2>
       <p>Nothing hidden — this is the whole process.</p>
     </div>
-    <div class="ah8b"><div class="kw4x">
-    <span class="tk4w">01</span>
-    <h3>Write what you need</h3>
-    <p>Amount, purpose, and a way to reach you. That&#39;s the whole form.</p>
-  </div>
-<div class="kw4x">
-    <span class="tk4w">02</span>
-    <h3>We pass it along</h3>
-    <p>Your request goes out to lenders in our network covering your state.</p>
-  </div>
-<div class="kw4x">
-    <span class="tk4w">03</span>
-    <h3>A lender follows up</h3>
-    <p>If one wants to make an offer, they&#39;ll contact you directly with real terms.</p>
-  </div>
-<div class="kw4x">
-    <span class="tk4w">04</span>
-    <h3>You decide</h3>
-    <p>Read the terms, ask questions, accept or pass. No cost either way.</p>
-  </div></div>
+    <ol class="tp-spine">
+      <li class="tp-spine__step">
+        <div class="tp-spine__rail" aria-hidden="true"><span class="tp-spine__dot">01</span></div>
+        <div class="tp-spine__copy">
+          <h3>Write what you need</h3>
+          <p>Amount, purpose, and a way to reach you. That&#39;s the whole form.</p>
+        </div>
+      </li>
+      <li class="tp-spine__step">
+        <div class="tp-spine__rail" aria-hidden="true"><span class="tp-spine__dot">02</span></div>
+        <div class="tp-spine__copy">
+          <h3>We pass it along</h3>
+          <p>Your request goes out to lenders in our network covering your state.</p>
+        </div>
+      </li>
+      <li class="tp-spine__step">
+        <div class="tp-spine__rail" aria-hidden="true"><span class="tp-spine__dot">03</span></div>
+        <div class="tp-spine__copy">
+          <h3>A lender follows up</h3>
+          <p>If one wants to make an offer, they&#39;ll contact you directly with real terms.</p>
+        </div>
+      </li>
+      <li class="tp-spine__step">
+        <div class="tp-spine__rail" aria-hidden="true"><span class="tp-spine__dot">04</span></div>
+        <div class="tp-spine__copy">
+          <h3>You decide</h3>
+          <p>Read the terms, ask questions, accept or pass. No cost either way.</p>
+        </div>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -213,22 +247,36 @@ footer{background:var(--hm6m);color:var(--pc8f);padding:44px 0 26px;margin-top:1
       <h2>Why ask this way</h2>
       <p>A few reasons this beats applying with lenders one at a time.</p>
     </div>
-    <div class="tc8k"><div class="ar2h">
-    <div class="uc5a"><h3>One form, not a pile</h3></div>
-    <div class="rd4a"><p>Instead of applying with lender after lender, you fill this out once.</p></div>
-  </div>
-<div class="ar2h">
-    <div class="uc5a"><h3>The lender sets the terms</h3></div>
-    <div class="rd4a"><p>Rate and repayment are set by whichever lender matches with you, laid out before you agree.</p></div>
-  </div>
-<div class="ar2h">
-    <div class="uc5a"><h3>Nothing to pay to ask</h3></div>
-    <div class="rd4a"><p>Sending a request costs nothing, and you&#39;re never required to accept what comes back.</p></div>
-  </div>
-<div class="ar2h">
-    <div class="uc5a"><h3>More than one desk can see it</h3></div>
-    <div class="rd4a"><p>Your request can reach several lenders in our network at once, not just one.</p></div>
-  </div></div>
+    <div class="tp-ledger">
+      <article class="tp-ledger__row">
+        <span class="tp-ledger__num" aria-hidden="true">01</span>
+        <div class="tp-ledger__body">
+          <h3>One form, not a pile</h3>
+          <p>Instead of applying with lender after lender, you fill this out once.</p>
+        </div>
+      </article>
+      <article class="tp-ledger__row">
+        <span class="tp-ledger__num" aria-hidden="true">02</span>
+        <div class="tp-ledger__body">
+          <h3>The lender sets the terms</h3>
+          <p>Rate and repayment are set by whichever lender matches with you, laid out before you agree.</p>
+        </div>
+      </article>
+      <article class="tp-ledger__row">
+        <span class="tp-ledger__num" aria-hidden="true">03</span>
+        <div class="tp-ledger__body">
+          <h3>Nothing to pay to ask</h3>
+          <p>Sending a request costs nothing, and you&#39;re never required to accept what comes back.</p>
+        </div>
+      </article>
+      <article class="tp-ledger__row">
+        <span class="tp-ledger__num" aria-hidden="true">04</span>
+        <div class="tp-ledger__body">
+          <h3>More than one desk can see it</h3>
+          <p>Your request can reach several lenders in our network at once, not just one.</p>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
