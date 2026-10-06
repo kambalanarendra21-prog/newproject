@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1424">
+  <title>Workspace | EmailGuard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #eef1ea;
+      --ink: #0f1728;
+      --muted: #5b6778;
+      --blue: #2b5bff;
+      --lime: #d6f36a;
+      --navy: #07111f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font: 15px/1.55 Inter, ui-sans-serif, system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 0% 0%, rgba(43,91,255,.12), transparent 24rem),
+        radial-gradient(ellipse at 100% 0%, rgba(214,243,106,.18), transparent 20rem),
+        var(--paper);
+    }
+    .top {
+      width: min(1100px, calc(100% - 40px));
+      margin: 0 auto;
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -.04em; text-decoration: none; color: var(--ink); }
+    .mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; background: var(--blue); color: #fff; }
+    .mark svg { width: 16px; height: 16px; }
+    button {
+      font: inherit;
+      border: 1px solid #d3dbe5;
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    main {
+      width: min(1100px, calc(100% - 40px));
+      margin: 8px auto 48px;
+      background: #fff;
+      border: 1px solid #d7dee7;
+      border-radius: 24px;
+      padding: 36px;
+      box-shadow: 0 24px 60px rgba(15,23,40,.08);
+    }
+    .kicker { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 8px; }
+    h1 { margin: 0 0 8px; font-size: 34px; letter-spacing: -.04em; }
+    .lede { margin: 0 0 28px; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .card {
+      padding: 18px;
+      border: 1px solid #e3e9f0;
+      border-radius: 16px;
+      background: #f8fafc;
+    }
+    .card strong { display: block; margin-bottom: 6px; }
+    .card p { margin: 0; color: var(--muted); font-size: 13px; }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      main { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="dashboard.html">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16v11H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m5 8 7 5 7-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      EmailGuard
+    </a>
+    <button type="button" id="sign-out">Sign out</button>
+  </header>
+  <main>
+    <p class="kicker">Forensic workspace</p>
+    <h1 id="hello">Welcome</h1>
+    <p class="lede" id="lede">You are signed in to EmailGuard.</p>
+    <div class="grid">
+      <article class="card"><strong>Message</strong><p>Inspect headers and MIME evidence for the campaign under review.</p></article>
+      <article class="card"><strong>Domain</strong><p>Follow DNS and authentication signals without inventing missing records.</p></article>
+      <article class="card"><strong>Destination</strong><p>Trace links and landing pages as observed, then mark what still needs verification.</p></article>
+    </div>
+  </main>
+  <script>
+    const session = JSON.parse(localStorage.getItem("emailguard.session") || "null");
+    if (!session) {
+      location.replace("login.html");
+    } else {
+      const who = session.name || session.email || session.phone || "analyst";
+      document.getElementById("hello").textContent = "Welcome, " + who;
+      document.getElementById("lede").textContent = "Signed in with " + (session.method === "otp" ? "phone OTP" : "email and password") + ". This workspace is EmailGuard only.";
+    }
+    document.getElementById("sign-out").addEventListener("click", () => {
+      localStorage.removeItem("emailguard.session");
+      location.assign("login.html?loggedOut=1");
+    });
+  </script>
+</body>
+</html>

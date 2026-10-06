@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1424">
+  <meta name="description" content="Sign in to your EmailGuard workspace.">
+  <title>Sign in | EmailGuard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #eef1ea;
+      --white: #fff;
+      --ink: #0f1728;
+      --muted: #5b6778;
+      --line: #d7dee7;
+      --blue: #2b5bff;
+      --blue-dark: #1646e8;
+      --lime: #d6f36a;
+      --navy: #07111f;
+      --gold: #8a5a00;
+      --ok: #0f7a4c;
+      --danger: #b42318;
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font: 15px/1.55 Inter, ui-sans-serif, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(ellipse at 8% 0%, rgba(43,91,255,.16), transparent 28rem),
+        radial-gradient(ellipse at 100% 10%, rgba(214,243,106,.22), transparent 24rem),
+        radial-gradient(ellipse at 70% 100%, rgba(7,17,31,.08), transparent 22rem),
+        var(--paper);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(#0f172812 0.7px, transparent 0.7px);
+      background-size: 18px 18px;
+      opacity: .35;
+    }
+    a { color: var(--blue-dark); text-decoration: none; }
+    a:hover { color: var(--blue); }
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid rgba(43,91,255,.5);
+      outline-offset: 3px;
+    }
+    .wrap { position: relative; z-index: 1; width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .topbar {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.055em;
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(160deg, var(--blue), #4f7bff);
+      color: white;
+      box-shadow: 0 10px 22px rgba(43,91,255,.28);
+    }
+    .brand-mark svg { width: 18px; height: 18px; }
+    .chip {
+      padding: 7px 12px;
+      border: 1px solid #cfd8e4;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      color: #4a596c;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .auth-shell {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      min-height: 720px;
+      margin: 4px auto 48px;
+      overflow: hidden;
+      border: 1px solid #d5dde6;
+      border-radius: 28px;
+      background: var(--white);
+      box-shadow: 0 30px 80px rgba(15,23,40,.12);
+    }
+    .story-panel {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: 48px 42px 32px;
+      background:
+        radial-gradient(circle at 88% 0%, rgba(43,91,255,.5), transparent 18rem),
+        radial-gradient(circle at 10% 90%, rgba(214,243,106,.14), transparent 16rem),
+        linear-gradient(155deg, #0a1628, #07111f 74%);
+      color: white;
+    }
+    .story-panel::before,
+    .story-panel::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      border: 1px solid #a8c3ff22;
+      border-radius: 50%;
+    }
+    .story-panel::before { width: 380px; height: 380px; right: -200px; top: 190px; }
+    .story-panel::after { width: 250px; height: 250px; right: -130px; top: 256px; }
+    .story-content, .story-bottom { position: relative; z-index: 1; }
+    .story-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 22px;
+      color: #c3d4ff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .story-kicker i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 0 5px rgba(214,243,106,.14);
+    }
+    .story-panel h2 {
+      max-width: 440px;
+      margin: 0 0 14px;
+      font-size: clamp(36px, 4.4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -.06em;
+    }
+    .story-panel h2 span { color: var(--lime); }
+    .story-copy { max-width: 400px; margin: 0; color: #c5cedc; font-size: 14.5px; }
+    .flow-card {
+      max-width: 430px;
+      margin-top: 38px;
+      padding: 18px;
+      border: 1px solid #ffffff22;
+      border-radius: 18px;
+      background: #ffffff0d;
+      backdrop-filter: blur(10px);
+    }
+    .flow-label {
+      margin-bottom: 13px;
+      color: #b7c4d8;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .flow-steps {
+      display: grid;
+      grid-template-columns: 1fr 16px 1fr 16px 1fr;
+      align-items: center;
+      gap: 6px;
+    }
+    .flow-step {
+      padding: 10px 6px;
+      border: 1px solid #ffffff1f;
+      border-radius: 11px;
+      background: #ffffff0c;
+      text-align: center;
+    }
+    .flow-step strong { display: block; color: white; font-size: 11px; letter-spacing: .04em; }
+    .flow-step small { display: block; margin-top: 3px; color: #9eacc0; font-size: 10px; }
+    .flow-arrow { color: var(--lime); text-align: center; }
+    .story-bottom {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 36px;
+      color: #b4c0d2;
+      font-size: 12px;
+    }
+    .story-bottom svg { width: 16px; height: 16px; flex: none; color: var(--lime); }
+
+    .form-side { display: grid; place-items: center; padding: 42px 40px; }
+    .box { width: min(430px, 100%); }
+    .form-eyebrow {
+      margin-bottom: 8px;
+      color: var(--blue-dark);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 0 0 6px; font-size: 32px; line-height: 1.12; letter-spacing: -.05em; }
+    .muted { margin: 0 0 16px; color: var(--muted); font-size: 13.5px; }
+    .notice {
+      margin: 0 0 16px;
+      padding: 12px 13px;
+      border: 1px solid #dbe4f7;
+      border-radius: 12px;
+      background: #f4f7ff;
+      color: #2c446e;
+      font-size: 12px;
+    }
+    .notice b { display: block; margin-bottom: 2px; color: #1c2f52; font-size: 12.5px; }
+    .logout-note {
+      margin: 0 0 14px;
+      padding: 10px 12px;
+      border: 1px solid #bfd0ff;
+      border-radius: 10px;
+      background: #eff3ff;
+      color: #24458a;
+      font-size: 12px;
+    }
+    .otp-code-note {
+      margin: 8px 0 0;
+      padding: 10px 12px;
+      border: 1px dashed #b7c6a3;
+      border-radius: 10px;
+      background: #f6fbe8;
+      color: #355018;
+      font-size: 12px;
+    }
+    .otp-code-note strong { font-size: 16px; letter-spacing: .18em; }
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin: 16px 0;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #f3f6f9;
+    }
+    .tab {
+      min-height: 40px;
+      padding: 8px 8px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      background: transparent;
+      color: #566478;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .tab[aria-selected="true"] {
+      border-color: #d7e0f8;
+      background: white;
+      color: var(--blue-dark);
+      box-shadow: 0 2px 8px rgba(22,36,58,.07);
+    }
+    .panel[hidden] { display: none; }
+    .google-btn { display: flex; align-items: center; justify-content: center; min-height: 46px; margin-bottom: 16px; gap: 8px; }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0;
+      color: #7a8797;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+    .divider::before, .divider::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+    label { display: block; margin: 12px 0 6px; color: #293447; font-size: 12.5px; font-weight: 700; }
+    .field { position: relative; }
+    input:not([type="checkbox"]) {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      border: 1px solid #d3dbe5;
+      border-radius: 11px;
+      background: white;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+    }
+    .field input { padding-right: 4.4rem; }
+    input::placeholder { color: #9aa5b3; }
+    input:not([type="checkbox"]):focus { border-color: var(--blue); outline: 3px solid rgba(43,91,255,.12); }
+    .toggle-vis {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: var(--blue-dark);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 8px;
+    }
+    .btn {
+      width: 100%;
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 13px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: white;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .16s ease, filter .16s ease;
+    }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.05); color: white; }
+    .btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .btn.secondary {
+      border: 1px solid var(--line);
+      background: white;
+      color: #28364a;
+      filter: none;
+    }
+    .btn.secondary:hover { background: #f4f6fa; }
+    .msg { min-height: 19px; margin-top: 8px; color: var(--gold); font-size: 12px; }
+    .msg.ok { color: var(--ok); }
+    .msg.err { color: var(--danger); }
+    .form-stack { display: grid; gap: 2px; }
+    .form-stack .btn { margin-top: 10px; }
+    .foot { margin: 18px 0 0; text-align: center; color: var(--muted); font-size: 12px; }
+    .secure-note { margin-top: 16px; text-align: center; color: #8490a0; font-size: 11px; }
+    .secure-note svg { width: 13px; height: 13px; margin: 0 4px -3px 0; }
+
+    @media (max-width: 860px) {
+      .auth-shell { grid-template-columns: 1fr; min-height: 0; }
+      .story-panel { padding: 28px 24px 22px; }
+      .form-side { padding: 28px 22px 32px; }
+      .story-panel h2 { font-size: 34px; }
+    }
+    @media (max-width: 420px) {
+      .wrap { width: calc(100% - 20px); }
+      .flow-steps { grid-template-columns: 1fr 12px 1fr 12px 1fr; gap: 3px; }
+      .tab { font-size: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap topbar">
+    <a class="brand" href="login.html" aria-label="EmailGuard home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5h16v11H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m5 8 7 5 7-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span>EmailGuard</span>
+    </a>
+    <span class="chip">Standalone workspace</span>
+  </header>
+
+  <main class="wrap auth-shell">
+    <section class="story-panel" aria-label="About the EmailGuard workspace">
+      <div class="story-content">
+        <div class="story-kicker"><i aria-hidden="true"></i> Evidence-first email intelligence</div>
+        <h2>Sign in to follow <span>the evidence.</span></h2>
+        <p class="story-copy">Continue to your EmailGuard workspace for campaign, domain, and sender investigations. Findings should show what was observed—and what still needs verification.</p>
+        <div class="flow-card" aria-label="Illustrative investigation flow from message to domain to destination">
+          <div class="flow-label">One investigation, connected signals</div>
+          <div class="flow-steps">
+            <div class="flow-step"><strong>MESSAGE</strong><small>headers · MIME</small></div>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <div class="flow-step"><strong>DOMAIN</strong><small>DNS · auth</small></div>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <div class="flow-step"><strong>DESTINATION</strong><small>links · landing</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="story-bottom">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 10 3.1 3.1L15.5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.4"/></svg>
+        Missing evidence stays unknown—not a made-up result.
+      </div>
+    </section>
+
+    <section class="form-side" aria-labelledby="title">
+      <div class="box">
+        <div class="form-eyebrow">Secure workspace access</div>
+        <h1 id="title">Welcome back</h1>
+        <p class="muted" id="subtitle">Sign in to open your forensic workspace.</p>
+        <aside class="notice" role="note">
+          <b>This is EmailGuard only</b>
+          Create an account, then sign in with email and password or phone OTP. Accounts stay in this browser and are not mixed with other apps.
+        </aside>
+        <p class="logout-note" id="logout-note" role="status" aria-live="polite" hidden>You are signed out. Your session has been cleared.</p>
+
+        <div class="tabs" role="tablist" aria-label="Account options">
+          <button class="tab" id="tab-login" type="button" role="tab" aria-selected="true" aria-controls="panel-login">User login</button>
+          <button class="tab" id="tab-create" type="button" role="tab" aria-selected="false" aria-controls="panel-create">Create account</button>
+        </div>
+
+        <section class="panel" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+          <button class="btn secondary google-btn" id="google-btn" type="button">
+            <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.8H9v3.4h4.8c-.2 1.1-.8 2-1.8 2.6v2.2h2.9c1.7-1.6 2.7-3.9 2.7-6.4z"/><path fill="#34A853" d="M9 18c2.4 0 4.5-.8 6-2.2l-2.9-2.2c-.8.5-1.9.9-3.1.9-2.4 0-4.4-1.6-5.1-3.8H.9V13c1.5 3 4.6 5 8.1 5z"/><path fill="#FBBC05" d="M3.9 10.7c-.2-.5-.3-1.1-.3-1.7s.1-1.2.3-1.7V5.1H.9C.3 6.3 0 7.6 0 9s.3 2.7.9 3.9l3-2.2z"/><path fill="#EA4335" d="M9 3.5c1.3 0 2.5.5 3.4 1.4L14.6 3C13 1.5 11.1.6 9 .6 5.5.6 2.4 2.6.9 5.6l3 2.2C4.6 5.6 6.6 3.5 9 3.5z"/></svg>
+            Continue with Google (Gmail)
+          </button>
+          <form id="login-form">
+            <label for="login-email">Email</label>
+            <input id="login-email" name="email" type="email" autocomplete="username" placeholder="you@example.com" required>
+            <label for="login-password">Password</label>
+            <div class="field">
+              <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+              <button class="toggle-vis" type="button" data-target="login-password">Show</button>
+            </div>
+            <p class="muted">Use the email and password from Create account.</p>
+            <button class="btn" type="submit">Sign in</button>
+            <p class="msg" id="login-message" role="alert" aria-live="assertive"></p>
+          </form>
+          <div class="divider">OR USE PHONE OTP</div>
+          <form id="otp-form">
+            <label for="otp-phone">Phone number with country code</label>
+            <input id="otp-phone" type="tel" autocomplete="tel" placeholder="+1 555 010 1234" required>
+            <button class="btn secondary" id="send-otp" type="button">Send verification code</button>
+            <div id="otp-preview" hidden class="otp-code-note"></div>
+            <label for="otp-code">Six-digit code</label>
+            <input id="otp-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required>
+            <button class="btn" type="submit">Verify and sign in</button>
+            <div class="msg" id="otp-msg" role="status" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <section class="panel" id="panel-create" role="tabpanel" aria-labelledby="tab-create" hidden>
+          <form id="create-form" class="form-stack">
+            <label for="create-name">Full name</label>
+            <input id="create-name" autocomplete="name" required>
+            <label for="create-email">Email</label>
+            <input id="create-email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <label for="create-phone">Phone number (optional, for SMS OTP)</label>
+            <input id="create-phone" type="tel" autocomplete="tel" placeholder="+1 555 010 1234">
+            <label for="create-password">Password (12 characters minimum)</label>
+            <div class="field">
+              <input id="create-password" type="password" autocomplete="new-password" minlength="12" required>
+              <button class="toggle-vis" type="button" data-target="create-password">Show</button>
+            </div>
+            <label for="confirm-password">Confirm password</label>
+            <div class="field">
+              <input id="confirm-password" type="password" autocomplete="new-password" minlength="12" required>
+              <button class="toggle-vis" type="button" data-target="confirm-password">Show</button>
+            </div>
+            <button class="btn" type="submit">Create account</button>
+            <button class="btn secondary" type="button" data-show="login">Back to login</button>
+            <div class="msg" id="create-msg" role="status" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <p class="foot">EmailGuard workspace · not connected to other apps</p>
+        <div class="secure-note"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 7V5a4 4 0 1 1 8 0v2m-9 0h10v7H3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg> Session stays in this browser for EmailGuard only.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const USERS_KEY = "emailguard.users";
+    const SESSION_KEY = "emailguard.session";
+    const OTP_KEY = "emailguard.otp";
+
+    const panels = {
+      login: document.getElementById("panel-login"),
+      create: document.getElementById("panel-create")
+    };
+    const titles = {
+      login: ["Welcome back", "Sign in to open your forensic workspace."],
+      create: ["Create account", "Create an account for this EmailGuard workspace."]
+    };
+
+    if (new URLSearchParams(location.search).get("loggedOut") === "1") {
+      document.getElementById("logout-note").hidden = false;
+    }
+
+    function show(mode) {
+      for (const [key, panel] of Object.entries(panels)) {
+        panel.hidden = key !== mode;
+        document.getElementById("tab-" + key).setAttribute("aria-selected", String(key === mode));
+      }
+      document.getElementById("title").textContent = titles[mode][0];
+      document.getElementById("subtitle").textContent = titles[mode][1];
+    }
+
+    const requestedMode = new URLSearchParams(location.search).get("mode");
+    if (Object.prototype.hasOwnProperty.call(panels, requestedMode)) show(requestedMode);
+    for (const mode of Object.keys(panels)) {
+      document.getElementById("tab-" + mode).addEventListener("click", () => show(mode));
+    }
+    document.querySelector('[data-show="login"]').addEventListener("click", () => show("login"));
+
+    document.querySelectorAll(".toggle-vis").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = document.getElementById(button.dataset.target);
+        const showing = input.type === "text";
+        input.type = showing ? "password" : "text";
+        button.textContent = showing ? "Show" : "Hide";
+      });
+    });
+
+    function setMsg(id, text, kind) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.classList.remove("ok", "err");
+      if (kind) el.classList.add(kind);
+    }
+
+    function loadUsers() {
+      try { return JSON.parse(localStorage.getItem(USERS_KEY) || "[]"); }
+      catch { return []; }
+    }
+    function saveUsers(users) {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+    function saveSession(user, method) {
+      localStorage.setItem(SESSION_KEY, JSON.stringify({
+        name: user.name,
+        email: user.email || "",
+        phone: user.phone || "",
+        method,
+        signedInAt: Date.now()
+      }));
+    }
+    function goDashboard() {
+      location.assign("dashboard.html");
+    }
+    async function digest(text) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+      return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+    }
+    function normalizePhone(value) {
+      return String(value || "").replace(/\s+/g, "").trim();
+    }
+
+    if (localStorage.getItem(SESSION_KEY) && new URLSearchParams(location.search).get("loggedOut") !== "1") {
+      goDashboard();
+    }
+
+    document.getElementById("google-btn").addEventListener("click", () => {
+      setMsg("login-message", "Google sign-in is not connected on this standalone page. Use email and password or phone OTP.", "err");
+    });
+
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      if (form.dataset.busy === "1") return;
+      form.dataset.busy = "1";
+      const buttons = [...form.querySelectorAll("button")];
+      buttons.forEach((b) => { b.disabled = true; });
+      setMsg("login-message", "Signing in…");
+      try {
+        const email = document.getElementById("login-email").value.trim().toLowerCase();
+        const password = document.getElementById("login-password").value;
+        const user = loadUsers().find((u) => u.email === email);
+        if (!user || user.passwordHash !== await digest(password)) {
+          throw new Error("Invalid email or password.");
+        }
+        saveSession(user, "password");
+        goDashboard();
+      } catch (err) {
+        setMsg("login-message", err.message || "Sign-in failed.", "err");
+      } finally {
+        form.dataset.busy = "0";
+        buttons.forEach((b) => { b.disabled = false; });
+      }
+    });
+
+    document.getElementById("create-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      if (form.dataset.busy === "1") return;
+      form.dataset.busy = "1";
+      const buttons = [...form.querySelectorAll("button")];
+      buttons.forEach((b) => { b.disabled = true; });
+      setMsg("create-msg", "Please wait…");
+      try {
+        const name = document.getElementById("create-name").value.trim();
+        const email = document.getElementById("create-email").value.trim().toLowerCase();
+        const phone = normalizePhone(document.getElementById("create-phone").value);
+        const password = document.getElementById("create-password").value;
+        const confirm = document.getElementById("confirm-password").value;
+        if (password.length < 12) throw new Error("Password must be at least 12 characters.");
+        if (password !== confirm) throw new Error("The passwords do not match.");
+        const users = loadUsers();
+        if (users.some((u) => u.email === email)) throw new Error("An account with this email already exists.");
+        users.push({ name, email, phone, passwordHash: await digest(password) });
+        saveUsers(users);
+        setMsg("create-msg", "Account created. Sign in with the email and password you just registered.", "ok");
+        document.getElementById("login-email").value = email;
+        show("login");
+      } catch (err) {
+        setMsg("create-msg", err.message || "Could not create the account.", "err");
+      } finally {
+        form.dataset.busy = "0";
+        buttons.forEach((b) => { b.disabled = false; });
+      }
+    });
+
+    document.getElementById("send-otp").addEventListener("click", () => {
+      const phone = normalizePhone(document.getElementById("otp-phone").value);
+      const preview = document.getElementById("otp-preview");
+      if (!phone || phone.length < 8) {
+        setMsg("otp-msg", "Enter a phone number with country code.", "err");
+        return;
+      }
+      const code = String(Math.floor(100000 + Math.random() * 900000));
+      sessionStorage.setItem(OTP_KEY, JSON.stringify({
+        phone,
+        code,
+        expiresAt: Date.now() + 10 * 60 * 1000
+      }));
+      preview.hidden = false;
+      preview.innerHTML = `Demo code for this standalone page (no SMS provider): <strong>${code}</strong>. It expires in 10 minutes.`;
+      setMsg("otp-msg", "Code ready. Enter it below to sign in.", "ok");
+    });
+
+    document.getElementById("otp-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const phone = normalizePhone(document.getElementById("otp-phone").value);
+      const code = document.getElementById("otp-code").value.trim();
+      setMsg("otp-msg", "Verifying…");
+      try {
+        const pending = JSON.parse(sessionStorage.getItem(OTP_KEY) || "null");
+        if (!pending || pending.phone !== phone) throw new Error("Request a verification code first.");
+        if (Date.now() > pending.expiresAt) throw new Error("That code has expired. Send a new one.");
+        if (pending.code !== code) throw new Error("The verification code is incorrect.");
+        const users = loadUsers();
+        const user = users.find((u) => u.phone && normalizePhone(u.phone) === phone) || {
+          name: "Phone user",
+          email: "",
+          phone
+        };
+        sessionStorage.removeItem(OTP_KEY);
+        saveSession(user, "otp");
+        goDashboard();
+      } catch (err) {
+        setMsg("otp-msg", err.message || "Verification failed.", "err");
+      }
+    });
+  </script>
+</body>
+</html>
